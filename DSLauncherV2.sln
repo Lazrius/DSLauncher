@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSLauncherV2", "DSLauncherV2.csproj", "{A38D4E1C-CBFA-4CC6-A569-1D4490D42FAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A38D4E1C-CBFA-4CC6-A569-1D4490D42FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A38D4E1C-CBFA-4CC6-A569-1D4490D42FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A38D4E1C-CBFA-4CC6-A569-1D4490D42FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A38D4E1C-CBFA-4CC6-A569-1D4490D42FAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA78B2EF-AD23-4603-9A55-B6FDAAA68ADC}
+	EndGlobalSection
+EndGlobal
