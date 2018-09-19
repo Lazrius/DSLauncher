@@ -141,6 +141,30 @@ namespace DSLauncherV2
             XML.Save("launcherconfig.xml");
         }
 
+        public void SetDrawDistance()
+        {
+            XmlDocument XML = new XmlDocument();
+            XML.PreserveWhitespace = true;
+            XML.Load("launcherconfig.xml");
+            try
+            {
+                XML.SelectSingleNode("/BadassRoot/Config/DrawDistance").InnerText = this.UserSettings.DrawDistance.ToString();
+                XmlNode node = XML.SelectSingleNode("/BadassRoot/Config/DrawDistance");
+                if (node == null)
+                    throw new Exception("XML Node - 'DrawDistance' does not exist.");
+            }
+
+            catch (Exception ex)
+            {
+                XmlElement drpc = XML.CreateElement("DrawDistance");
+                drpc.InnerText = this.UserSettings.DiscordRPC.ToString();
+                XmlNode config = XML.SelectSingleNode("/BadassRoot/Config");
+                config.AppendChild(drpc);
+            }
+
+            XML.Save("launcherconfig.xml");
+        }
+
         public void SetDiscordRPC()
         {
             XmlDocument XML = new XmlDocument();
@@ -148,8 +172,8 @@ namespace DSLauncherV2
             XML.Load("launcherconfig.xml");
             try
             {
-                XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC/Enabled").InnerText = this.UserSettings.DiscordRPC.ToString();
-                XmlNode node = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC/Enabled");
+                XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC").InnerText = this.UserSettings.DiscordRPC.ToString();
+                XmlNode node = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC");
                 if(node == null)
                     throw new Exception("XML Node - 'DiscordRPC' does not exist.");
             }
@@ -157,78 +181,11 @@ namespace DSLauncherV2
             catch (Exception ex)
             {
                 XmlElement drpc = XML.CreateElement("DiscordRPC");
-                drpc.InnerText = "\n";
+                drpc.InnerText = this.UserSettings.DiscordRPC.ToString();
                 XmlNode config = XML.SelectSingleNode("/BadassRoot/Config");
                 config.AppendChild(drpc);
-                config = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC");
-                XmlElement enabled = XML.CreateElement("Enabled");
-                enabled.InnerText = this.UserSettings.DiscordRPC.ToString();
-                config.AppendChild(enabled);
             }
 
-            XML.Save("launcherconfig.xml");
-        }
-
-        public void SetDiscordRPCCharacter()
-        {
-            XmlDocument XML = new XmlDocument();
-            XML.Load("launcherconfig.xml");
-            try
-            {
-                XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC/Character").InnerText = this.UserSettings.DiscordRPCCharacter.ToString();
-                XmlNode node = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC/Character");
-                if (node == null)
-                    throw new Exception("XML Node - 'DiscordRPC' does not exist.");
-            }
-            catch (Exception ex)
-            {
-                XmlElement drpc = XML.CreateElement("Character");
-                drpc.InnerText = this.UserSettings.DiscordRPCCharacter.ToString();
-                XmlNode config = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC");
-                config.AppendChild(drpc);
-            }
-            XML.Save("launcherconfig.xml");
-        }
-
-        public void SetDiscordRPCSystem()
-        {
-            XmlDocument XML = new XmlDocument();
-            XML.Load("launcherconfig.xml");
-            try
-            {
-                XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC/System").InnerText = this.UserSettings.DiscordRPCSystem.ToString();
-                XmlNode node = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC/System");
-                if (node == null)
-                    throw new Exception("XML Node - 'DiscordRPC' does not exist.");
-            }
-            catch (Exception ex)
-            {
-                XmlElement drpc = XML.CreateElement("System");
-                drpc.InnerText = this.UserSettings.DiscordRPCSystem.ToString();
-                XmlNode config = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC");
-                config.AppendChild(drpc);
-            }
-            XML.Save("launcherconfig.xml");
-        }
-
-        public void SetDiscordRPCShip()
-        {
-            XmlDocument XML = new XmlDocument();
-            XML.Load("launcherconfig.xml");
-            try
-            {
-                XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC/Ship").InnerText = this.UserSettings.DiscordRPCShip.ToString();
-                XmlNode node = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC/Ship");
-                if (node == null)
-                    throw new Exception("XML Node - 'DiscordRPC' does not exist.");
-            }
-            catch (Exception ex)
-            {
-                XmlElement drpc = XML.CreateElement("Ship");
-                drpc.InnerText = this.UserSettings.DiscordRPCShip.ToString();
-                XmlNode config = XML.SelectSingleNode("/BadassRoot/Config/DiscordRPC");
-                config.AppendChild(drpc);
-            }
             XML.Save("launcherconfig.xml");
         }
 
@@ -556,7 +513,7 @@ namespace DSLauncherV2
                 }
 
                 XmlElement xmlElement25; // DiscordRPC
-                if ((xmlElement25 = xmlNode1.SelectSingleNode("DiscordRPC/Enabled") as XmlElement) != null)
+                if ((xmlElement25 = xmlNode1.SelectSingleNode("DiscordRPC") as XmlElement) != null)
                 {
                     switch (xmlElement25.InnerText.Trim().ToLower())
                     {
@@ -574,59 +531,21 @@ namespace DSLauncherV2
                     }
                 }
 
-                XmlElement xmlElement26; // DiscordRPC Character
-                if ((xmlElement26 = xmlNode1.SelectSingleNode("DiscordRPC/Character") as XmlElement) != null)
+                XmlElement xmlElement26; // Increase Draw Distance
+                if ((xmlElement26 = xmlNode1.SelectSingleNode("DrawDistance") as XmlElement) != null)
                 {
                     switch (xmlElement26.InnerText.Trim().ToLower())
                     {
                         case "1":
                         case "true":
-                            this.UserSettings.DiscordRPCCharacter = true;
+                            this.UserSettings.DiscordRPC = true;
                             break;
                         case "0":
                         case "false":
-                            this.UserSettings.DiscordRPCCharacter = false;
+                            this.UserSettings.DiscordRPC = false;
                             break;
                         default:
-                            MessageBox.Show("Config Error <DiscordRPC/Character>");
-                            break;
-                    }
-                }
-
-                XmlElement xmlElement27; // DiscordRPC System
-                if ((xmlElement27 = xmlNode1.SelectSingleNode("DiscordRPC/System") as XmlElement) != null)
-                {
-                    switch (xmlElement27.InnerText.Trim().ToLower())
-                    {
-                        case "1":
-                        case "true":
-                            this.UserSettings.DiscordRPCSystem = true;
-                            break;
-                        case "0":
-                        case "false":
-                            this.UserSettings.DiscordRPCSystem = false;
-                            break;
-                        default:
-                            MessageBox.Show("Config Error <DiscordRPC/System>");
-                            break;
-                    }
-                }
-
-                XmlElement xmlElement28; // DiscordRPC Ship
-                if ((xmlElement28 = xmlNode1.SelectSingleNode("DiscordRPC/Ship") as XmlElement) != null)
-                {
-                    switch (xmlElement28.InnerText.Trim().ToLower())
-                    {
-                        case "1":
-                        case "true":
-                            this.UserSettings.DiscordRPCShip = true;
-                            break;
-                        case "0":
-                        case "false":
-                            this.UserSettings.DiscordRPCShip = false;
-                            break;
-                        default:
-                            MessageBox.Show("Config Error <DiscordRPC/Ship>");
+                            MessageBox.Show("Config Error <DrawDistance>");
                             break;
                     }
                 }

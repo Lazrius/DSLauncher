@@ -31,10 +31,6 @@ namespace DSLauncherV2
         public string AccountsFile;
         public string ModName;
         public string AccountCategory;
-        public string HexPink;
-        public string HexGreen;
-        public string HexWhite;
-        public string HexRed;
         public string RecentAccount1;
         public string RecentAccount2;
         public string RecentAccount3;
@@ -54,9 +50,7 @@ namespace DSLauncherV2
         public bool AutoCloudAccounts;
         public bool IDPrompt;
         public bool DiscordRPC;
-        public bool DiscordRPCSystem;
-        public bool DiscordRPCCharacter;
-        public bool DiscordRPCShip;
+        public bool DrawDistance;
         public bool DisableChat;
         public int RemoteLauncherVersion;
         public int LocalLauncherVersion;
@@ -85,10 +79,6 @@ namespace DSLauncherV2
             this.DisplayWidth = "";
             this.DisplayHeight = "";
             this.LocalGameVersion = "";
-            this.HexPink = "";
-            this.HexGreen = "";
-            this.HexWhite = "";
-            this.HexRed = "";
             this.RecentAccount1 = "";
             this.RecentAccount2 = "";
             this.RecentAccount3 = "";
@@ -107,9 +97,7 @@ namespace DSLauncherV2
             this.AutoCloudAccounts = true;
             this.IDPrompt = false;
             this.DiscordRPC = false;
-            this.DiscordRPCSystem = false;
-            this.DiscordRPCCharacter = false;
-            this.DiscordRPCShip = false;
+            this.DrawDistance = false;
             this.DisableChat = false;
             this.AccountListData = new Dictionary<int, AccountsListDataStruct>();
             this.PatchListData = new Dictionary<int, PatchListDataStruct>();

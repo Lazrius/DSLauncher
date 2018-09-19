@@ -119,9 +119,7 @@ namespace DSLauncherV2
             this.HeightBox.Text = this.LauncherSettings.UserSettings.DisplayHeight;
             this.WidthBox.Text = this.LauncherSettings.UserSettings.DisplayWidth;
             this.DiscordRPCCheckBox.Checked = this.LauncherSettings.UserSettings.DiscordRPC;
-            this.DiscordRPCCharacter.Checked = this.LauncherSettings.UserSettings.DiscordRPCCharacter;
-            this.DiscordRPCSystem.Checked = this.LauncherSettings.UserSettings.DiscordRPCSystem;
-            this.DiscordRPCShip.Checked = this.LauncherSettings.UserSettings.DiscordRPCShip;
+            this.IncreaseDrawDistance.Checked = this.LauncherSettings.UserSettings.DrawDistance;
             this.DisableChat.Checked = this.LauncherSettings.UserSettings.DisableChat;
             this.ThemeSelector.SelectedIndex = this.LauncherSettings.UserSettings.Style;
             this.metroTextBox1.Text = this.LauncherSettings.UserSettings.ExtraArgs; // Optional Args
@@ -621,29 +619,11 @@ namespace DSLauncherV2
                     if (this.LauncherSettings.UserSettings.DiscordRPC)
                         launchSettings += " -discordrpc";
 
-                    if (this.LauncherSettings.UserSettings.DiscordRPCSystem)
-                        launchSettings += " -discordrpcsystem";
-
-                    if (this.LauncherSettings.UserSettings.DiscordRPCCharacter)
-                        launchSettings += " -discordrpccharacter";
-
-                    if (this.LauncherSettings.UserSettings.DiscordRPCShip)
-                        launchSettings += " -discordrpcship";
+                    if (this.LauncherSettings.UserSettings.DrawDistance)
+                        launchSettings += " -hdfx";
 
                     if (this.LauncherSettings.UserSettings.DisableChat)
                         launchSettings += " -nochat";
-
-                    if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.HexGreen))
-                        launchSettings += " -color-green=" + this.LauncherSettings.UserSettings.HexGreen;
-
-                    if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.HexWhite))
-                        launchSettings += " -color-white=" + this.LauncherSettings.UserSettings.HexWhite;
-
-                    if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.HexPink))
-                        launchSettings += " -color-pink=" + this.LauncherSettings.UserSettings.HexPink;
-
-                    if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.HexRed))
-                        launchSettings += " -color-red=" + this.LauncherSettings.UserSettings.HexRed;
 
                     try
                     {
@@ -878,29 +858,8 @@ namespace DSLauncherV2
 
         private void DiscordRPCCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.DiscordRPCCheckBox.Checked)
-            {
-                this.DiscordRPCCharacter.Visible = true;
-                this.DiscordRPCSystem.Visible = true;
-                this.DiscordRPCShip.Visible = true;
-                this.DiscordCharLabel.Visible = true;
-                this.DiscordShipLabel.Visible = true;
-                this.DiscordSysLabel.Visible = true;
-                this.LauncherSettings.UserSettings.DiscordRPC = true;
-                this.LauncherSettings.SetDiscordRPC();
-            }
-
-            else
-            {
-                this.DiscordRPCCharacter.Visible = false;
-                this.DiscordRPCSystem.Visible = false;
-                this.DiscordRPCShip.Visible = false;
-                this.DiscordCharLabel.Visible = false;
-                this.DiscordShipLabel.Visible = false;
-                this.DiscordSysLabel.Visible = false;
-                this.LauncherSettings.UserSettings.DiscordRPC = false;
-                this.LauncherSettings.SetDiscordRPC();
-            }
+            this.LauncherSettings.UserSettings.DiscordRPC = DiscordRPCCheckBox.Checked;
+            this.LauncherSettings.SetDiscordRPC();
         }
 
         private void ToggleChatLog_CheckedChanged(object sender, EventArgs e)
@@ -925,24 +884,6 @@ namespace DSLauncherV2
         {
             this.LauncherSettings.UserSettings.ChatLocalTime = ToggleLocalTime.Checked;
             this.LauncherSettings.SetConfigValue("ChatLocalTime", this.LauncherSettings.UserSettings.ChatLocalTime);
-        }
-
-        private void DiscordRPCCharacter_CheckedChanged(object sender, EventArgs e)
-        {
-            this.LauncherSettings.UserSettings.DiscordRPCCharacter = DiscordRPCCharacter.Checked;
-            this.LauncherSettings.SetDiscordRPCCharacter();
-        }
-
-        private void DiscordRPCSystem_CheckedChanged(object sender, EventArgs e)
-        {
-            this.LauncherSettings.UserSettings.DiscordRPCSystem = DiscordRPCSystem.Checked;
-            this.LauncherSettings.SetDiscordRPCSystem();
-        }
-
-        private void DiscordRPCShip_CheckedChanged(object sender, EventArgs e)
-        {
-            this.LauncherSettings.UserSettings.DiscordRPCShip = DiscordRPCShip.Checked;
-            this.LauncherSettings.SetDiscordRPCShip();
         }
 
         private void ToggleFlightText_CheckedChanged(object sender, EventArgs e)
@@ -1530,6 +1471,12 @@ namespace DSLauncherV2
                 e.Cancel = true;
                 Process.Start(e.Url.ToString());
             }
+        }
+
+        private void IncreaseDrawDistance_CheckedChanged(object sender, EventArgs e)
+        {
+            this.LauncherSettings.UserSettings.DrawDistance = this.IncreaseDrawDistance.Checked;
+            this.LauncherSettings.SetDrawDistance();
         }
     }
 }

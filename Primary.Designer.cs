@@ -52,12 +52,6 @@ namespace DSLauncherV2
             this.ExternalSettings = new MetroFramework.Controls.MetroTabPage();
             this.metroLabel23 = new MetroFramework.Controls.MetroLabel();
             this.ThemeSelector = new MetroFramework.Controls.MetroComboBox();
-            this.DiscordShipLabel = new MetroFramework.Controls.MetroLabel();
-            this.DiscordRPCShip = new MetroFramework.Controls.MetroToggle();
-            this.DiscordSysLabel = new MetroFramework.Controls.MetroLabel();
-            this.DiscordRPCSystem = new MetroFramework.Controls.MetroToggle();
-            this.DiscordCharLabel = new MetroFramework.Controls.MetroLabel();
-            this.DiscordRPCCharacter = new MetroFramework.Controls.MetroToggle();
             this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
             this.DiscordRPCCheckBox = new MetroFramework.Controls.MetroToggle();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
@@ -69,6 +63,8 @@ namespace DSLauncherV2
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.ToggleChatLog = new MetroFramework.Controls.MetroToggle();
             this.GameSettings = new MetroFramework.Controls.MetroTabPage();
+            this.IncreaseDrawDistanceLabel = new MetroFramework.Controls.MetroLabel();
+            this.IncreaseDrawDistance = new MetroFramework.Controls.MetroToggle();
             this.ChatWarning = new MetroFramework.Controls.MetroLabel();
             this.metroLabel15 = new MetroFramework.Controls.MetroLabel();
             this.DisableChat = new MetroFramework.Controls.MetroToggle();
@@ -236,7 +232,7 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 60);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 0;
+            this.MTC.SelectedIndex = 2;
             this.MTC.Size = new System.Drawing.Size(526, 347);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -310,12 +306,6 @@ namespace DSLauncherV2
             this.ExternalSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
             this.ExternalSettings.Controls.Add(this.metroLabel23);
             this.ExternalSettings.Controls.Add(this.ThemeSelector);
-            this.ExternalSettings.Controls.Add(this.DiscordShipLabel);
-            this.ExternalSettings.Controls.Add(this.DiscordRPCShip);
-            this.ExternalSettings.Controls.Add(this.DiscordSysLabel);
-            this.ExternalSettings.Controls.Add(this.DiscordRPCSystem);
-            this.ExternalSettings.Controls.Add(this.DiscordCharLabel);
-            this.ExternalSettings.Controls.Add(this.DiscordRPCCharacter);
             this.ExternalSettings.Controls.Add(this.metroLabel19);
             this.ExternalSettings.Controls.Add(this.DiscordRPCCheckBox);
             this.ExternalSettings.Controls.Add(this.metroLabel7);
@@ -382,87 +372,6 @@ namespace DSLauncherV2
             this.ThemeSelector.UseStyleColors = true;
             this.ThemeSelector.SelectedIndexChanged += new System.EventHandler(this.ThemeSelector_SelectedIndexChanged);
             // 
-            // DiscordShipLabel
-            // 
-            this.DiscordShipLabel.AutoSize = true;
-            this.DiscordShipLabel.Location = new System.Drawing.Point(354, 141);
-            this.DiscordShipLabel.Name = "DiscordShipLabel";
-            this.DiscordShipLabel.Size = new System.Drawing.Size(127, 19);
-            this.DiscordShipLabel.TabIndex = 17;
-            this.DiscordShipLabel.Text = "Display Current Ship";
-            this.DiscordShipLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.DiscordShipLabel.UseCustomBackColor = true;
-            this.DiscordShipLabel.Visible = false;
-            // 
-            // DiscordRPCShip
-            // 
-            this.DiscordRPCShip.AutoSize = true;
-            this.DiscordRPCShip.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DiscordRPCShip.Location = new System.Drawing.Point(274, 143);
-            this.DiscordRPCShip.Name = "DiscordRPCShip";
-            this.DiscordRPCShip.Size = new System.Drawing.Size(80, 17);
-            this.DiscordRPCShip.TabIndex = 16;
-            this.DiscordRPCShip.Text = "Off";
-            this.DiscordRPCShip.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.DiscordRPCShip.UseCustomBackColor = true;
-            this.DiscordRPCShip.UseSelectable = true;
-            this.DiscordRPCShip.Visible = false;
-            this.DiscordRPCShip.CheckedChanged += new System.EventHandler(this.DiscordRPCShip_CheckedChanged);
-            // 
-            // DiscordSysLabel
-            // 
-            this.DiscordSysLabel.AutoSize = true;
-            this.DiscordSysLabel.Location = new System.Drawing.Point(354, 102);
-            this.DiscordSysLabel.Name = "DiscordSysLabel";
-            this.DiscordSysLabel.Size = new System.Drawing.Size(143, 19);
-            this.DiscordSysLabel.TabIndex = 15;
-            this.DiscordSysLabel.Text = "Display Current System";
-            this.DiscordSysLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.DiscordSysLabel.UseCustomBackColor = true;
-            this.DiscordSysLabel.Visible = false;
-            // 
-            // DiscordRPCSystem
-            // 
-            this.DiscordRPCSystem.AutoSize = true;
-            this.DiscordRPCSystem.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DiscordRPCSystem.Location = new System.Drawing.Point(274, 104);
-            this.DiscordRPCSystem.Name = "DiscordRPCSystem";
-            this.DiscordRPCSystem.Size = new System.Drawing.Size(80, 17);
-            this.DiscordRPCSystem.TabIndex = 14;
-            this.DiscordRPCSystem.Text = "Off";
-            this.DiscordRPCSystem.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.DiscordRPCSystem.UseCustomBackColor = true;
-            this.DiscordRPCSystem.UseSelectable = true;
-            this.DiscordRPCSystem.Visible = false;
-            this.DiscordRPCSystem.CheckedChanged += new System.EventHandler(this.DiscordRPCSystem_CheckedChanged);
-            // 
-            // DiscordCharLabel
-            // 
-            this.DiscordCharLabel.AutoSize = true;
-            this.DiscordCharLabel.Location = new System.Drawing.Point(354, 62);
-            this.DiscordCharLabel.Name = "DiscordCharLabel";
-            this.DiscordCharLabel.Size = new System.Drawing.Size(151, 19);
-            this.DiscordCharLabel.TabIndex = 13;
-            this.DiscordCharLabel.Text = "Display Character Name";
-            this.DiscordCharLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.DiscordCharLabel.UseCustomBackColor = true;
-            this.DiscordCharLabel.Visible = false;
-            // 
-            // DiscordRPCCharacter
-            // 
-            this.DiscordRPCCharacter.AutoSize = true;
-            this.DiscordRPCCharacter.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DiscordRPCCharacter.Location = new System.Drawing.Point(274, 64);
-            this.DiscordRPCCharacter.Name = "DiscordRPCCharacter";
-            this.DiscordRPCCharacter.Size = new System.Drawing.Size(80, 17);
-            this.DiscordRPCCharacter.TabIndex = 12;
-            this.DiscordRPCCharacter.Text = "Off";
-            this.DiscordRPCCharacter.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.DiscordRPCCharacter.UseCustomBackColor = true;
-            this.DiscordRPCCharacter.UseSelectable = true;
-            this.DiscordRPCCharacter.Visible = false;
-            this.DiscordRPCCharacter.CheckedChanged += new System.EventHandler(this.DiscordRPCCharacter_CheckedChanged);
-            // 
             // metroLabel19
             // 
             this.metroLabel19.AutoSize = true;
@@ -478,6 +387,7 @@ namespace DSLauncherV2
             // 
             this.DiscordRPCCheckBox.AutoSize = true;
             this.DiscordRPCCheckBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.DiscordRPCCheckBox.Enabled = false;
             this.DiscordRPCCheckBox.Location = new System.Drawing.Point(274, 27);
             this.DiscordRPCCheckBox.Name = "DiscordRPCCheckBox";
             this.DiscordRPCCheckBox.Size = new System.Drawing.Size(80, 17);
@@ -599,6 +509,8 @@ namespace DSLauncherV2
             // GameSettings
             // 
             this.GameSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.GameSettings.Controls.Add(this.IncreaseDrawDistanceLabel);
+            this.GameSettings.Controls.Add(this.IncreaseDrawDistance);
             this.GameSettings.Controls.Add(this.ChatWarning);
             this.GameSettings.Controls.Add(this.metroLabel15);
             this.GameSettings.Controls.Add(this.DisableChat);
@@ -636,6 +548,33 @@ namespace DSLauncherV2
             this.GameSettings.VerticalScrollbarBarColor = true;
             this.GameSettings.VerticalScrollbarHighlightOnWheel = false;
             this.GameSettings.VerticalScrollbarSize = 10;
+            // 
+            // IncreaseDrawDistanceLabel
+            // 
+            this.IncreaseDrawDistanceLabel.AutoSize = true;
+            this.IncreaseDrawDistanceLabel.Location = new System.Drawing.Point(108, 28);
+            this.IncreaseDrawDistanceLabel.Name = "IncreaseDrawDistanceLabel";
+            this.IncreaseDrawDistanceLabel.Size = new System.Drawing.Size(142, 19);
+            this.IncreaseDrawDistanceLabel.TabIndex = 56;
+            this.IncreaseDrawDistanceLabel.Text = "Increase Draw Distance";
+            this.IncreaseDrawDistanceLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.IncreaseDrawDistanceLabel.UseCustomBackColor = true;
+            // 
+            // IncreaseDrawDistance
+            // 
+            this.IncreaseDrawDistance.AutoSize = true;
+            this.IncreaseDrawDistance.Checked = true;
+            this.IncreaseDrawDistance.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.IncreaseDrawDistance.Cursor = System.Windows.Forms.Cursors.Default;
+            this.IncreaseDrawDistance.Location = new System.Drawing.Point(28, 30);
+            this.IncreaseDrawDistance.Name = "IncreaseDrawDistance";
+            this.IncreaseDrawDistance.Size = new System.Drawing.Size(80, 17);
+            this.IncreaseDrawDistance.TabIndex = 55;
+            this.IncreaseDrawDistance.Text = "On";
+            this.IncreaseDrawDistance.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.IncreaseDrawDistance.UseCustomBackColor = true;
+            this.IncreaseDrawDistance.UseSelectable = true;
+            this.IncreaseDrawDistance.CheckedChanged += new System.EventHandler(this.IncreaseDrawDistance_CheckedChanged);
             // 
             // ChatWarning
             // 
@@ -679,7 +618,7 @@ namespace DSLauncherV2
             // metroLabel17
             // 
             this.metroLabel17.AutoSize = true;
-            this.metroLabel17.Location = new System.Drawing.Point(108, 201);
+            this.metroLabel17.Location = new System.Drawing.Point(108, 198);
             this.metroLabel17.Name = "metroLabel17";
             this.metroLabel17.Size = new System.Drawing.Size(111, 19);
             this.metroLabel17.TabIndex = 49;
@@ -691,7 +630,7 @@ namespace DSLauncherV2
             // 
             this.ToggleWindowedMode.AutoSize = true;
             this.ToggleWindowedMode.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleWindowedMode.Location = new System.Drawing.Point(28, 203);
+            this.ToggleWindowedMode.Location = new System.Drawing.Point(28, 198);
             this.ToggleWindowedMode.Name = "ToggleWindowedMode";
             this.ToggleWindowedMode.Size = new System.Drawing.Size(80, 17);
             this.ToggleWindowedMode.TabIndex = 48;
@@ -804,7 +743,7 @@ namespace DSLauncherV2
             // metroLabel14
             // 
             this.metroLabel14.AutoSize = true;
-            this.metroLabel14.Location = new System.Drawing.Point(108, 166);
+            this.metroLabel14.Location = new System.Drawing.Point(108, 165);
             this.metroLabel14.Name = "metroLabel14";
             this.metroLabel14.Size = new System.Drawing.Size(145, 19);
             this.metroLabel14.TabIndex = 43;
@@ -818,7 +757,7 @@ namespace DSLauncherV2
             this.ToggleDesktopRes.Checked = true;
             this.ToggleDesktopRes.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleDesktopRes.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleDesktopRes.Location = new System.Drawing.Point(28, 168);
+            this.ToggleDesktopRes.Location = new System.Drawing.Point(28, 165);
             this.ToggleDesktopRes.Name = "ToggleDesktopRes";
             this.ToggleDesktopRes.Size = new System.Drawing.Size(80, 17);
             this.ToggleDesktopRes.TabIndex = 42;
@@ -923,7 +862,7 @@ namespace DSLauncherV2
             // metroLabel8
             // 
             this.metroLabel8.AutoSize = true;
-            this.metroLabel8.Location = new System.Drawing.Point(108, 131);
+            this.metroLabel8.Location = new System.Drawing.Point(108, 132);
             this.metroLabel8.Name = "metroLabel8";
             this.metroLabel8.Size = new System.Drawing.Size(153, 19);
             this.metroLabel8.TabIndex = 37;
@@ -935,7 +874,7 @@ namespace DSLauncherV2
             // 
             this.ToggleDepartingPlayer.AutoSize = true;
             this.ToggleDepartingPlayer.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleDepartingPlayer.Location = new System.Drawing.Point(28, 133);
+            this.ToggleDepartingPlayer.Location = new System.Drawing.Point(28, 132);
             this.ToggleDepartingPlayer.Name = "ToggleDepartingPlayer";
             this.ToggleDepartingPlayer.Size = new System.Drawing.Size(80, 17);
             this.ToggleDepartingPlayer.TabIndex = 36;
@@ -948,7 +887,7 @@ namespace DSLauncherV2
             // metroLabel9
             // 
             this.metroLabel9.AutoSize = true;
-            this.metroLabel9.Location = new System.Drawing.Point(108, 91);
+            this.metroLabel9.Location = new System.Drawing.Point(108, 99);
             this.metroLabel9.Name = "metroLabel9";
             this.metroLabel9.Size = new System.Drawing.Size(140, 19);
             this.metroLabel9.TabIndex = 35;
@@ -960,7 +899,7 @@ namespace DSLauncherV2
             // 
             this.ToggleArrivingPlayer.AutoSize = true;
             this.ToggleArrivingPlayer.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleArrivingPlayer.Location = new System.Drawing.Point(28, 93);
+            this.ToggleArrivingPlayer.Location = new System.Drawing.Point(28, 99);
             this.ToggleArrivingPlayer.Name = "ToggleArrivingPlayer";
             this.ToggleArrivingPlayer.Size = new System.Drawing.Size(80, 17);
             this.ToggleArrivingPlayer.TabIndex = 34;
@@ -973,7 +912,7 @@ namespace DSLauncherV2
             // metroLabel10
             // 
             this.metroLabel10.AutoSize = true;
-            this.metroLabel10.Location = new System.Drawing.Point(108, 51);
+            this.metroLabel10.Location = new System.Drawing.Point(108, 61);
             this.metroLabel10.Name = "metroLabel10";
             this.metroLabel10.Size = new System.Drawing.Size(93, 19);
             this.metroLabel10.TabIndex = 33;
@@ -987,7 +926,7 @@ namespace DSLauncherV2
             this.ToggleLagIcon.Checked = true;
             this.ToggleLagIcon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleLagIcon.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleLagIcon.Location = new System.Drawing.Point(28, 53);
+            this.ToggleLagIcon.Location = new System.Drawing.Point(28, 63);
             this.ToggleLagIcon.Name = "ToggleLagIcon";
             this.ToggleLagIcon.Size = new System.Drawing.Size(80, 17);
             this.ToggleLagIcon.TabIndex = 32;
@@ -1000,7 +939,7 @@ namespace DSLauncherV2
             // metroLabel11
             // 
             this.metroLabel11.AutoSize = true;
-            this.metroLabel11.Location = new System.Drawing.Point(108, 11);
+            this.metroLabel11.Location = new System.Drawing.Point(410, 142);
             this.metroLabel11.Name = "metroLabel11";
             this.metroLabel11.Size = new System.Drawing.Size(102, 19);
             this.metroLabel11.TabIndex = 31;
@@ -1014,7 +953,7 @@ namespace DSLauncherV2
             this.ToggleFlightText.Checked = true;
             this.ToggleFlightText.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleFlightText.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleFlightText.Location = new System.Drawing.Point(28, 13);
+            this.ToggleFlightText.Location = new System.Drawing.Point(330, 144);
             this.ToggleFlightText.Name = "ToggleFlightText";
             this.ToggleFlightText.Size = new System.Drawing.Size(80, 17);
             this.ToggleFlightText.TabIndex = 30;
@@ -1747,12 +1686,6 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroToggle ToggleFlightText;
         private MetroFramework.Controls.MetroLabel metroLabel23;
         private MetroFramework.Controls.MetroComboBox ThemeSelector;
-        private MetroFramework.Controls.MetroLabel DiscordShipLabel;
-        private MetroFramework.Controls.MetroToggle DiscordRPCShip;
-        private MetroFramework.Controls.MetroLabel DiscordSysLabel;
-        private MetroFramework.Controls.MetroToggle DiscordRPCSystem;
-        private MetroFramework.Controls.MetroLabel DiscordCharLabel;
-        private MetroFramework.Controls.MetroToggle DiscordRPCCharacter;
         private MetroFramework.Controls.MetroLabel metroLabel19;
         private MetroFramework.Controls.MetroToggle DiscordRPCCheckBox;
         private MetroFramework.Controls.MetroLabel ChatWarning;
@@ -1786,6 +1719,8 @@ namespace DSLauncherV2
         private ToolStripMenuItem importLauncherAccountsToolStripMenuItem;
         private OpenFileDialog ImportLauncherFile;
         private WebBrowser CNSImport;
+        private MetroFramework.Controls.MetroLabel IncreaseDrawDistanceLabel;
+        private MetroFramework.Controls.MetroToggle IncreaseDrawDistance;
     }
 }
 
