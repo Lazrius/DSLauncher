@@ -538,11 +538,11 @@ namespace DSLauncherV2
                     {
                         case "1":
                         case "true":
-                            this.UserSettings.DiscordRPC = true;
+                            this.UserSettings.DrawDistance = true;
                             break;
                         case "0":
                         case "false":
-                            this.UserSettings.DiscordRPC = false;
+                            this.UserSettings.DrawDistance = false;
                             break;
                         default:
                             MessageBox.Show("Config Error <DrawDistance>");
