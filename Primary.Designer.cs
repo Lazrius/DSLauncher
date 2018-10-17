@@ -132,6 +132,7 @@ namespace DSLauncherV2
             this.SortCategory = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel16 = new MetroFramework.Controls.MetroLabel();
             this.ImportLauncherFile = new System.Windows.Forms.OpenFileDialog();
+            this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -148,7 +149,7 @@ namespace DSLauncherV2
             this.actionsLabel.AutoSize = true;
             this.actionsLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.actionsLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.actionsLabel.Location = new System.Drawing.Point(536, 64);
+            this.actionsLabel.Location = new System.Drawing.Point(536, 66);
             this.actionsLabel.Name = "actionsLabel";
             this.actionsLabel.Size = new System.Drawing.Size(67, 25);
             this.actionsLabel.TabIndex = 4;
@@ -159,7 +160,7 @@ namespace DSLauncherV2
             // 
             this.hrLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.hrLabel1.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.hrLabel1.Location = new System.Drawing.Point(536, 93);
+            this.hrLabel1.Location = new System.Drawing.Point(536, 95);
             this.hrLabel1.Name = "hrLabel1";
             this.hrLabel1.Size = new System.Drawing.Size(243, 1);
             this.hrLabel1.TabIndex = 5;
@@ -169,7 +170,7 @@ namespace DSLauncherV2
             // 
             this.currentAccountLabel.AutoSize = true;
             this.currentAccountLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.currentAccountLabel.Location = new System.Drawing.Point(0, 421);
+            this.currentAccountLabel.Location = new System.Drawing.Point(7, 419);
             this.currentAccountLabel.Name = "currentAccountLabel";
             this.currentAccountLabel.Size = new System.Drawing.Size(111, 19);
             this.currentAccountLabel.TabIndex = 6;
@@ -304,6 +305,7 @@ namespace DSLauncherV2
             // ExternalSettings
             // 
             this.ExternalSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.ExternalSettings.Controls.Add(this.metroLabel20);
             this.ExternalSettings.Controls.Add(this.metroLabel23);
             this.ExternalSettings.Controls.Add(this.ThemeSelector);
             this.ExternalSettings.Controls.Add(this.metroLabel19);
@@ -333,7 +335,7 @@ namespace DSLauncherV2
             // metroLabel23
             // 
             this.metroLabel23.AutoSize = true;
-            this.metroLabel23.Location = new System.Drawing.Point(54, 182);
+            this.metroLabel23.Location = new System.Drawing.Point(61, 235);
             this.metroLabel23.Name = "metroLabel23";
             this.metroLabel23.Size = new System.Drawing.Size(92, 19);
             this.metroLabel23.TabIndex = 19;
@@ -362,7 +364,7 @@ namespace DSLauncherV2
             "Purple",
             "Red",
             "Yellow"});
-            this.ThemeSelector.Location = new System.Drawing.Point(25, 204);
+            this.ThemeSelector.Location = new System.Drawing.Point(32, 257);
             this.ThemeSelector.Name = "ThemeSelector";
             this.ThemeSelector.Size = new System.Drawing.Size(142, 29);
             this.ThemeSelector.TabIndex = 18;
@@ -375,11 +377,11 @@ namespace DSLauncherV2
             // metroLabel19
             // 
             this.metroLabel19.AutoSize = true;
-            this.metroLabel19.Location = new System.Drawing.Point(354, 25);
+            this.metroLabel19.Location = new System.Drawing.Point(359, 45);
             this.metroLabel19.Name = "metroLabel19";
-            this.metroLabel19.Size = new System.Drawing.Size(142, 19);
+            this.metroLabel19.Size = new System.Drawing.Size(109, 19);
             this.metroLabel19.TabIndex = 11;
-            this.metroLabel19.Text = "Discord Rich Pressence";
+            this.metroLabel19.Text = "Discord Presence";
             this.metroLabel19.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.metroLabel19.UseCustomBackColor = true;
             // 
@@ -388,7 +390,7 @@ namespace DSLauncherV2
             this.DiscordRPCCheckBox.AutoSize = true;
             this.DiscordRPCCheckBox.Cursor = System.Windows.Forms.Cursors.Default;
             this.DiscordRPCCheckBox.Enabled = false;
-            this.DiscordRPCCheckBox.Location = new System.Drawing.Point(274, 27);
+            this.DiscordRPCCheckBox.Location = new System.Drawing.Point(279, 46);
             this.DiscordRPCCheckBox.Name = "DiscordRPCCheckBox";
             this.DiscordRPCCheckBox.Size = new System.Drawing.Size(80, 17);
             this.DiscordRPCCheckBox.TabIndex = 10;
@@ -401,7 +403,7 @@ namespace DSLauncherV2
             // metroLabel7
             // 
             this.metroLabel7.AutoSize = true;
-            this.metroLabel7.Location = new System.Drawing.Point(90, 141);
+            this.metroLabel7.Location = new System.Drawing.Point(98, 109);
             this.metroLabel7.Name = "metroLabel7";
             this.metroLabel7.Size = new System.Drawing.Size(98, 19);
             this.metroLabel7.TabIndex = 9;
@@ -415,7 +417,7 @@ namespace DSLauncherV2
             this.ToggleLocalTime.Checked = true;
             this.ToggleLocalTime.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleLocalTime.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleLocalTime.Location = new System.Drawing.Point(10, 143);
+            this.ToggleLocalTime.Location = new System.Drawing.Point(18, 110);
             this.ToggleLocalTime.Name = "ToggleLocalTime";
             this.ToggleLocalTime.Size = new System.Drawing.Size(80, 17);
             this.ToggleLocalTime.TabIndex = 8;
@@ -428,7 +430,7 @@ namespace DSLauncherV2
             // metroLabel6
             // 
             this.metroLabel6.AutoSize = true;
-            this.metroLabel6.Location = new System.Drawing.Point(90, 102);
+            this.metroLabel6.Location = new System.Drawing.Point(98, 77);
             this.metroLabel6.Name = "metroLabel6";
             this.metroLabel6.Size = new System.Drawing.Size(64, 19);
             this.metroLabel6.TabIndex = 7;
@@ -442,7 +444,7 @@ namespace DSLauncherV2
             this.ToggleLogTime.Checked = true;
             this.ToggleLogTime.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleLogTime.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleLogTime.Location = new System.Drawing.Point(10, 104);
+            this.ToggleLogTime.Location = new System.Drawing.Point(18, 78);
             this.ToggleLogTime.Name = "ToggleLogTime";
             this.ToggleLogTime.Size = new System.Drawing.Size(80, 17);
             this.ToggleLogTime.TabIndex = 6;
@@ -455,7 +457,7 @@ namespace DSLauncherV2
             // metroLabel5
             // 
             this.metroLabel5.AutoSize = true;
-            this.metroLabel5.Location = new System.Drawing.Point(90, 62);
+            this.metroLabel5.Location = new System.Drawing.Point(98, 45);
             this.metroLabel5.Name = "metroLabel5";
             this.metroLabel5.Size = new System.Drawing.Size(87, 19);
             this.metroLabel5.TabIndex = 5;
@@ -469,7 +471,7 @@ namespace DSLauncherV2
             this.ToggleChatAppend.Checked = true;
             this.ToggleChatAppend.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleChatAppend.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleChatAppend.Location = new System.Drawing.Point(10, 64);
+            this.ToggleChatAppend.Location = new System.Drawing.Point(18, 46);
             this.ToggleChatAppend.Name = "ToggleChatAppend";
             this.ToggleChatAppend.Size = new System.Drawing.Size(80, 17);
             this.ToggleChatAppend.TabIndex = 4;
@@ -482,7 +484,7 @@ namespace DSLauncherV2
             // metroLabel4
             // 
             this.metroLabel4.AutoSize = true;
-            this.metroLabel4.Location = new System.Drawing.Point(90, 22);
+            this.metroLabel4.Location = new System.Drawing.Point(98, 13);
             this.metroLabel4.Name = "metroLabel4";
             this.metroLabel4.Size = new System.Drawing.Size(62, 19);
             this.metroLabel4.TabIndex = 3;
@@ -496,7 +498,7 @@ namespace DSLauncherV2
             this.ToggleChatLog.Checked = true;
             this.ToggleChatLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleChatLog.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleChatLog.Location = new System.Drawing.Point(10, 24);
+            this.ToggleChatLog.Location = new System.Drawing.Point(18, 14);
             this.ToggleChatLog.Name = "ToggleChatLog";
             this.ToggleChatLog.Size = new System.Drawing.Size(80, 17);
             this.ToggleChatLog.TabIndex = 2;
@@ -552,7 +554,7 @@ namespace DSLauncherV2
             // IncreaseDrawDistanceLabel
             // 
             this.IncreaseDrawDistanceLabel.AutoSize = true;
-            this.IncreaseDrawDistanceLabel.Location = new System.Drawing.Point(108, 28);
+            this.IncreaseDrawDistanceLabel.Location = new System.Drawing.Point(98, 205);
             this.IncreaseDrawDistanceLabel.Name = "IncreaseDrawDistanceLabel";
             this.IncreaseDrawDistanceLabel.Size = new System.Drawing.Size(142, 19);
             this.IncreaseDrawDistanceLabel.TabIndex = 56;
@@ -566,7 +568,7 @@ namespace DSLauncherV2
             this.IncreaseDrawDistance.Checked = true;
             this.IncreaseDrawDistance.CheckState = System.Windows.Forms.CheckState.Checked;
             this.IncreaseDrawDistance.Cursor = System.Windows.Forms.Cursors.Default;
-            this.IncreaseDrawDistance.Location = new System.Drawing.Point(28, 30);
+            this.IncreaseDrawDistance.Location = new System.Drawing.Point(18, 206);
             this.IncreaseDrawDistance.Name = "IncreaseDrawDistance";
             this.IncreaseDrawDistance.Size = new System.Drawing.Size(80, 17);
             this.IncreaseDrawDistance.TabIndex = 55;
@@ -579,7 +581,7 @@ namespace DSLauncherV2
             // ChatWarning
             // 
             this.ChatWarning.AutoSize = true;
-            this.ChatWarning.Location = new System.Drawing.Point(312, 41);
+            this.ChatWarning.Location = new System.Drawing.Point(312, 45);
             this.ChatWarning.Name = "ChatWarning";
             this.ChatWarning.Size = new System.Drawing.Size(203, 76);
             this.ChatWarning.TabIndex = 54;
@@ -593,7 +595,7 @@ namespace DSLauncherV2
             // metroLabel15
             // 
             this.metroLabel15.AutoSize = true;
-            this.metroLabel15.Location = new System.Drawing.Point(410, 11);
+            this.metroLabel15.Location = new System.Drawing.Point(410, 12);
             this.metroLabel15.Name = "metroLabel15";
             this.metroLabel15.Size = new System.Drawing.Size(82, 19);
             this.metroLabel15.TabIndex = 53;
@@ -605,7 +607,7 @@ namespace DSLauncherV2
             // 
             this.DisableChat.AutoSize = true;
             this.DisableChat.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DisableChat.Location = new System.Drawing.Point(330, 13);
+            this.DisableChat.Location = new System.Drawing.Point(330, 14);
             this.DisableChat.Name = "DisableChat";
             this.DisableChat.Size = new System.Drawing.Size(80, 17);
             this.DisableChat.TabIndex = 52;
@@ -618,7 +620,7 @@ namespace DSLauncherV2
             // metroLabel17
             // 
             this.metroLabel17.AutoSize = true;
-            this.metroLabel17.Location = new System.Drawing.Point(108, 198);
+            this.metroLabel17.Location = new System.Drawing.Point(98, 173);
             this.metroLabel17.Name = "metroLabel17";
             this.metroLabel17.Size = new System.Drawing.Size(111, 19);
             this.metroLabel17.TabIndex = 49;
@@ -630,7 +632,7 @@ namespace DSLauncherV2
             // 
             this.ToggleWindowedMode.AutoSize = true;
             this.ToggleWindowedMode.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleWindowedMode.Location = new System.Drawing.Point(28, 198);
+            this.ToggleWindowedMode.Location = new System.Drawing.Point(18, 174);
             this.ToggleWindowedMode.Name = "ToggleWindowedMode";
             this.ToggleWindowedMode.Size = new System.Drawing.Size(80, 17);
             this.ToggleWindowedMode.TabIndex = 48;
@@ -645,11 +647,11 @@ namespace DSLauncherV2
             this.WidthLabel.AutoSize = true;
             this.WidthLabel.Enabled = false;
             this.WidthLabel.ForeColor = System.Drawing.Color.Black;
-            this.WidthLabel.Location = new System.Drawing.Point(374, 200);
+            this.WidthLabel.Location = new System.Drawing.Point(418, 142);
             this.WidthLabel.Name = "WidthLabel";
-            this.WidthLabel.Size = new System.Drawing.Size(47, 19);
+            this.WidthLabel.Size = new System.Drawing.Size(15, 19);
             this.WidthLabel.TabIndex = 47;
-            this.WidthLabel.Text = "Width:";
+            this.WidthLabel.Text = "x";
             this.WidthLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.WidthLabel.UseCustomBackColor = true;
             this.WidthLabel.Visible = false;
@@ -658,11 +660,11 @@ namespace DSLauncherV2
             // 
             this.HeightLabel.AutoSize = true;
             this.HeightLabel.Enabled = false;
-            this.HeightLabel.Location = new System.Drawing.Point(374, 172);
+            this.HeightLabel.Location = new System.Drawing.Point(275, 141);
             this.HeightLabel.Name = "HeightLabel";
-            this.HeightLabel.Size = new System.Drawing.Size(50, 19);
+            this.HeightLabel.Size = new System.Drawing.Size(72, 19);
             this.HeightLabel.TabIndex = 46;
-            this.HeightLabel.Text = "Height:";
+            this.HeightLabel.Text = "Resolution:";
             this.HeightLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.HeightLabel.UseCustomBackColor = true;
             this.HeightLabel.Visible = false;
@@ -683,7 +685,7 @@ namespace DSLauncherV2
             this.WidthBox.CustomButton.Visible = false;
             this.WidthBox.Enabled = false;
             this.WidthBox.Lines = new string[0];
-            this.WidthBox.Location = new System.Drawing.Point(435, 199);
+            this.WidthBox.Location = new System.Drawing.Point(435, 140);
             this.WidthBox.Margin = new System.Windows.Forms.Padding(0);
             this.WidthBox.MaxLength = 32767;
             this.WidthBox.Name = "WidthBox";
@@ -719,7 +721,7 @@ namespace DSLauncherV2
             this.HeightBox.CustomButton.UseSelectable = true;
             this.HeightBox.CustomButton.Visible = false;
             this.HeightBox.Lines = new string[0];
-            this.HeightBox.Location = new System.Drawing.Point(435, 171);
+            this.HeightBox.Location = new System.Drawing.Point(352, 140);
             this.HeightBox.Margin = new System.Windows.Forms.Padding(0);
             this.HeightBox.MaxLength = 32767;
             this.HeightBox.Name = "HeightBox";
@@ -743,7 +745,7 @@ namespace DSLauncherV2
             // metroLabel14
             // 
             this.metroLabel14.AutoSize = true;
-            this.metroLabel14.Location = new System.Drawing.Point(108, 165);
+            this.metroLabel14.Location = new System.Drawing.Point(98, 141);
             this.metroLabel14.Name = "metroLabel14";
             this.metroLabel14.Size = new System.Drawing.Size(145, 19);
             this.metroLabel14.TabIndex = 43;
@@ -757,7 +759,7 @@ namespace DSLauncherV2
             this.ToggleDesktopRes.Checked = true;
             this.ToggleDesktopRes.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleDesktopRes.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleDesktopRes.Location = new System.Drawing.Point(28, 165);
+            this.ToggleDesktopRes.Location = new System.Drawing.Point(18, 142);
             this.ToggleDesktopRes.Name = "ToggleDesktopRes";
             this.ToggleDesktopRes.Size = new System.Drawing.Size(80, 17);
             this.ToggleDesktopRes.TabIndex = 42;
@@ -770,7 +772,7 @@ namespace DSLauncherV2
             // metroLabel13
             // 
             this.metroLabel13.AutoSize = true;
-            this.metroLabel13.Location = new System.Drawing.Point(21, 235);
+            this.metroLabel13.Location = new System.Drawing.Point(17, 240);
             this.metroLabel13.Name = "metroLabel13";
             this.metroLabel13.Size = new System.Drawing.Size(131, 19);
             this.metroLabel13.TabIndex = 41;
@@ -781,7 +783,7 @@ namespace DSLauncherV2
             // metroLabel12
             // 
             this.metroLabel12.AutoSize = true;
-            this.metroLabel12.Location = new System.Drawing.Point(20, 270);
+            this.metroLabel12.Location = new System.Drawing.Point(18, 271);
             this.metroLabel12.Name = "metroLabel12";
             this.metroLabel12.Size = new System.Drawing.Size(121, 19);
             this.metroLabel12.TabIndex = 40;
@@ -804,7 +806,7 @@ namespace DSLauncherV2
             this.metroTextBox1.CustomButton.UseSelectable = true;
             this.metroTextBox1.CustomButton.Visible = false;
             this.metroTextBox1.Lines = new string[0];
-            this.metroTextBox1.Location = new System.Drawing.Point(167, 233);
+            this.metroTextBox1.Location = new System.Drawing.Point(167, 238);
             this.metroTextBox1.Margin = new System.Windows.Forms.Padding(0);
             this.metroTextBox1.MaxLength = 32767;
             this.metroTextBox1.Name = "metroTextBox1";
@@ -839,7 +841,7 @@ namespace DSLauncherV2
             this.forcedArguments.CustomButton.UseSelectable = true;
             this.forcedArguments.CustomButton.Visible = false;
             this.forcedArguments.Lines = new string[0];
-            this.forcedArguments.Location = new System.Drawing.Point(167, 270);
+            this.forcedArguments.Location = new System.Drawing.Point(167, 269);
             this.forcedArguments.Margin = new System.Windows.Forms.Padding(0);
             this.forcedArguments.MaxLength = 32767;
             this.forcedArguments.Name = "forcedArguments";
@@ -862,7 +864,7 @@ namespace DSLauncherV2
             // metroLabel8
             // 
             this.metroLabel8.AutoSize = true;
-            this.metroLabel8.Location = new System.Drawing.Point(108, 132);
+            this.metroLabel8.Location = new System.Drawing.Point(98, 109);
             this.metroLabel8.Name = "metroLabel8";
             this.metroLabel8.Size = new System.Drawing.Size(153, 19);
             this.metroLabel8.TabIndex = 37;
@@ -874,7 +876,7 @@ namespace DSLauncherV2
             // 
             this.ToggleDepartingPlayer.AutoSize = true;
             this.ToggleDepartingPlayer.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleDepartingPlayer.Location = new System.Drawing.Point(28, 132);
+            this.ToggleDepartingPlayer.Location = new System.Drawing.Point(18, 110);
             this.ToggleDepartingPlayer.Name = "ToggleDepartingPlayer";
             this.ToggleDepartingPlayer.Size = new System.Drawing.Size(80, 17);
             this.ToggleDepartingPlayer.TabIndex = 36;
@@ -887,7 +889,7 @@ namespace DSLauncherV2
             // metroLabel9
             // 
             this.metroLabel9.AutoSize = true;
-            this.metroLabel9.Location = new System.Drawing.Point(108, 99);
+            this.metroLabel9.Location = new System.Drawing.Point(98, 77);
             this.metroLabel9.Name = "metroLabel9";
             this.metroLabel9.Size = new System.Drawing.Size(140, 19);
             this.metroLabel9.TabIndex = 35;
@@ -899,7 +901,7 @@ namespace DSLauncherV2
             // 
             this.ToggleArrivingPlayer.AutoSize = true;
             this.ToggleArrivingPlayer.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleArrivingPlayer.Location = new System.Drawing.Point(28, 99);
+            this.ToggleArrivingPlayer.Location = new System.Drawing.Point(18, 78);
             this.ToggleArrivingPlayer.Name = "ToggleArrivingPlayer";
             this.ToggleArrivingPlayer.Size = new System.Drawing.Size(80, 17);
             this.ToggleArrivingPlayer.TabIndex = 34;
@@ -912,7 +914,7 @@ namespace DSLauncherV2
             // metroLabel10
             // 
             this.metroLabel10.AutoSize = true;
-            this.metroLabel10.Location = new System.Drawing.Point(108, 61);
+            this.metroLabel10.Location = new System.Drawing.Point(98, 45);
             this.metroLabel10.Name = "metroLabel10";
             this.metroLabel10.Size = new System.Drawing.Size(93, 19);
             this.metroLabel10.TabIndex = 33;
@@ -926,7 +928,7 @@ namespace DSLauncherV2
             this.ToggleLagIcon.Checked = true;
             this.ToggleLagIcon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleLagIcon.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleLagIcon.Location = new System.Drawing.Point(28, 63);
+            this.ToggleLagIcon.Location = new System.Drawing.Point(18, 46);
             this.ToggleLagIcon.Name = "ToggleLagIcon";
             this.ToggleLagIcon.Size = new System.Drawing.Size(80, 17);
             this.ToggleLagIcon.TabIndex = 32;
@@ -939,7 +941,7 @@ namespace DSLauncherV2
             // metroLabel11
             // 
             this.metroLabel11.AutoSize = true;
-            this.metroLabel11.Location = new System.Drawing.Point(410, 142);
+            this.metroLabel11.Location = new System.Drawing.Point(98, 13);
             this.metroLabel11.Name = "metroLabel11";
             this.metroLabel11.Size = new System.Drawing.Size(102, 19);
             this.metroLabel11.TabIndex = 31;
@@ -953,7 +955,7 @@ namespace DSLauncherV2
             this.ToggleFlightText.Checked = true;
             this.ToggleFlightText.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToggleFlightText.Cursor = System.Windows.Forms.Cursors.Default;
-            this.ToggleFlightText.Location = new System.Drawing.Point(330, 144);
+            this.ToggleFlightText.Location = new System.Drawing.Point(18, 14);
             this.ToggleFlightText.Name = "ToggleFlightText";
             this.ToggleFlightText.Size = new System.Drawing.Size(80, 17);
             this.ToggleFlightText.TabIndex = 30;
@@ -1411,7 +1413,7 @@ namespace DSLauncherV2
             // 
             this.CurrentSelectedAccountLabel.AutoSize = true;
             this.CurrentSelectedAccountLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.CurrentSelectedAccountLabel.Location = new System.Drawing.Point(117, 421);
+            this.CurrentSelectedAccountLabel.Location = new System.Drawing.Point(117, 419);
             this.CurrentSelectedAccountLabel.Name = "CurrentSelectedAccountLabel";
             this.CurrentSelectedAccountLabel.Size = new System.Drawing.Size(181, 19);
             this.CurrentSelectedAccountLabel.TabIndex = 19;
@@ -1421,7 +1423,7 @@ namespace DSLauncherV2
             // 
             // FavAccount1
             // 
-            this.FavAccount1.Location = new System.Drawing.Point(536, 334);
+            this.FavAccount1.Location = new System.Drawing.Point(536, 335);
             this.FavAccount1.Name = "FavAccount1";
             this.FavAccount1.Size = new System.Drawing.Size(240, 23);
             this.FavAccount1.TabIndex = 20;
@@ -1435,7 +1437,7 @@ namespace DSLauncherV2
             // 
             // FavAccount2
             // 
-            this.FavAccount2.Location = new System.Drawing.Point(536, 354);
+            this.FavAccount2.Location = new System.Drawing.Point(536, 355);
             this.FavAccount2.Name = "FavAccount2";
             this.FavAccount2.Size = new System.Drawing.Size(240, 23);
             this.FavAccount2.TabIndex = 21;
@@ -1449,7 +1451,7 @@ namespace DSLauncherV2
             // 
             // FavAccount3
             // 
-            this.FavAccount3.Location = new System.Drawing.Point(536, 374);
+            this.FavAccount3.Location = new System.Drawing.Point(536, 375);
             this.FavAccount3.Name = "FavAccount3";
             this.FavAccount3.Size = new System.Drawing.Size(240, 23);
             this.FavAccount3.TabIndex = 22;
@@ -1463,7 +1465,7 @@ namespace DSLauncherV2
             // 
             // FavAccount4
             // 
-            this.FavAccount4.Location = new System.Drawing.Point(536, 394);
+            this.FavAccount4.Location = new System.Drawing.Point(536, 395);
             this.FavAccount4.Name = "FavAccount4";
             this.FavAccount4.Size = new System.Drawing.Size(240, 23);
             this.FavAccount4.TabIndex = 23;
@@ -1477,7 +1479,7 @@ namespace DSLauncherV2
             // 
             // RecentAccounts4
             // 
-            this.RecentAccounts4.Location = new System.Drawing.Point(539, 282);
+            this.RecentAccounts4.Location = new System.Drawing.Point(536, 278);
             this.RecentAccounts4.Name = "RecentAccounts4";
             this.RecentAccounts4.Size = new System.Drawing.Size(240, 23);
             this.RecentAccounts4.TabIndex = 27;
@@ -1491,7 +1493,7 @@ namespace DSLauncherV2
             // 
             // RecentAccounts3
             // 
-            this.RecentAccounts3.Location = new System.Drawing.Point(539, 262);
+            this.RecentAccounts3.Location = new System.Drawing.Point(536, 258);
             this.RecentAccounts3.Name = "RecentAccounts3";
             this.RecentAccounts3.Size = new System.Drawing.Size(240, 23);
             this.RecentAccounts3.TabIndex = 26;
@@ -1505,7 +1507,7 @@ namespace DSLauncherV2
             // 
             // RecentAccounts2
             // 
-            this.RecentAccounts2.Location = new System.Drawing.Point(539, 242);
+            this.RecentAccounts2.Location = new System.Drawing.Point(536, 238);
             this.RecentAccounts2.Name = "RecentAccounts2";
             this.RecentAccounts2.Size = new System.Drawing.Size(240, 23);
             this.RecentAccounts2.TabIndex = 25;
@@ -1519,7 +1521,7 @@ namespace DSLauncherV2
             // 
             // RecentAccounts1
             // 
-            this.RecentAccounts1.Location = new System.Drawing.Point(539, 222);
+            this.RecentAccounts1.Location = new System.Drawing.Point(536, 218);
             this.RecentAccounts1.Name = "RecentAccounts1";
             this.RecentAccounts1.Size = new System.Drawing.Size(240, 23);
             this.RecentAccounts1.TabIndex = 24;
@@ -1561,6 +1563,17 @@ namespace DSLauncherV2
             // 
             this.ImportLauncherFile.FileName = "LauncherFile";
             this.ImportLauncherFile.FileOk += new System.ComponentModel.CancelEventHandler(this.ImportLauncherFile_FileOk);
+            // 
+            // metroLabel20
+            // 
+            this.metroLabel20.AutoSize = true;
+            this.metroLabel20.Location = new System.Drawing.Point(329, 12);
+            this.metroLabel20.Name = "metroLabel20";
+            this.metroLabel20.Size = new System.Drawing.Size(134, 19);
+            this.metroLabel20.TabIndex = 20;
+            this.metroLabel20.Text = "Experimental Settings";
+            this.metroLabel20.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroLabel20.UseCustomBackColor = true;
             // 
             // Primary
             // 
@@ -1721,6 +1734,7 @@ namespace DSLauncherV2
         private WebBrowser CNSImport;
         private MetroFramework.Controls.MetroLabel IncreaseDrawDistanceLabel;
         private MetroFramework.Controls.MetroToggle IncreaseDrawDistance;
+        private MetroFramework.Controls.MetroLabel metroLabel20;
     }
 }
 
