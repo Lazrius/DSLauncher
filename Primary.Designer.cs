@@ -50,6 +50,7 @@ namespace DSLauncherV2
             this.metroLabel18 = new MetroFramework.Controls.MetroLabel();
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.ExternalSettings = new MetroFramework.Controls.MetroTabPage();
+            this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel23 = new MetroFramework.Controls.MetroLabel();
             this.ThemeSelector = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
@@ -114,11 +115,7 @@ namespace DSLauncherV2
             this.LoadingBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.launchGame = new MetroFramework.Controls.MetroLink();
             this.patchGame = new MetroFramework.Controls.MetroLink();
-            this.launcherPatchSpinner = new MetroFramework.Controls.MetroProgressSpinner();
-            this.launcherCheckerLabel = new MetroFramework.Controls.MetroLabel();
             this.patchLauncher = new MetroFramework.Controls.MetroLink();
-            this.patchDownload = new MetroFramework.Controls.MetroProgressBar();
-            this.downloadProgress = new MetroFramework.Controls.MetroLabel();
             this.ExportAccountSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.CurrentSelectedAccountLabel = new MetroFramework.Controls.MetroLabel();
             this.FavAccount1 = new MetroFramework.Controls.MetroLink();
@@ -132,7 +129,10 @@ namespace DSLauncherV2
             this.SortCategory = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel16 = new MetroFramework.Controls.MetroLabel();
             this.ImportLauncherFile = new System.Windows.Forms.OpenFileDialog();
-            this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
+            this.downloadProgress = new MetroFramework.Controls.MetroLabel();
+            this.patchDownload = new MetroFramework.Controls.MetroProgressBar();
+            this.launcherCheckerLabel = new MetroFramework.Controls.MetroLabel();
+            this.launcherPatchSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -149,7 +149,7 @@ namespace DSLauncherV2
             this.actionsLabel.AutoSize = true;
             this.actionsLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.actionsLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.actionsLabel.Location = new System.Drawing.Point(536, 66);
+            this.actionsLabel.Location = new System.Drawing.Point(536, 11);
             this.actionsLabel.Name = "actionsLabel";
             this.actionsLabel.Size = new System.Drawing.Size(67, 25);
             this.actionsLabel.TabIndex = 4;
@@ -160,7 +160,7 @@ namespace DSLauncherV2
             // 
             this.hrLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.hrLabel1.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.hrLabel1.Location = new System.Drawing.Point(536, 95);
+            this.hrLabel1.Location = new System.Drawing.Point(536, 39);
             this.hrLabel1.Name = "hrLabel1";
             this.hrLabel1.Size = new System.Drawing.Size(243, 1);
             this.hrLabel1.TabIndex = 5;
@@ -170,7 +170,7 @@ namespace DSLauncherV2
             // 
             this.currentAccountLabel.AutoSize = true;
             this.currentAccountLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.currentAccountLabel.Location = new System.Drawing.Point(7, 419);
+            this.currentAccountLabel.Location = new System.Drawing.Point(7, 364);
             this.currentAccountLabel.Name = "currentAccountLabel";
             this.currentAccountLabel.Size = new System.Drawing.Size(111, 19);
             this.currentAccountLabel.TabIndex = 6;
@@ -181,7 +181,7 @@ namespace DSLauncherV2
             // 
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.label1.Location = new System.Drawing.Point(536, 214);
+            this.label1.Location = new System.Drawing.Point(536, 152);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(243, 1);
             this.label1.TabIndex = 8;
@@ -193,7 +193,7 @@ namespace DSLauncherV2
             this.metroLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel1.ForeColor = System.Drawing.SystemColors.Control;
-            this.metroLabel1.Location = new System.Drawing.Point(536, 185);
+            this.metroLabel1.Location = new System.Drawing.Point(536, 124);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(137, 25);
             this.metroLabel1.TabIndex = 7;
@@ -204,7 +204,7 @@ namespace DSLauncherV2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.label2.Location = new System.Drawing.Point(536, 331);
+            this.label2.Location = new System.Drawing.Point(536, 275);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(243, 1);
             this.label2.TabIndex = 10;
@@ -215,7 +215,7 @@ namespace DSLauncherV2
             this.metroLabel2.AutoSize = true;
             this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel2.ForeColor = System.Drawing.SystemColors.Control;
-            this.metroLabel2.Location = new System.Drawing.Point(536, 302);
+            this.metroLabel2.Location = new System.Drawing.Point(536, 247);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(154, 25);
             this.metroLabel2.TabIndex = 9;
@@ -231,9 +231,9 @@ namespace DSLauncherV2
             this.MTC.Controls.Add(this.About);
             this.MTC.Enabled = false;
             this.MTC.HotTrack = true;
-            this.MTC.Location = new System.Drawing.Point(7, 60);
+            this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 2;
+            this.MTC.SelectedIndex = 4;
             this.MTC.Size = new System.Drawing.Size(526, 347);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -331,6 +331,17 @@ namespace DSLauncherV2
             this.ExternalSettings.VerticalScrollbarBarColor = true;
             this.ExternalSettings.VerticalScrollbarHighlightOnWheel = false;
             this.ExternalSettings.VerticalScrollbarSize = 10;
+            // 
+            // metroLabel20
+            // 
+            this.metroLabel20.AutoSize = true;
+            this.metroLabel20.Location = new System.Drawing.Point(329, 12);
+            this.metroLabel20.Name = "metroLabel20";
+            this.metroLabel20.Size = new System.Drawing.Size(134, 19);
+            this.metroLabel20.TabIndex = 20;
+            this.metroLabel20.Text = "Experimental Settings";
+            this.metroLabel20.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroLabel20.UseCustomBackColor = true;
             // 
             // metroLabel23
             // 
@@ -1035,6 +1046,7 @@ namespace DSLauncherV2
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.AccountsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.AccountsGrid.RowHeadersVisible = false;
             this.AccountsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.AccountsGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.AccountsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1067,7 +1079,7 @@ namespace DSLauncherV2
             // 
             // AccIsFav
             // 
-            this.AccIsFav.HeaderText = "Favorite";
+            this.AccIsFav.HeaderText = "Favourite";
             this.AccIsFav.Name = "AccIsFav";
             this.AccIsFav.ReadOnly = true;
             // 
@@ -1267,17 +1279,19 @@ namespace DSLauncherV2
             // 
             // metroLabel3
             // 
+            this.metroLabel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.metroLabel3.AutoSize = true;
             this.metroLabel3.Enabled = false;
             this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.metroLabel3.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.metroLabel3.Location = new System.Drawing.Point(123, 8);
+            this.metroLabel3.Location = new System.Drawing.Point(165, 8);
             this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(255, 25);
+            this.metroLabel3.Size = new System.Drawing.Size(186, 25);
             this.metroLabel3.Style = MetroFramework.MetroColorStyle.Blue;
             this.metroLabel3.TabIndex = 16;
-            this.metroLabel3.Text = "About this wonderful program";
+            this.metroLabel3.Text = "About DSLauncher V2";
+            this.metroLabel3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.metroLabel3.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.metroLabel3.UseCustomBackColor = true;
             this.metroLabel3.UseCustomForeColor = true;
@@ -1301,7 +1315,7 @@ namespace DSLauncherV2
             this.launchGame.Cursor = System.Windows.Forms.Cursors.Hand;
             this.launchGame.Enabled = false;
             this.launchGame.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.launchGame.Location = new System.Drawing.Point(536, 99);
+            this.launchGame.Location = new System.Drawing.Point(536, 44);
             this.launchGame.Name = "launchGame";
             this.launchGame.Size = new System.Drawing.Size(203, 29);
             this.launchGame.Style = MetroFramework.MetroColorStyle.Blue;
@@ -1320,7 +1334,7 @@ namespace DSLauncherV2
             this.patchGame.Cursor = System.Windows.Forms.Cursors.Hand;
             this.patchGame.Enabled = false;
             this.patchGame.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.patchGame.Location = new System.Drawing.Point(536, 123);
+            this.patchGame.Location = new System.Drawing.Point(536, 68);
             this.patchGame.Name = "patchGame";
             this.patchGame.Size = new System.Drawing.Size(203, 29);
             this.patchGame.Style = MetroFramework.MetroColorStyle.Blue;
@@ -1333,38 +1347,13 @@ namespace DSLauncherV2
             this.patchGame.MouseEnter += new System.EventHandler(this.patchGame_MouseEnter);
             this.patchGame.MouseLeave += new System.EventHandler(this.patchGame_MouseLeave);
             // 
-            // launcherPatchSpinner
-            // 
-            this.launcherPatchSpinner.Location = new System.Drawing.Point(539, 32);
-            this.launcherPatchSpinner.Maximum = 100;
-            this.launcherPatchSpinner.Minimum = 30;
-            this.launcherPatchSpinner.Name = "launcherPatchSpinner";
-            this.launcherPatchSpinner.Size = new System.Drawing.Size(24, 27);
-            this.launcherPatchSpinner.Speed = 2F;
-            this.launcherPatchSpinner.Style = MetroFramework.MetroColorStyle.Blue;
-            this.launcherPatchSpinner.TabIndex = 14;
-            this.launcherPatchSpinner.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.launcherPatchSpinner.UseSelectable = true;
-            this.launcherPatchSpinner.Value = 60;
-            // 
-            // launcherCheckerLabel
-            // 
-            this.launcherCheckerLabel.AutoSize = true;
-            this.launcherCheckerLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.launcherCheckerLabel.Location = new System.Drawing.Point(576, 38);
-            this.launcherCheckerLabel.Name = "launcherCheckerLabel";
-            this.launcherCheckerLabel.Size = new System.Drawing.Size(140, 19);
-            this.launcherCheckerLabel.TabIndex = 15;
-            this.launcherCheckerLabel.Text = "Checking for patches...";
-            this.launcherCheckerLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
-            // 
             // patchLauncher
             // 
             this.patchLauncher.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.patchLauncher.Cursor = System.Windows.Forms.Cursors.Hand;
             this.patchLauncher.Enabled = false;
             this.patchLauncher.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.patchLauncher.Location = new System.Drawing.Point(536, 146);
+            this.patchLauncher.Location = new System.Drawing.Point(536, 91);
             this.patchLauncher.Name = "patchLauncher";
             this.patchLauncher.Size = new System.Drawing.Size(203, 29);
             this.patchLauncher.Style = MetroFramework.MetroColorStyle.Blue;
@@ -1376,29 +1365,6 @@ namespace DSLauncherV2
             this.patchLauncher.Click += new System.EventHandler(this.patchLauncher_Click);
             this.patchLauncher.MouseEnter += new System.EventHandler(this.patchLauncher_MouseEnter);
             this.patchLauncher.MouseLeave += new System.EventHandler(this.patchLauncher_MouseLeave);
-            // 
-            // patchDownload
-            // 
-            this.patchDownload.Location = new System.Drawing.Point(11, 14);
-            this.patchDownload.Name = "patchDownload";
-            this.patchDownload.Size = new System.Drawing.Size(522, 23);
-            this.patchDownload.Style = MetroFramework.MetroColorStyle.Blue;
-            this.patchDownload.TabIndex = 17;
-            this.patchDownload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.patchDownload.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.patchDownload.Visible = false;
-            // 
-            // downloadProgress
-            // 
-            this.downloadProgress.AutoSize = true;
-            this.downloadProgress.ForeColor = System.Drawing.SystemColors.Control;
-            this.downloadProgress.Location = new System.Drawing.Point(208, 40);
-            this.downloadProgress.Name = "downloadProgress";
-            this.downloadProgress.Size = new System.Drawing.Size(141, 19);
-            this.downloadProgress.TabIndex = 18;
-            this.downloadProgress.Text = "%DownloadProgress%";
-            this.downloadProgress.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.downloadProgress.Visible = false;
             // 
             // ExportAccountSaveFileDialog
             // 
@@ -1413,7 +1379,7 @@ namespace DSLauncherV2
             // 
             this.CurrentSelectedAccountLabel.AutoSize = true;
             this.CurrentSelectedAccountLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.CurrentSelectedAccountLabel.Location = new System.Drawing.Point(117, 419);
+            this.CurrentSelectedAccountLabel.Location = new System.Drawing.Point(117, 364);
             this.CurrentSelectedAccountLabel.Name = "CurrentSelectedAccountLabel";
             this.CurrentSelectedAccountLabel.Size = new System.Drawing.Size(181, 19);
             this.CurrentSelectedAccountLabel.TabIndex = 19;
@@ -1423,7 +1389,7 @@ namespace DSLauncherV2
             // 
             // FavAccount1
             // 
-            this.FavAccount1.Location = new System.Drawing.Point(536, 335);
+            this.FavAccount1.Location = new System.Drawing.Point(536, 280);
             this.FavAccount1.Name = "FavAccount1";
             this.FavAccount1.Size = new System.Drawing.Size(240, 23);
             this.FavAccount1.TabIndex = 20;
@@ -1437,7 +1403,7 @@ namespace DSLauncherV2
             // 
             // FavAccount2
             // 
-            this.FavAccount2.Location = new System.Drawing.Point(536, 355);
+            this.FavAccount2.Location = new System.Drawing.Point(536, 300);
             this.FavAccount2.Name = "FavAccount2";
             this.FavAccount2.Size = new System.Drawing.Size(240, 23);
             this.FavAccount2.TabIndex = 21;
@@ -1451,7 +1417,7 @@ namespace DSLauncherV2
             // 
             // FavAccount3
             // 
-            this.FavAccount3.Location = new System.Drawing.Point(536, 375);
+            this.FavAccount3.Location = new System.Drawing.Point(536, 320);
             this.FavAccount3.Name = "FavAccount3";
             this.FavAccount3.Size = new System.Drawing.Size(240, 23);
             this.FavAccount3.TabIndex = 22;
@@ -1465,7 +1431,7 @@ namespace DSLauncherV2
             // 
             // FavAccount4
             // 
-            this.FavAccount4.Location = new System.Drawing.Point(536, 395);
+            this.FavAccount4.Location = new System.Drawing.Point(536, 340);
             this.FavAccount4.Name = "FavAccount4";
             this.FavAccount4.Size = new System.Drawing.Size(240, 23);
             this.FavAccount4.TabIndex = 23;
@@ -1479,7 +1445,7 @@ namespace DSLauncherV2
             // 
             // RecentAccounts4
             // 
-            this.RecentAccounts4.Location = new System.Drawing.Point(536, 278);
+            this.RecentAccounts4.Location = new System.Drawing.Point(536, 218);
             this.RecentAccounts4.Name = "RecentAccounts4";
             this.RecentAccounts4.Size = new System.Drawing.Size(240, 23);
             this.RecentAccounts4.TabIndex = 27;
@@ -1493,7 +1459,7 @@ namespace DSLauncherV2
             // 
             // RecentAccounts3
             // 
-            this.RecentAccounts3.Location = new System.Drawing.Point(536, 258);
+            this.RecentAccounts3.Location = new System.Drawing.Point(536, 198);
             this.RecentAccounts3.Name = "RecentAccounts3";
             this.RecentAccounts3.Size = new System.Drawing.Size(240, 23);
             this.RecentAccounts3.TabIndex = 26;
@@ -1507,7 +1473,7 @@ namespace DSLauncherV2
             // 
             // RecentAccounts2
             // 
-            this.RecentAccounts2.Location = new System.Drawing.Point(536, 238);
+            this.RecentAccounts2.Location = new System.Drawing.Point(536, 178);
             this.RecentAccounts2.Name = "RecentAccounts2";
             this.RecentAccounts2.Size = new System.Drawing.Size(240, 23);
             this.RecentAccounts2.TabIndex = 25;
@@ -1521,7 +1487,7 @@ namespace DSLauncherV2
             // 
             // RecentAccounts1
             // 
-            this.RecentAccounts1.Location = new System.Drawing.Point(536, 218);
+            this.RecentAccounts1.Location = new System.Drawing.Point(536, 158);
             this.RecentAccounts1.Name = "RecentAccounts1";
             this.RecentAccounts1.Size = new System.Drawing.Size(240, 23);
             this.RecentAccounts1.TabIndex = 24;
@@ -1539,7 +1505,7 @@ namespace DSLauncherV2
             this.SortCategory.ItemHeight = 23;
             this.SortCategory.Items.AddRange(new object[] {
             "Show All Accounts"});
-            this.SortCategory.Location = new System.Drawing.Point(409, 413);
+            this.SortCategory.Location = new System.Drawing.Point(409, 358);
             this.SortCategory.Name = "SortCategory";
             this.SortCategory.Size = new System.Drawing.Size(121, 29);
             this.SortCategory.TabIndex = 28;
@@ -1552,7 +1518,7 @@ namespace DSLauncherV2
             // 
             this.metroLabel16.AutoSize = true;
             this.metroLabel16.ForeColor = System.Drawing.SystemColors.Control;
-            this.metroLabel16.Location = new System.Drawing.Point(536, 419);
+            this.metroLabel16.Location = new System.Drawing.Point(536, 364);
             this.metroLabel16.Name = "metroLabel16";
             this.metroLabel16.Size = new System.Drawing.Size(171, 19);
             this.metroLabel16.TabIndex = 29;
@@ -1564,16 +1530,55 @@ namespace DSLauncherV2
             this.ImportLauncherFile.FileName = "LauncherFile";
             this.ImportLauncherFile.FileOk += new System.ComponentModel.CancelEventHandler(this.ImportLauncherFile_FileOk);
             // 
-            // metroLabel20
+            // downloadProgress
             // 
-            this.metroLabel20.AutoSize = true;
-            this.metroLabel20.Location = new System.Drawing.Point(329, 12);
-            this.metroLabel20.Name = "metroLabel20";
-            this.metroLabel20.Size = new System.Drawing.Size(134, 19);
-            this.metroLabel20.TabIndex = 20;
-            this.metroLabel20.Text = "Experimental Settings";
-            this.metroLabel20.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.metroLabel20.UseCustomBackColor = true;
+            this.downloadProgress.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.downloadProgress.AutoSize = true;
+            this.downloadProgress.ForeColor = System.Drawing.SystemColors.Control;
+            this.downloadProgress.Location = new System.Drawing.Point(208, 422);
+            this.downloadProgress.Name = "downloadProgress";
+            this.downloadProgress.Size = new System.Drawing.Size(141, 19);
+            this.downloadProgress.TabIndex = 33;
+            this.downloadProgress.Text = "%DownloadProgress%";
+            this.downloadProgress.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.downloadProgress.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.downloadProgress.Visible = false;
+            this.downloadProgress.TextChanged += new System.EventHandler(this.downloadProgress_TextChanged);
+            // 
+            // patchDownload
+            // 
+            this.patchDownload.Location = new System.Drawing.Point(11, 396);
+            this.patchDownload.Name = "patchDownload";
+            this.patchDownload.Size = new System.Drawing.Size(522, 23);
+            this.patchDownload.Style = MetroFramework.MetroColorStyle.Blue;
+            this.patchDownload.TabIndex = 32;
+            this.patchDownload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.patchDownload.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // launcherCheckerLabel
+            // 
+            this.launcherCheckerLabel.AutoSize = true;
+            this.launcherCheckerLabel.ForeColor = System.Drawing.SystemColors.Control;
+            this.launcherCheckerLabel.Location = new System.Drawing.Point(581, 410);
+            this.launcherCheckerLabel.Name = "launcherCheckerLabel";
+            this.launcherCheckerLabel.Size = new System.Drawing.Size(140, 19);
+            this.launcherCheckerLabel.TabIndex = 31;
+            this.launcherCheckerLabel.Text = "Checking for patches...";
+            this.launcherCheckerLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // launcherPatchSpinner
+            // 
+            this.launcherPatchSpinner.Location = new System.Drawing.Point(544, 405);
+            this.launcherPatchSpinner.Maximum = 100;
+            this.launcherPatchSpinner.Minimum = 30;
+            this.launcherPatchSpinner.Name = "launcherPatchSpinner";
+            this.launcherPatchSpinner.Size = new System.Drawing.Size(27, 27);
+            this.launcherPatchSpinner.Speed = 2F;
+            this.launcherPatchSpinner.Style = MetroFramework.MetroColorStyle.Blue;
+            this.launcherPatchSpinner.TabIndex = 30;
+            this.launcherPatchSpinner.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.launcherPatchSpinner.UseSelectable = true;
+            this.launcherPatchSpinner.Value = 60;
             // 
             // Primary
             // 
@@ -1581,6 +1586,13 @@ namespace DSLauncherV2
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.downloadProgress);
+            this.Controls.Add(this.patchDownload);
+            this.Controls.Add(this.launcherCheckerLabel);
+            this.Controls.Add(this.launcherPatchSpinner);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.hrLabel1);
             this.Controls.Add(this.metroLabel16);
             this.Controls.Add(this.SortCategory);
             this.Controls.Add(this.RecentAccounts4);
@@ -1592,20 +1604,13 @@ namespace DSLauncherV2
             this.Controls.Add(this.FavAccount2);
             this.Controls.Add(this.FavAccount1);
             this.Controls.Add(this.CurrentSelectedAccountLabel);
-            this.Controls.Add(this.downloadProgress);
-            this.Controls.Add(this.patchDownload);
             this.Controls.Add(this.patchLauncher);
-            this.Controls.Add(this.launcherCheckerLabel);
-            this.Controls.Add(this.launcherPatchSpinner);
             this.Controls.Add(this.patchGame);
             this.Controls.Add(this.launchGame);
             this.Controls.Add(this.MTC);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.metroLabel2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.currentAccountLabel);
-            this.Controls.Add(this.hrLabel1);
             this.Controls.Add(this.actionsLabel);
             this.DisplayHeader = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1654,8 +1659,6 @@ namespace DSLauncherV2
         private MetroFramework.Components.MetroStyleManager metroStyleManager1;
         private MetroFramework.Controls.MetroLink launchGame;
         private MetroFramework.Controls.MetroLink patchGame;
-        private MetroFramework.Controls.MetroProgressSpinner launcherPatchSpinner;
-        private MetroFramework.Controls.MetroLabel launcherCheckerLabel;
         private MetroFramework.Controls.MetroTabPage About;
         private MetroFramework.Controls.MetroLabel metroLabel3;
         private MetroFramework.Controls.MetroTextBox aboutInfo;
@@ -1668,8 +1671,6 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroLabel metroLabel5;
         private MetroFramework.Controls.MetroToggle ToggleChatAppend;
         private MetroFramework.Controls.MetroLink patchLauncher;
-        private MetroFramework.Controls.MetroProgressBar patchDownload;
-        private MetroFramework.Controls.MetroLabel downloadProgress;
         private MetroFramework.Controls.MetroTile metroTile4;
         private MetroFramework.Controls.MetroTile metroTile3;
         private MetroFramework.Controls.MetroTile metroTile2;
@@ -1705,12 +1706,6 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroLabel metroLabel15;
         private MetroFramework.Controls.MetroToggle DisableChat;
         private MetroFramework.Controls.MetroGrid AccountsGrid;
-        private DataGridViewTextBoxColumn AccName;
-        private DataGridViewTextBoxColumn AccDescription;
-        private DataGridViewTextBoxColumn AccCategory;
-        private DataGridViewTextBoxColumn AccIsFav;
-        private DataGridViewTextBoxColumn AccCode;
-        private DataGridViewTextBoxColumn AccSignature;
         private MetroFramework.Controls.MetroContextMenu AccountContextMenu;
         private ToolStripMenuItem CreateNewAccount;
         private ToolStripMenuItem DeleteSelectedAccounts;
@@ -1735,6 +1730,16 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroLabel IncreaseDrawDistanceLabel;
         private MetroFramework.Controls.MetroToggle IncreaseDrawDistance;
         private MetroFramework.Controls.MetroLabel metroLabel20;
+        private DataGridViewTextBoxColumn AccName;
+        private DataGridViewTextBoxColumn AccDescription;
+        private DataGridViewTextBoxColumn AccCategory;
+        private DataGridViewTextBoxColumn AccIsFav;
+        private DataGridViewTextBoxColumn AccCode;
+        private DataGridViewTextBoxColumn AccSignature;
+        private MetroFramework.Controls.MetroLabel downloadProgress;
+        private MetroFramework.Controls.MetroProgressBar patchDownload;
+        private MetroFramework.Controls.MetroLabel launcherCheckerLabel;
+        private MetroFramework.Controls.MetroProgressSpinner launcherPatchSpinner;
     }
 }
 

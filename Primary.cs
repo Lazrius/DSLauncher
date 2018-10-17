@@ -20,6 +20,7 @@ using Microsoft.Win32;
 using SharpCompress.Readers;
 using SharpCompress.Common;
 using HtmlDocument = HtmlAgilityPack.HtmlDocument;
+using System.Reflection;
 
 namespace DSLauncherV2
 {
@@ -326,11 +327,18 @@ namespace DSLauncherV2
 
         private void ReadyToLaunch()
         {
+            this.patchDownload.Visible = true;
+            this.downloadProgress.Visible = true;
+            this.downloadProgress.Text = "Updates complete, good flying!";
             this.launchGame.Enabled = true;
             this.launchGame.UseCustomForeColor = true;
             this.launchGame.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
+            this.launcherPatchSpinner.Value = 100;
+            this.launcherPatchSpinner.EnsureVisible = false;
+            this.launcherPatchSpinner.Spinning = false;
             this.launcherPatchSpinner.Visible = false;
-            this.launcherCheckerLabel.Text = "You're all set.";
+            this.launcherCheckerLabel.Text = "You're all set, good flying!";
+            this.launcherCheckerLabel.Visible = false;
             this.patchLauncher.Enabled = false;
             this.patchGame.Enabled = false;
             this.patchLauncher.ForeColor = Color.FromArgb(51, 51, 51);
@@ -391,15 +399,24 @@ namespace DSLauncherV2
                     StringBuilder sb = new StringBuilder();
 
                     sb.Append(
-                        "This product was brought to you by the Discovery Dev Team and was forged with the tears of 50,000 Zoner Marines ready to fortify Coreport 11.\r\n\r\n");
+                        "This product was brought to you by the Discovery Development Team and was forged with the tears of 50,000 Zoner Marines ready to fortify Coreport 11.\r\n\r\n");
+
                     sb.Append("Special thanks to:\r\n");
-                    sb.Append("Cannon and Kazinsal for the account generator.\r\n");
-                    sb.Append("Alley for the original launcher code.\r\n");
-                    sb.Append("Alex. for the decompliation of the original launcher.\r\n");
-                    sb.Append("Laz for the creation of version two.\r\n");
-                    sb.Append("thedoctor45 for the logo.\r\n\r\n");
-                    sb.Append("All the beta testers,\r\n\r\n\r\n");
-                    sb.Append("and you for being part of the community and keeping this age old game alive.\r\n");
+                    sb.Append("Cannon and Kazinsal for the account generator,\r\n");
+                    sb.Append("Alley for the original launcher code,\r\n");
+                    sb.Append("Alex. for the decompliation of the original launcher,\r\n");
+                    sb.Append("Laz for progamming the V2 launcher,\r\n");
+                    sb.Append("Kazinsal for aesthetic updates and formatting,\r\n");
+                    sb.Append("thedoctor45 for the logo,\r\n");
+                    sb.Append("All the beta testers...\r\n");
+                    sb.Append("...and you for being part of the community and keeping Discovery alive.\r\n\r\n");
+
+                    sb.Append("Discovery Launcher ");
+                    sb.Append(Assembly.GetEntryAssembly().GetName().Version.Major);
+                    sb.Append(".");
+                    sb.Append(Assembly.GetEntryAssembly().GetName().Version.Minor);
+                    sb.Append(".");
+                    sb.Append(Assembly.GetEntryAssembly().GetName().Version.Build);
 
                     this.aboutInfo.Text = sb.ToString();
                     break;
@@ -803,15 +820,16 @@ namespace DSLauncherV2
                 }
             }
 
-            this.patchDownload.Visible = false;
-            this.downloadProgress.Visible = false;
+            /*this.patchDownload.Visible = true;
+            this.downloadProgress.Visible = true;
             this.patchGame.Enabled = false;
             this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
             this.launchGame.Enabled = true;
             this.launchGame.UseCustomForeColor = true;
             this.launchGame.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
-            this.launcherPatchSpinner.Visible = false;
-            this.launcherCheckerLabel.Text = "You're all set.";
+            this.launcherPatchSpinner.Visible = true;
+            this.launcherCheckerLabel.Text = "You're all set.";*/
+            ReadyToLaunch();
         }
 
         private void patchGame_MouseEnter(object sender, EventArgs e)
@@ -1477,6 +1495,13 @@ namespace DSLauncherV2
         {
             this.LauncherSettings.UserSettings.DrawDistance = this.IncreaseDrawDistance.Checked;
             this.LauncherSettings.SetDrawDistance();
+        }
+
+        private void downloadProgress_TextChanged(object sender, EventArgs e)
+        {
+            int newX = this.patchDownload.Location.X + (this.patchDownload.Size.Width / 2) - (this.downloadProgress.Size.Width / 2);
+            int newY = this.downloadProgress.Location.Y;
+            this.downloadProgress.Location = new Point(newX, newY);
         }
     }
 }
