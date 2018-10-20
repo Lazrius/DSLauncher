@@ -1499,9 +1499,9 @@ namespace DSLauncherV2
 
         private void downloadProgress_TextChanged(object sender, EventArgs e)
         {
-            int newX = this.patchDownload.Location.X + (this.patchDownload.Size.Width / 2) - (this.downloadProgress.Size.Width / 2);
-            int newY = this.downloadProgress.Location.Y;
-            this.downloadProgress.Location = new Point(newX, newY);
+            //int newX = this.patchDownload.Location.X + (this.patchDownload.Size.Width / 2) - (this.downloadProgress.Size.Width / 2);
+            //int newY = this.downloadProgress.Location.Y;
+            //this.downloadProgress.Location = new Point(newX, newY);
         }
     }
 }

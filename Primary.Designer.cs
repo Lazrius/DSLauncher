@@ -1533,11 +1533,10 @@ namespace DSLauncherV2
             // downloadProgress
             // 
             this.downloadProgress.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.downloadProgress.AutoSize = true;
             this.downloadProgress.ForeColor = System.Drawing.SystemColors.Control;
-            this.downloadProgress.Location = new System.Drawing.Point(208, 422);
+            this.downloadProgress.Location = new System.Drawing.Point(11, 422);
             this.downloadProgress.Name = "downloadProgress";
-            this.downloadProgress.Size = new System.Drawing.Size(141, 19);
+            this.downloadProgress.Size = new System.Drawing.Size(522, 19);
             this.downloadProgress.TabIndex = 33;
             this.downloadProgress.Text = "%DownloadProgress%";
             this.downloadProgress.TextAlign = System.Drawing.ContentAlignment.TopCenter;
