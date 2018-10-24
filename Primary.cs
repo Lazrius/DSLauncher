@@ -589,6 +589,11 @@ namespace DSLauncherV2
 
                 else
                 {
+                    // Clean the saves directory in case multiple Discovery versions or FL mods are being run simultaneously
+                    if (System.IO.File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "My Games/Freelancer/Accts/SinglePlayer/Restart.fl")))
+                        foreach (string file in Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "My Games/Freelancer/Accts/SinglePlayer/"), "*.fl"))
+                            System.IO.File.Delete(file);
+
                     string launchSettings = this.LauncherSettings.UserSettings.MainServer;
 
                     if (this.LauncherSettings.UserSettings.DisplayMode)
