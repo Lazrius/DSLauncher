@@ -234,6 +234,10 @@ namespace DSLauncherV2
                 this.patchGame.Enabled = true;
                 this.patchGame.UseCustomForeColor = true;
                 this.patchGame.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
+                this.launcherPatchSpinner.Visible = false;
+                this.launcherCheckerLabel.Visible = false;
+                this.downloadProgress.Visible = true;
+                this.downloadProgress.Text = "Game updates required; press \"Patch Game\" to install.";
             }
 
             if (e.ProgressPercentage == 7)
@@ -691,6 +695,7 @@ namespace DSLauncherV2
             this.launchGame.Enabled = false;
             this.launchGame.ForeColor = Color.FromArgb(51, 51, 51);
             this.launcherPatchSpinner.Visible = true;
+            this.launcherCheckerLabel.Visible = true;
             this.launcherCheckerLabel.Text = "Patching Game...";
             CheckProcesses();
             this.patchDownload.Visible = true;
