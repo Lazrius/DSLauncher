@@ -250,9 +250,10 @@ namespace DSLauncherV2
         {
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc;
+            
             try
             {
-                doc = web.Load("https://discoverygc.com/forums/portal.php");
+                doc = web.Load("https://discoverygc.com/patch/launcherimages/");
             }
             catch
             {
@@ -263,7 +264,7 @@ namespace DSLauncherV2
                 doc.DocumentNode.InnerHtml.Contains("The maximum server load limit has been reached"))
                 return;
 
-            string node = doc.DocumentNode.SelectSingleNode("//comment()[contains(., 'portal_announcement')]/following-sibling::table").OuterHtml;
+            /*string node = doc.DocumentNode.SelectSingleNode("//comment()[contains(., 'portal_announcement')]/following-sibling::table").OuterHtml;
             string HTML = "<html><body><div id=container> %style% %REPLACE% </div></body></html>";
             string style = "<style> #container,.wrapper,body{text-shadow:1px 1px 0 #0d0d0d}body,table{font-size:13px}.trow1,.trow2,body," +
                            "table{font-style:normal;font-family:Arial,Verdana,Sans-Serif}body{background:#090909;color:#FFF;text-align:center;" +
@@ -301,9 +302,9 @@ namespace DSLauncherV2
                            "radius:3px}.thead_left{-moz-border-radius-topright:0;-webkit-border-top-right-radius:0;border-top-right-radius:0}.thead" +
                            "_right{-moz-border-radius-top-left:0;-webkit-border-top-left-radius:0;border-top-left-radius:0} </style>";
             HTML = HTML.Replace("%REPLACE%", node);
-            HTML = HTML.Replace("%style%", style);
+            HTML = HTML.Replace("%style%", style);*/
 
-            currentAnnouncement = HTML;
+            currentAnnouncement = doc.Text;
         }
 
         private bool CompareMD5(string file, string patchhash)

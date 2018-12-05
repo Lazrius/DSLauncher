@@ -233,7 +233,7 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 4;
+            this.MTC.SelectedIndex = 0;
             this.MTC.Size = new System.Drawing.Size(526, 347);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -267,6 +267,7 @@ namespace DSLauncherV2
             this.CNSImport.Location = new System.Drawing.Point(3, 3);
             this.CNSImport.MinimumSize = new System.Drawing.Size(20, 20);
             this.CNSImport.Name = "CNSImport";
+            this.CNSImport.ScrollBarsEnabled = false;
             this.CNSImport.Size = new System.Drawing.Size(512, 299);
             this.CNSImport.TabIndex = 23;
             this.CNSImport.TabStop = false;
