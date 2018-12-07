@@ -254,7 +254,7 @@ namespace DSLauncherV2
             this.CNS.Name = "CNS";
             this.CNS.Size = new System.Drawing.Size(518, 305);
             this.CNS.TabIndex = 0;
-            this.CNS.Text = "CNS";
+            this.CNS.Text = "News";
             this.CNS.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.CNS.UseCustomBackColor = true;
             this.CNS.VerticalScrollbarBarColor = true;
