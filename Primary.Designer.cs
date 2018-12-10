@@ -233,7 +233,7 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 0;
+            this.MTC.SelectedIndex = 2;
             this.MTC.Size = new System.Drawing.Size(526, 347);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -695,9 +695,8 @@ namespace DSLauncherV2
             this.WidthBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.WidthBox.CustomButton.UseSelectable = true;
             this.WidthBox.CustomButton.Visible = false;
-            this.WidthBox.Enabled = false;
             this.WidthBox.Lines = new string[0];
-            this.WidthBox.Location = new System.Drawing.Point(435, 140);
+            this.WidthBox.Location = new System.Drawing.Point(352, 140);
             this.WidthBox.Margin = new System.Windows.Forms.Padding(0);
             this.WidthBox.MaxLength = 32767;
             this.WidthBox.Name = "WidthBox";
@@ -708,8 +707,7 @@ namespace DSLauncherV2
             this.WidthBox.SelectionStart = 0;
             this.WidthBox.ShortcutsEnabled = true;
             this.WidthBox.Size = new System.Drawing.Size(64, 23);
-            this.WidthBox.TabIndex = 45;
-            this.WidthBox.TabStop = false;
+            this.WidthBox.TabIndex = 44;
             this.WidthBox.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.WidthBox.UseCustomBackColor = true;
             this.WidthBox.UseSelectable = true;
@@ -733,7 +731,7 @@ namespace DSLauncherV2
             this.HeightBox.CustomButton.UseSelectable = true;
             this.HeightBox.CustomButton.Visible = false;
             this.HeightBox.Lines = new string[0];
-            this.HeightBox.Location = new System.Drawing.Point(352, 140);
+            this.HeightBox.Location = new System.Drawing.Point(435, 140);
             this.HeightBox.Margin = new System.Windows.Forms.Padding(0);
             this.HeightBox.MaxLength = 32767;
             this.HeightBox.Name = "HeightBox";
@@ -744,8 +742,7 @@ namespace DSLauncherV2
             this.HeightBox.SelectionStart = 0;
             this.HeightBox.ShortcutsEnabled = true;
             this.HeightBox.Size = new System.Drawing.Size(64, 23);
-            this.HeightBox.TabIndex = 44;
-            this.HeightBox.TabStop = false;
+            this.HeightBox.TabIndex = 45;
             this.HeightBox.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.HeightBox.UseCustomBackColor = true;
             this.HeightBox.UseSelectable = true;

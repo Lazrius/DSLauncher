@@ -1008,7 +1008,7 @@ namespace DSLauncherV2
             }
             else
             {
-                this.LauncherSettings.UserSettings.DisplayHeight = this.WidthBox.Text;
+                this.LauncherSettings.UserSettings.DisplayWidth = this.WidthBox.Text;
                 XmlDocument XML = new XmlDocument();
                 XML.Load("launcherconfig.xml");
                 XML.SelectSingleNode("/BadassRoot/Config/DisplayWidth").InnerText =
