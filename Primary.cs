@@ -404,16 +404,15 @@ namespace DSLauncherV2
                     StringBuilder sb = new StringBuilder();
 
                     sb.Append(
-                        "This product was brought to you by the Discovery Development Team and was forged with the tears of 50,000 Zoner Marines ready to fortify Coreport 11.\r\n\r\n");
+                        "Discovery Freelancer is brought to you by the Discovery Development team.\r\n\r\n");
 
-                    sb.Append("Special thanks to:\r\n");
+                    sb.Append("- DSLauncher 2.x Credits -\r\n");
                     sb.Append("Cannon and Kazinsal for the account generator,\r\n");
                     sb.Append("Alley for the original launcher code,\r\n");
                     sb.Append("Alex. for the decompliation of the original launcher,\r\n");
                     sb.Append("Laz for progamming the V2 launcher,\r\n");
-                    sb.Append("Kazinsal for aesthetic updates and formatting,\r\n");
-                    sb.Append("thedoctor45 for the logo,\r\n");
-                    sb.Append("All the beta testers...\r\n");
+                    sb.Append("Kazinsal for aesthetic updates and continued development,\r\n");
+                    sb.Append("thedoctor45 for the logo...\r\n");
                     sb.Append("...and you for being part of the community and keeping Discovery alive.\r\n\r\n");
 
                     sb.Append("Discovery Launcher ");
