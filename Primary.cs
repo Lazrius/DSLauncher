@@ -76,7 +76,7 @@ namespace DSLauncherV2
                 this.LauncherSettings.UserSettings.RemotePatchLocation = Defaults.Settings.KittyURL;
                 this.launcherCheckerLabel.Invoke((Action) (() =>
                 {
-                    this.launcherCheckerLabel.Text = "Contacting Launcher Kitty...";
+                    this.launcherCheckerLabel.Text = "Contacting Discovery Patch Server...";
                     this.launcherCheckerLabel.Refresh();
                     Application.DoEvents();
                 }));
@@ -95,7 +95,7 @@ namespace DSLauncherV2
                 webClient.Dispose();
                 this.launcherCheckerLabel.Invoke((Action) (() =>
                 {
-                    this.launcherCheckerLabel.Text = "Kitty Contacted. Checking for patches...";
+                    this.launcherCheckerLabel.Text = "Checking for patches...";
                     this.launcherCheckerLabel.Refresh();
                     Application.DoEvents();
                 }));
@@ -182,24 +182,24 @@ namespace DSLauncherV2
         {
             if (e.ProgressPercentage == 0)
             {
-                this.launcherCheckerLabel.Text = "Contacting Launcher Kitty...";
+                this.launcherCheckerLabel.Text = "Contacting Patch Server...";
                 this.metroStyleManager1.Style = (MetroColorStyle) this.LauncherSettings.UserSettings.Style;
                 this.ApplyLauncherConfig();
             }
 
             if (e.ProgressPercentage == 1)
             {
-                this.launcherCheckerLabel.Text = "Kitty Contacted. Reading Patch Data...";
+                this.launcherCheckerLabel.Text = "Reading Patchlist Data...";
             }
 
             if (e.ProgressPercentage == 2)
             {
-                this.launcherCheckerLabel.Text = "Loading Launcher Accounts...";
+                this.launcherCheckerLabel.Text = "Loading Accounts...";
             }
 
             if (e.ProgressPercentage == 3)
             {
-                this.launcherCheckerLabel.Text = "Asking Kitty About Game Updates...";
+                this.launcherCheckerLabel.Text = "Checking If Updates Are Required...";
                 this.MTC.Enabled = true;
                 SetAccountsTab();
                 this.CheckAccountRegistry();
