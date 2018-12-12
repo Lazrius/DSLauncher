@@ -218,7 +218,9 @@ namespace DSLauncherV2
                     this.patchLauncher.UseCustomForeColor = true;
                     this.patchLauncher.Enabled = true;
                     this.launcherPatchSpinner.Visible = false;
-                    this.launcherCheckerLabel.Text = "The launcher requires a patch.";
+                    this.launcherCheckerLabel.Visible = false;
+                    this.downloadProgress.Visible = true;
+                    this.downloadProgress.Text = "Launcher updates required; press \"Patch Launcher\" to install.";
                     this.patchGame.Enabled = false;
                     this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
                 }
