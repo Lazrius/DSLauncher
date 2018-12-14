@@ -37,7 +37,7 @@ namespace DSLauncherV2
         {
             InitializeComponent();
             this.ControlBox = true;
-            this.Text = String.Empty;
+            this.Text = "Discovery Launcher";
             this.StyleManager = metroStyleManager1;
             this.metroStyleManager1.Theme = MetroThemeStyle.Dark;
             this.MTC.SelectedTab = CNS;

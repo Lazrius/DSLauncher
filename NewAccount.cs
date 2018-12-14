@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
@@ -14,6 +15,7 @@ namespace DSLauncherV2
 {
     public partial class NewAccount : MetroFramework.Forms.MetroForm
     {
+        private String CodeSigRegex = @"^[0-9a-fA-F]{8}-[0-9a-fA-F]{8}-[0-9a-fA-F]{8}-[0-9a-fA-F]{8}$";
         private UserSettings UserSettings = UserSettings.Instance;
         public NewAccount()
         {
@@ -105,6 +107,14 @@ namespace DSLauncherV2
                 return;
             }
 
+            if (!Regex.IsMatch(this.CodeTextbox.Text, CodeSigRegex) || !Regex.IsMatch(this.SigTextbox.Text, CodeSigRegex))
+            {
+                MetroMessageBox.Show(this,
+                    "Code or Signature is malformed.", "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+
             this.UserSettings.AName = NameTextbox.Text;
             this.UserSettings.ADescription = DescriptionTextbox.Text;
             this.UserSettings.AccountCategory = CategoryTextbox.Text;
@@ -123,6 +133,13 @@ namespace DSLauncherV2
                 this.CategoryTextbox.Text = this.UserSettings.AccountCategory;
                 this.CodeTextbox.Text = this.UserSettings.ACode;
                 this.SigTextbox.Text = this.UserSettings.ASignature;
+                this.CodeTextbox.ReadOnly = true;
+                this.SigTextbox.ReadOnly = true;
+            }
+            else
+            {
+                this.CodeTextbox.ForeColor = System.Drawing.SystemColors.Control;
+                this.SigTextbox.ForeColor = System.Drawing.SystemColors.Control;
             }
         }
     }

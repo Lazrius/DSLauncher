@@ -282,9 +282,9 @@ namespace DSLauncherV2
             this.metroLabel18.ForeColor = System.Drawing.SystemColors.Control;
             this.metroLabel18.Location = new System.Drawing.Point(197, 116);
             this.metroLabel18.Name = "metroLabel18";
-            this.metroLabel18.Size = new System.Drawing.Size(165, 25);
+            this.metroLabel18.Size = new System.Drawing.Size(229, 25);
             this.metroLabel18.TabIndex = 20;
-            this.metroLabel18.Text = "Connecting To Kitty";
+            this.metroLabel18.Text = "Connecting to DiscoveryGC";
             this.metroLabel18.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.metroLabel18.UseCustomBackColor = true;
             // 
