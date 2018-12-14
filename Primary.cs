@@ -29,6 +29,8 @@ namespace DSLauncherV2
         public BackgroundWorker LoadingBackgroundWorker;
         private LauncherSettings LauncherSettings = DSLauncherV2.LauncherSettings.Instance;
         private List<MetroLink> lstFavoriteAccounts;
+        private List<DataGridViewRow> FilteredRows = null;
+        private List<DataGridViewRow> UnfilterdRows = null;
         private List<string> lstAccountCategories = new List<string>();
         private byte[] downloadedData;
         private string currentAnnouncement;
@@ -1374,15 +1376,42 @@ namespace DSLauncherV2
 
         private void SortCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (int index = 0; index < this.AccountsGrid.Rows.Count; index++)
+            if (UnfilterdRows == null)
             {
-                DataGridViewRow row = this.AccountsGrid.Rows[index];
-                if (SortCategory.SelectedIndex == 0)
-                    row.Visible = true;
-                else if (row.Cells[2].Value.ToString().Equals(SortCategory.Items[SortCategory.SelectedIndex]))
-                    row.Visible = true;
-                else
-                    row.Visible = false;
+                UnfilterdRows = new List<DataGridViewRow>();
+                foreach (DataGridViewRow row in this.AccountsGrid.Rows)
+                {
+                    UnfilterdRows.Add(row);
+                }
+            }
+
+            if (SortCategory.SelectedIndex == 0)
+            {
+                this.AccountsGrid.Rows.Clear();
+                foreach (DataGridViewRow row in UnfilterdRows)
+                {
+                    this.AccountsGrid.Rows.Add(row);
+                }
+
+                FilteredRows = null;
+                UnfilterdRows = null;
+                return;
+            }
+
+            FilteredRows = new List<DataGridViewRow>();
+            for (int index = 0; index < UnfilterdRows.Count; index++)
+            {
+                DataGridViewRow row = UnfilterdRows[index];
+                if (row.Cells[2].Value.ToString().Equals(SortCategory.Items[SortCategory.SelectedIndex]))
+                {
+                    FilteredRows.Add(row);
+                }
+            }
+
+            this.AccountsGrid.Rows.Clear();
+            foreach (DataGridViewRow row in FilteredRows)
+            {
+                this.AccountsGrid.Rows.Add(row);
             }
         }
 
