@@ -661,7 +661,7 @@ namespace DSLauncherV2
                         {
                             FileName = this.LauncherSettings.UserSettings.InstallPath + "//EXE//Freelancer.exe",
                             WorkingDirectory = this.LauncherSettings.UserSettings.InstallPath + "//EXE//",
-                            Arguments = launchSettings + this.LauncherSettings.UserSettings.ExtraArgs + " " +
+                            Arguments = launchSettings + " " + this.LauncherSettings.UserSettings.ExtraArgs + " " +
                                         this.forcedArguments.Text
                         });
                     }
