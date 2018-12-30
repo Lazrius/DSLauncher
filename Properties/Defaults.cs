@@ -8,7 +8,7 @@ namespace DSLauncherV2.Properties
     {
 
         public static Defaults Settings { get; } = (Defaults) Synchronized(new Defaults());
-        [DefaultSettingValue("http://kitty.discoverygc.org")]
+        [DefaultSettingValue("http://patch.discoverygc.net/")]
         [ApplicationScopedSetting]
         [DebuggerNonUserCode]
         public string KittyURL => (string) this[nameof(KittyURL)];

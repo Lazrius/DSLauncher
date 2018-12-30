@@ -197,6 +197,14 @@ namespace DSLauncherV2
             XML.Save("launcherconfig.xml");
         }
 
+        public void SetRemotePatchLocation(string sNewPatchLocation)
+        {
+            XmlDocument XML = new XmlDocument();
+            XML.Load("launcherconfig.xml");
+            XML.SelectSingleNode("/BadassRoot/Config/RemotePatchLocation").InnerText = sNewPatchLocation;
+            XML.Save("launcherconfig.xml");
+        }
+
         // Get Launcher Config
 
         public void ReadConfigFile(Primary primary)

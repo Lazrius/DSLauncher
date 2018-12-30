@@ -64,6 +64,11 @@ namespace DSLauncherV2
 
         private void CheckConnectivity()
         {
+            if (this.LauncherSettings.UserSettings.RemotePatchLocation.Contains("discoverygc.com"))
+            {
+                this.LauncherSettings.UserSettings.RemotePatchLocation = "http://patch.discoverygc.net/";
+                LauncherSettings.SetRemotePatchLocation(this.LauncherSettings.UserSettings.RemotePatchLocation);
+            }
             try
             {
                 WebClient webClient = new WebClient();
@@ -257,7 +262,7 @@ namespace DSLauncherV2
             
             try
             {
-                doc = web.Load("https://discoverygc.com/patch/launcherimages/");
+                doc = web.Load("http://patch.discoverygc.net/launcherimages/");
             }
             catch
             {
@@ -267,46 +272,6 @@ namespace DSLauncherV2
             if ((web.StatusCode != HttpStatusCode.OK) |
                 doc.DocumentNode.InnerHtml.Contains("The maximum server load limit has been reached"))
                 return;
-
-            /*string node = doc.DocumentNode.SelectSingleNode("//comment()[contains(., 'portal_announcement')]/following-sibling::table").OuterHtml;
-            string HTML = "<html><body><div id=container> %style% %REPLACE% </div></body></html>";
-            string style = "<style> #container,.wrapper,body{text-shadow:1px 1px 0 #0d0d0d}body,table{font-size:13px}.trow1,.trow2,body," +
-                           "table{font-style:normal;font-family:Arial,Verdana,Sans-Serif}body{background:#090909;color:#FFF;text-align:center;" +
-                           "line-height:1.4;margin:0;overflow-y:scroll}table{background:0 0;color:#828282}.tborder{background:#181818;margin:auto;" +
-                           "-moz-background-clip:padding;-webkit-background-clip:padding-box;-webkit-box-shadow:inset 0 0 1px 1px #262626;" +
-                           "-moz-box-shadow:inset 0 0 1px 1px #262626;box-shadow:inset 0 0 1px 1px #262626;border:1px solid #101010;padding:1px;" +
-                           "width:100%}.tcat,.trow1,.trow2{border-top:#101010 1px solid;border-bottom:#262626 1px solid;" +
-                           "font-size:13px}.tfixed{table-layout:fixed;word-wrap:break-word}.thead_left{background:url(https://discoverygc.com/forums/images/dark/ice/style/thead_main.jpg) no-repeat;" +
-                           "height:39px}.thead_right{background:url(https://discoverygc.com/forums/images/dark/ice/style/thead_right.jpg) 100% 0 no-repeat;" +
-                           "height:39px}.thead_wrap .expcolimage{padding:6px}.thead_wrap .float_left{padding:10px}.thead,.thead_main" +
-                           "{background:url(https://discoverygc.com/forums/images/dark/ice/style/thead_main.jpg) 0 100% repeat-x #006dec;" +
-                           "color:#fff;-webkit-border-top-left-radius:4px;-webkit-border-top-right-radius:4px;-moz-border-radius-topleft:4px;" +
-                           "-moz-border-radius-topright:4px;border-top-left-radius:4px;border-top-right-radius:4px}.thead a,.thead_main " +
-                           "a{color:#fff;text-decoration:none}.thead a:hover,.thead_main a:hover{color:#fff;text-decoration:underline}.tcat,.tcat " +
-                           "a:active,.tcat a:hover,.tcat a:link,.tcat a:visited,.trow1,.trow2,.trow_selected a:active,.trow_selected a:hover," +
-                           ".trow_selected a:link,.trow_selected a:visited,.wrapper{color:#969696}.tcat{background:#181818;padding:6px}.trow1," +
-                           ".trow2{background:#090909;padding:10px}.smalltext{font-size:11px}.largetext{font-size:14px;font-weight:700}.trow_shaded" +
-                           "{background:#1A1A1A;border:1px solid #101010}.post.deleted_post,.post.unapproved_post,.trow1.deleted_post,.trow1." +
-                           "unapproved_post,.trow_deleted{background:#650000}.no_bottom_border{border-bottom:0}.post.unapproved_post .post_author" +
-                           "{border-bottom-color:#ffb8be}.post.classic.unapproved_post .post_author{border-color:#ffb8be}.post.unapproved_post " +
-                           ".post_controls{border-top-color:#ffb8be}.trow_selected,tr.trow_selected td{background:#201f1f;color:#969696}#container" +
-                           "{margin:auto;text-align:left;width:95%;font-family:Arial,Verdana,Sans-Serif}.wrapper{margin:-20px auto auto;" +
-                           "padding:20px;background:#060606;-moz-background-clip:padding;-webkit-background-clip:padding-box;-webkit-box-shadow:" +
-                           "inset 0 0 1px 1px #262626;-moz-box-shadow:inset 0 0 1px 1px #262626;box-shadow:inset 0 0 1px 1px #262626;border:1px " +
-                           "solid #101010;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;overflow:hidden}a:link,a:visited" +
-                           "{color:#00cffe;text-decoration:none}tr td.trow1:first-child,tr td.trow2:first-child,tr td.trow_shaded:first-child" +
-                           "{border-left:0}tr td.trow1:last-child,tr td.trow2:last-child,tr td.trow_shaded:last-child{border-right:0}.tborder" +
-                           "{-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px}.tborder tbody tr:last-child td{border-bottom:0}" +
-                           ".tborder tbody tr:last-child td:first-child{-moz-border-radius-bottom-left:3px;-webkit-border-bottom-left-radius:3px;" +
-                           "border-bottom-left-radius:3px}.tborder tbody tr:last-child td:last-child{-moz-border-radius-bottomright:3px;-webkit-" +
-                           "border-bottom-right-radius:3px;border-bottom-right-radius:3px}.thead{-moz-border-radius-top-left:3px;-moz-border-radius" +
-                           "-top-right:3px;-webkit-border-top-left-radius:3px;-webkit-border-top-right-radius:3px;border-top-left-radius:3px;border" +
-                           "-top-right-radius:3px}.thead_collapsed{-moz-border-radius-bottom-left:3px;-moz-border-radius-bottom-right:3px;-webkit-" +
-                           "border-bottom-left-radius:3px;-webkit-border-bottom-right-radius:3px;border-bottom-left-radius:3px;border-bottom-right-" +
-                           "radius:3px}.thead_left{-moz-border-radius-topright:0;-webkit-border-top-right-radius:0;border-top-right-radius:0}.thead" +
-                           "_right{-moz-border-radius-top-left:0;-webkit-border-top-left-radius:0;border-top-left-radius:0} </style>";
-            HTML = HTML.Replace("%REPLACE%", node);
-            HTML = HTML.Replace("%style%", style);*/
 
             currentAnnouncement = doc.Text;
         }
