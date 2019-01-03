@@ -71,8 +71,7 @@ namespace DSLauncherV2
             }
             try
             {
-                WebClient webClient = new WebClient();
-                webClient.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
+                WebClient webClient = new WebClient {CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)};
                 webClient.DownloadFile(this.LauncherSettings.UserSettings.RemotePatchLocation + "patchlist.xml",
                     this.LauncherSettings.UserSettings.PatchListTempFile);
                 webClient.Dispose();
@@ -95,8 +94,7 @@ namespace DSLauncherV2
         {
             try
             {
-                WebClient webClient = new WebClient();
-                webClient.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
+                WebClient webClient = new WebClient { CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore) };
                 webClient.DownloadFile(this.LauncherSettings.UserSettings.RemotePatchLocation + "patchlist.xml",
                     this.LauncherSettings.UserSettings.PatchListTempFile);
                 webClient.Dispose();
@@ -110,6 +108,47 @@ namespace DSLauncherV2
             catch (Exception ex)
             {
                 this.LauncherSettings.ExHandler.ExHandler("F01", ex.Message, this);
+            }
+        }
+
+        private void CheckToS()
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                if (File.Exists(Directory.GetCurrentDirectory() + @"\ToS.txt"))
+                {
+                    byte[] newBytes = client.DownloadData(this.LauncherSettings.UserSettings.RemotePatchLocation + @"\launcher\ToS.txt");
+                    byte[] oldBytes = File.ReadAllBytes(Directory.GetCurrentDirectory() + @"\ToS.txt");
+                    if (newBytes.SequenceEqual(oldBytes) == false)
+                    {
+                        DisplayToS();
+                    }
+                }
+
+                else
+                    DisplayToS();
+            }
+
+            catch
+            {
+                return;
+            }
+        }
+
+        private void DisplayToS()
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                string tos = Path.GetTempFileName();
+                client.DownloadFile(this.LauncherSettings.UserSettings.RemotePatchLocation + @"\launcher\ToS.txt", tos);
+                StreamReader sr = new StreamReader(tos);
+                ScrollMessageBox.ShowDialog(sr.ReadLine(), sr.ReadToEnd(), this);
+            }
+            catch
+            {
+                return;
             }
         }
 
@@ -187,71 +226,61 @@ namespace DSLauncherV2
 
         private void LoadingBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (e.ProgressPercentage == 0)
+            switch (e.ProgressPercentage)
             {
-                this.launcherCheckerLabel.Text = "Contacting Patch Server...";
-                this.metroStyleManager1.Style = (MetroColorStyle) this.LauncherSettings.UserSettings.Style;
-                this.ApplyLauncherConfig();
-            }
+                case 0:
+                    this.launcherCheckerLabel.Text = "Contacting Patch Server...";
+                    this.metroStyleManager1.Style = (MetroColorStyle) this.LauncherSettings.UserSettings.Style;
+                    this.ApplyLauncherConfig();
+                    break;
+                case 1:
+                    this.launcherCheckerLabel.Text = "Reading Patchlist Data...";
+                    break;
+                case 2:
+                    CheckToS();
+                    this.launcherCheckerLabel.Text = "Loading Accounts...";
+                    break;
+                case 3:
+                    this.launcherCheckerLabel.Text = "Checking If Updates Are Required...";
+                    this.MTC.Enabled = true;
+                    SetAccountsTab();
+                    this.CheckAccountRegistry();
+                    break;
+                case 4:
+                    CNSImport.Capture = false;
+                    CNSImport.DocumentText = currentAnnouncement;
+                    if(!string.IsNullOrEmpty(CNSImport.DocumentText))
+                        CNSImport.Visible = true;
+                    if (this.LauncherSettings.UserSettings.RemoteLauncherVersion >
+                        this.LauncherSettings.UserSettings.LocalLauncherVersion)
+                    {
+                        this.patchLauncher.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
+                        this.patchLauncher.UseCustomForeColor = true;
+                        this.patchLauncher.Enabled = true;
+                        this.launcherPatchSpinner.Visible = false;
+                        this.launcherCheckerLabel.Visible = false;
+                        this.downloadProgress.Visible = true;
+                        this.downloadProgress.Text = "Launcher updates required; press \"Patch Launcher\" to install.";
+                        this.patchGame.Enabled = false;
+                        this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
+                    }
 
-            if (e.ProgressPercentage == 1)
-            {
-                this.launcherCheckerLabel.Text = "Reading Patchlist Data...";
-            }
-
-            if (e.ProgressPercentage == 2)
-            {
-                this.launcherCheckerLabel.Text = "Loading Accounts...";
-            }
-
-            if (e.ProgressPercentage == 3)
-            {
-                this.launcherCheckerLabel.Text = "Checking If Updates Are Required...";
-                this.MTC.Enabled = true;
-                SetAccountsTab();
-                this.CheckAccountRegistry();
-            }
-
-            if (e.ProgressPercentage == 4)
-            {
-                CNSImport.Capture = false;
-                CNSImport.DocumentText = currentAnnouncement;
-                if(!string.IsNullOrEmpty(CNSImport.DocumentText))
-                    CNSImport.Visible = true;
-                if (this.LauncherSettings.UserSettings.RemoteLauncherVersion >
-                    this.LauncherSettings.UserSettings.LocalLauncherVersion)
-                {
-                    this.patchLauncher.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
-                    this.patchLauncher.UseCustomForeColor = true;
-                    this.patchLauncher.Enabled = true;
+                    break;
+                case 5:
+                    ReadyToLaunch();
+                    break;
+                case 6:
+                    this.patchGame.Enabled = true;
+                    this.patchGame.UseCustomForeColor = true;
+                    this.patchGame.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
                     this.launcherPatchSpinner.Visible = false;
                     this.launcherCheckerLabel.Visible = false;
                     this.downloadProgress.Visible = true;
-                    this.downloadProgress.Text = "Launcher updates required; press \"Patch Launcher\" to install.";
-                    this.patchGame.Enabled = false;
-                    this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
-                }
-            }
-
-            if (e.ProgressPercentage == 5)
-            {
-                ReadyToLaunch();
-            }
-
-            if (e.ProgressPercentage == 6)
-            {
-                this.patchGame.Enabled = true;
-                this.patchGame.UseCustomForeColor = true;
-                this.patchGame.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
-                this.launcherPatchSpinner.Visible = false;
-                this.launcherCheckerLabel.Visible = false;
-                this.downloadProgress.Visible = true;
-                this.downloadProgress.Text = "Game updates required; press \"Patch Game\" to install.";
-            }
-
-            if (e.ProgressPercentage == 7)
-            {
-                ReadyToLaunch();
+                    this.downloadProgress.Text = "Game updates required; press \"Patch Game\" to install.";
+                    break;
+                case 7:
+                    ReadyToLaunch();
+                    break;
             }
         }
 
