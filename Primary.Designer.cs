@@ -996,7 +996,6 @@ namespace DSLauncherV2
             this.AccountsGrid.AllowUserToAddRows = false;
             this.AccountsGrid.AllowUserToDeleteRows = false;
             this.AccountsGrid.AllowUserToOrderColumns = true;
-            this.AccountsGrid.AllowUserToResizeColumns = false;
             this.AccountsGrid.AllowUserToResizeRows = false;
             this.AccountsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.AccountsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
