@@ -262,7 +262,9 @@ namespace DSLauncherV2
             // 
             // CNSImport
             // 
+            this.CNSImport.AllowNavigation = false;
             this.CNSImport.AllowWebBrowserDrop = false;
+            this.CNSImport.IsWebBrowserContextMenuEnabled = false;
             this.CNSImport.Location = new System.Drawing.Point(3, 3);
             this.CNSImport.MinimumSize = new System.Drawing.Size(20, 20);
             this.CNSImport.Name = "CNSImport";
