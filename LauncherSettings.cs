@@ -20,7 +20,6 @@ namespace DSLauncherV2
     {
         public static LauncherSettings Instance { get; } = new LauncherSettings();
         public UserSettings UserSettings = UserSettings.Instance;
-        public ExceptionHandler ExHandler = new ExceptionHandler();
 
         // Set Launcher Config
 
@@ -213,7 +212,7 @@ namespace DSLauncherV2
             {
                 this.UserSettings.InstallPath = Path.GetDirectoryName(Application.ExecutablePath);
                 if (!System.IO.File.Exists(this.UserSettings.ConfigFile))
-                    this.ExHandler.ExHandler("C01", "", primary);
+                    ExceptionHandler.Throw("C01", "", primary);
 
                 XmlDocument xmlDocument = new XmlDocument();
                 StreamReader streamReader = new StreamReader(this.UserSettings.ConfigFile);
@@ -607,7 +606,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                this.ExHandler.ExHandler("C02", ex.Message, primary);
+                ExceptionHandler.Throw("C02", ex.Message, primary);
             }
         }
 
@@ -641,7 +640,7 @@ namespace DSLauncherV2
                 }
                 catch (Exception ex)
                 {
-                    this.ExHandler.ExHandler("C03", ex.Message, primary);
+                    ExceptionHandler.Throw("C03", ex.Message, primary);
                 }
             }
             try
@@ -678,7 +677,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                this.ExHandler.ExHandler("C04", ex.Message, primary);
+                ExceptionHandler.Throw("C04", ex.Message, primary);
             }
         }
 
@@ -724,7 +723,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                this.ExHandler.ExHandler("F02", ex.Message, primary);
+                ExceptionHandler.Throw("F02", ex.Message, primary);
             }
         }
 

@@ -28,39 +28,55 @@ namespace DSLauncherV2
         private ScrollMessageBox(string title, string text)
         {
             InitializeComponent();
-            Text = $@"Terms of Service Update: {title}";
-            box.Text = text.Replace("\n", "\n\r\n");
+            Text = title;
+            box.Text = text;
             this.Show();
             this.Focus();
             this.box.SelectionLength = 0;
         }
 
-        public static void Show(string title, string text)
-        {
-            new ScrollMessageBox(title, text).Show();
-        }
-
-        public static void Show(string title, string text, Primary owner)
-        {
-            new ScrollMessageBox(title, text).Show(owner);
-        }
-
-        public static void ShowDialog(string title, string text, Primary owner)
-        {
-            ScrollMessageBox scr = new ScrollMessageBox(title, text);
-            scr.Visible = false;
-            scr.tos = text;
-            scr.ShowDialog(owner);
-        }
-
+        // Popup Form
         public static void Show(string text)
         {
             new ScrollMessageBox(text).Show();
         }
 
+        // Popup form with parent form
         public static void Show(string text, Primary owner)
         {
             new ScrollMessageBox(text).Show(owner);
+        }
+
+        // Popup Form with title
+        public static void Show(string title, string text)
+        {
+            new ScrollMessageBox(title, text).Show();
+        }
+
+        // Popup Form with title and parent form
+        public static void Show(string title, string text, Primary owner)
+        {
+            new ScrollMessageBox(title, text).Show(owner);
+        }
+
+        // Popup Form that prevents the parent form from being selected
+        public static void ShowDialog(string title, string text, Primary owner)
+        {
+            text = text.Replace("\n", "\n\r\n");
+            ScrollMessageBox scr = new ScrollMessageBox(title, text);
+            scr.Visible = false;
+            scr.ShowDialog(owner);
+        }
+
+        // Popup specific to the terms of service because we want to handle that slightly differently
+        public static void DisplayToS(string title, string text, Primary owner)
+        {
+            ScrollMessageBox scr = new ScrollMessageBox($@"Terms Of Service Update: {title}", text.Replace("\n", "\n\r\n"));
+            scr.Visible = false;
+            scr.tos = text;
+            scr.reject.Visible = true;
+            scr.accept.Text = "Accept ToS?";
+            scr.ShowDialog(owner);
         }
 
         private System.ComponentModel.IContainer components = null;
@@ -131,6 +147,7 @@ namespace DSLauncherV2
             this.reject.UseSelectable = true;
             this.reject.UseStyleColors = true;
             this.reject.Click += new System.EventHandler(this.RejectToS);
+            this.reject.Visible = false;
             // 
             // accept
             // 
@@ -140,11 +157,12 @@ namespace DSLauncherV2
             this.accept.Size = new System.Drawing.Size(80, 20);
             this.accept.Style = MetroFramework.MetroColorStyle.Blue;
             this.accept.TabIndex = 2;
-            this.accept.Text = "Accept ToS?";
+            this.accept.Text = "Ok";
             this.accept.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.accept.UseSelectable = true;
             this.accept.UseStyleColors = true;
-            this.accept.Click += new System.EventHandler(this.AcceptToS);
+            this.accept.Click += new System.EventHandler(this.Done);
+            this.accept.Visible = true;
             // 
             // ScrollMessageBox
             // 
@@ -176,10 +194,12 @@ namespace DSLauncherV2
             Environment.Exit(0);
         }
 
-        private void AcceptToS(object sender, EventArgs e)
+        private void Done(object sender, EventArgs e)
         {
-            // Save all text to file
-            File.WriteAllText(Directory.GetCurrentDirectory() + @"\ToS.txt", tos);
+            // Save all text to file if we are reading the ToS
+            if (!string.IsNullOrEmpty(tos))
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\ToS.txt", tos);
+
             readyToClose = true;
             this.Close();
         }

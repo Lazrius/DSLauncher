@@ -115,7 +115,6 @@ namespace DSLauncherV2
             this.LoadingBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.launchGame = new MetroFramework.Controls.MetroLink();
             this.patchGame = new MetroFramework.Controls.MetroLink();
-            this.patchLauncher = new MetroFramework.Controls.MetroLink();
             this.ExportAccountSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.CurrentSelectedAccountLabel = new MetroFramework.Controls.MetroLabel();
             this.FavAccount1 = new MetroFramework.Controls.MetroLink();
@@ -233,7 +232,7 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 2;
+            this.MTC.SelectedIndex = 0;
             this.MTC.Size = new System.Drawing.Size(526, 347);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -1345,25 +1344,6 @@ namespace DSLauncherV2
             this.patchGame.MouseEnter += new System.EventHandler(this.patchGame_MouseEnter);
             this.patchGame.MouseLeave += new System.EventHandler(this.patchGame_MouseLeave);
             // 
-            // patchLauncher
-            // 
-            this.patchLauncher.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            this.patchLauncher.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.patchLauncher.Enabled = false;
-            this.patchLauncher.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.patchLauncher.Location = new System.Drawing.Point(536, 91);
-            this.patchLauncher.Name = "patchLauncher";
-            this.patchLauncher.Size = new System.Drawing.Size(203, 29);
-            this.patchLauncher.Style = MetroFramework.MetroColorStyle.Blue;
-            this.patchLauncher.TabIndex = 16;
-            this.patchLauncher.Text = "Patch Launcher";
-            this.patchLauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.patchLauncher.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.patchLauncher.UseSelectable = true;
-            this.patchLauncher.Click += new System.EventHandler(this.patchLauncher_Click);
-            this.patchLauncher.MouseEnter += new System.EventHandler(this.patchLauncher_MouseEnter);
-            this.patchLauncher.MouseLeave += new System.EventHandler(this.patchLauncher_MouseLeave);
-            // 
             // ExportAccountSaveFileDialog
             // 
             this.ExportAccountSaveFileDialog.CreatePrompt = true;
@@ -1601,7 +1581,6 @@ namespace DSLauncherV2
             this.Controls.Add(this.FavAccount2);
             this.Controls.Add(this.FavAccount1);
             this.Controls.Add(this.CurrentSelectedAccountLabel);
-            this.Controls.Add(this.patchLauncher);
             this.Controls.Add(this.patchGame);
             this.Controls.Add(this.launchGame);
             this.Controls.Add(this.MTC);
@@ -1667,7 +1646,6 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroToggle ToggleLogTime;
         private MetroFramework.Controls.MetroLabel metroLabel5;
         private MetroFramework.Controls.MetroToggle ToggleChatAppend;
-        private MetroFramework.Controls.MetroLink patchLauncher;
         private MetroFramework.Controls.MetroTile metroTile4;
         private MetroFramework.Controls.MetroTile metroTile3;
         private MetroFramework.Controls.MetroTile metroTile2;

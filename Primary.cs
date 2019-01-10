@@ -37,6 +37,10 @@ namespace DSLauncherV2
 
         public Primary()
         {
+            // Before we init we want to make sure the patcher is present
+            if (!File.Exists(Directory.GetCurrentDirectory() + @"\DSSelfPatch.exe"))
+                ExceptionHandler.Throw("D03", "Self Patcher not found. Please reinstall Discovery.", this);
+
             InitializeComponent();
             this.ControlBox = true;
             this.Text = "Discovery Launcher";
@@ -152,7 +156,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                this.LauncherSettings.ExHandler.ExHandler("F01", ex.Message, this);
+                ExceptionHandler.Throw("F01", ex.Message, this);
             }
         }
 
@@ -197,6 +201,75 @@ namespace DSLauncherV2
             }
         }
 
+        private void CheckLauncherChangeLog()
+        {
+            try
+            {
+                string version = Assembly.GetEntryAssembly().GetName().Version.Major + "." +
+                                 Assembly.GetEntryAssembly().GetName().Version.Minor
+                                 + "." + Assembly.GetEntryAssembly().GetName().Version.Build;
+
+                if (!File.Exists(Directory.GetCurrentDirectory() + @"\DSLauncher.log"))
+                {
+                    File.WriteAllText(Directory.GetCurrentDirectory() + @"\DSLauncher.log", version);
+                    DisplayLauncherChangeLog(version);
+                    return;
+                }
+
+                Regex regex = new Regex(@"((\d+)\.(\d+)\.(\d+))");
+                Match match = regex.Match(File.ReadLines(Directory.GetCurrentDirectory() + @"\DSLauncher.log").First());
+                if (!match.Success)
+                {
+                    File.WriteAllText(Directory.GetCurrentDirectory() + @"\DSLauncher.log", version);
+                    DisplayLauncherChangeLog(version);
+                }
+
+                HtmlWeb web = new HtmlWeb();
+                HtmlDocument doc = web.Load("https://discoverygc.com/forums/showthread.php?tid=167176");
+
+                if ((web.StatusCode != HttpStatusCode.OK) |
+                    doc.DocumentNode.InnerHtml.Contains("The maximum server load limit has been reached"))
+                    return;
+
+                string node = doc.GetElementbyId("anchor-ver").NextSibling.InnerHtml;
+                match = regex.Match(node);
+                if (!match.Success) return;
+                if (match.Value == version) return;
+
+                DisplayLauncherChangeLog(version);
+            }
+
+            catch
+            {
+                return;
+            }
+        }
+
+        private void DisplayLauncherChangeLog(string version)
+        {
+            try
+            {
+                HtmlWeb web = new HtmlWeb();
+                HtmlDocument doc = web.Load("https://discoverygc.com/forums/showthread.php?tid=167176&action=lastpost");
+                if ((web.StatusCode != HttpStatusCode.OK) |
+                    doc.DocumentNode.InnerHtml.Contains("The maximum server load limit has been reached"))
+                    return;
+
+                // This always matches indents
+                HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes("//div[contains(@style, 'margin-left')]");
+                HtmlNode node = nodes[nodes.Count - 2]; // The last one in the collection is always contact us
+
+                // We want to replace the first \n we see, as we otherwise we'll have an ugly newline at the start of every log
+                ScrollMessageBox.ShowDialog($"Recent Launcher Update: {version}", node.InnerText.Remove(0, 1), this);
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\DSLauncher.log", version);
+            }
+
+            catch
+            {
+                return;
+            }
+        }
+
         #endregion
 
         #region Background Worker
@@ -213,6 +286,7 @@ namespace DSLauncherV2
             this.GetDiscoveryAnnouncements();
             this.LauncherSettings.CheckForPatches(this);
             this.LoadingBackgroundWorker.ReportProgress(4);
+            this.Invoke((MethodInvoker) this.CheckLauncherChangeLog);
         }
 
         private void LoadingBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -250,9 +324,7 @@ namespace DSLauncherV2
                     if (this.LauncherSettings.UserSettings.RemoteLauncherVersion >
                         this.LauncherSettings.UserSettings.LocalLauncherVersion)
                     {
-                        this.patchLauncher.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
-                        this.patchLauncher.UseCustomForeColor = true;
-                        this.patchLauncher.Enabled = true;
+                        Process.Start(Directory.GetCurrentDirectory() + @"\DSSelfPatch.exe");
                         this.launcherPatchSpinner.Visible = false;
                         this.launcherCheckerLabel.Visible = false;
                         this.downloadProgress.Visible = true;
@@ -612,7 +684,7 @@ namespace DSLauncherV2
                         }
                         catch (Exception ex)
                         {
-                            this.LauncherSettings.ExHandler.ExHandler("D01", ex.Message, this);
+                            ExceptionHandler.Throw("D01", ex.Message, this);
                         }
                     }
 
@@ -637,7 +709,7 @@ namespace DSLauncherV2
                     }
                     catch (Exception ex)
                     {
-                        this.LauncherSettings.ExHandler.ExHandler("D02", ex.Message, this);
+                        ExceptionHandler.Throw("D02", ex.Message, this);
                     }
 
                     try
@@ -656,7 +728,7 @@ namespace DSLauncherV2
                     }
                     catch (Exception ex)
                     {
-                        this.LauncherSettings.ExHandler.ExHandler("D02", ex.Message, this);
+                        ExceptionHandler.Throw("D02", ex.Message, this);
                     }
                 }
             }
@@ -689,18 +761,6 @@ namespace DSLauncherV2
         {
             Process.Start(this.LauncherSettings.UserSettings.InstallPath + "\\DSSelfPatch.exe");
             Environment.Exit(0);
-        }
-
-        private void patchLauncher_MouseEnter(object sender, EventArgs e)
-        {
-            if (this.patchLauncher.Enabled)
-                this.patchLauncher.ForeColor = Color.FromArgb(255, 255, 255);
-        }
-
-        private void patchLauncher_MouseLeave(object sender, EventArgs e)
-        {
-            if (this.patchLauncher.ForeColor == Color.FromArgb(255, 255, 255))
-                this.patchLauncher.ForeColor = Color.CornflowerBlue;
         }
 
         #endregion
@@ -1321,7 +1381,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                this.LauncherSettings.ExHandler.ExHandler("P01", ex.Message, this);
+                ExceptionHandler.Throw("P01", ex.Message, this);
             }
         }
 
@@ -1405,21 +1465,21 @@ namespace DSLauncherV2
                     }
                     catch (Exception ex)
                     {
-                        LauncherSettings.ExHandler.ExHandler("L04", ex.Message, this);
+                        ExceptionHandler.Throw("L04", ex.Message, this);
                     }
                 }
             }
 
             if (!File.Exists(FLExe)) // We cannot find Freelancer.exe
             {
-                this.LauncherSettings.ExHandler.ExHandler("L01", "", this);
+                ExceptionHandler.Throw("L01", "", this);
             }
 
             else
             {
                 if (!File.Exists(DSAce))
                 {
-                    this.LauncherSettings.ExHandler.ExHandler("L03", "", this);
+                    ExceptionHandler.Throw("L03", "", this);
                 }
 
                 else
@@ -1494,7 +1554,7 @@ namespace DSLauncherV2
                     }
                     catch (Exception ex)
                     {
-                        this.LauncherSettings.ExHandler.ExHandler("L02", ex.Message, this);
+                        ExceptionHandler.Throw("L02", ex.Message, this);
                     }
                 }
             }
@@ -1514,9 +1574,7 @@ namespace DSLauncherV2
             this.launcherPatchSpinner.Visible = false;
             this.launcherCheckerLabel.Text = "You're all set, good flying!";
             this.launcherCheckerLabel.Visible = false;
-            this.patchLauncher.Enabled = false;
             this.patchGame.Enabled = false;
-            this.patchLauncher.ForeColor = Color.FromArgb(51, 51, 51);
             this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
         }
 

@@ -4,9 +4,9 @@ using MetroFramework;
 
 namespace DSLauncherV2
 {
-    internal class ExceptionHandler
+    internal static class ExceptionHandler
     {
-        public void ExHandler(string code, string exmessage, Primary ActiveForm)
+        internal static void Throw(string code, string exmessage, Primary ActiveForm)
         {
             if (code == "L01")
             {
@@ -98,6 +98,12 @@ namespace DSLauncherV2
             else if (code == "D02")
             {
                 MetroMessageBox.Show(ActiveForm, "A fatal error has occured while applying a patch.\n\nAdditional Informations: " + exmessage, "Error Code: D02", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                Environment.Exit(0);
+            }
+
+            else if (code == "D03")
+            {
+                MetroMessageBox.Show(ActiveForm, exmessage, "Error Code: D03", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
 
