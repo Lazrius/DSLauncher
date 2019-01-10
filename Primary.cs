@@ -62,6 +62,51 @@ namespace DSLauncherV2
             this.LoadingBackgroundWorker.RunWorkerAsync();
         }
 
+        private void ApplyLauncherConfig()
+        {
+            this.ToggleDesktopRes.Checked = this.LauncherSettings.UserSettings.DisplayDesktopRes;
+            this.ToggleArrivingPlayer.Checked = this.LauncherSettings.UserSettings.ShowJoiningPlayers;
+            this.ToggleChatAppend.Checked = this.LauncherSettings.UserSettings.ChatAppend;
+            this.ToggleChatLog.Checked = this.LauncherSettings.UserSettings.ChatLogging;
+            this.ToggleDepartingPlayer.Checked = this.LauncherSettings.UserSettings.ShowDepartingPlayers;
+            this.ToggleFlightText.Checked = this.LauncherSettings.UserSettings.ShowFlightText;
+            this.ToggleLagIcon.Checked = this.LauncherSettings.UserSettings.ShowLagIndicator;
+            this.ToggleLocalTime.Checked = this.LauncherSettings.UserSettings.ChatLocalTime;
+            this.ToggleWindowedMode.Checked = this.LauncherSettings.UserSettings.DisplayMode;
+            this.HeightBox.Text = this.LauncherSettings.UserSettings.DisplayHeight;
+            this.WidthBox.Text = this.LauncherSettings.UserSettings.DisplayWidth;
+            this.DiscordRPCCheckBox.Checked = this.LauncherSettings.UserSettings.DiscordRPC;
+            this.IncreaseDrawDistance.Checked = this.LauncherSettings.UserSettings.DrawDistance;
+            this.DisableChat.Checked = this.LauncherSettings.UserSettings.DisableChat;
+            this.ThemeSelector.SelectedIndex = this.LauncherSettings.UserSettings.Style;
+            this.metroTextBox1.Text = this.LauncherSettings.UserSettings.ExtraArgs; // Optional Args
+
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount1))
+            {
+                this.RecentAccounts1.Text = this.LauncherSettings.UserSettings.RecentAccount1;
+                this.RecentAccounts1.Visible = true;
+            }
+
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount2))
+            {
+                this.RecentAccounts2.Text = this.LauncherSettings.UserSettings.RecentAccount2;
+                this.RecentAccounts2.Visible = true;
+            }
+
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount3))
+            {
+                this.RecentAccounts3.Text = this.LauncherSettings.UserSettings.RecentAccount3;
+                this.RecentAccounts3.Visible = true;
+            }
+
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount4))
+            {
+                this.RecentAccounts4.Text = this.LauncherSettings.UserSettings.RecentAccount4;
+                this.RecentAccounts4.Visible = true;
+            }
+        }
+
+        #region Connections
         private void CheckConnectivity()
         {
             if (this.LauncherSettings.UserSettings.RemotePatchLocation.Contains("discoverygc.com"))
@@ -152,58 +197,9 @@ namespace DSLauncherV2
             }
         }
 
-        private void ApplyLauncherConfig()
-        {
-            this.ToggleDesktopRes.Checked = this.LauncherSettings.UserSettings.DisplayDesktopRes;
-            this.ToggleArrivingPlayer.Checked = this.LauncherSettings.UserSettings.ShowJoiningPlayers;
-            this.ToggleChatAppend.Checked = this.LauncherSettings.UserSettings.ChatAppend;
-            this.ToggleChatLog.Checked = this.LauncherSettings.UserSettings.ChatLogging;
-            this.ToggleDepartingPlayer.Checked = this.LauncherSettings.UserSettings.ShowDepartingPlayers;
-            this.ToggleFlightText.Checked = this.LauncherSettings.UserSettings.ShowFlightText;
-            this.ToggleLagIcon.Checked = this.LauncherSettings.UserSettings.ShowLagIndicator;
-            this.ToggleLocalTime.Checked = this.LauncherSettings.UserSettings.ChatLocalTime;
-            this.ToggleWindowedMode.Checked = this.LauncherSettings.UserSettings.DisplayMode;
-            this.HeightBox.Text = this.LauncherSettings.UserSettings.DisplayHeight;
-            this.WidthBox.Text = this.LauncherSettings.UserSettings.DisplayWidth;
-            this.DiscordRPCCheckBox.Checked = this.LauncherSettings.UserSettings.DiscordRPC;
-            this.IncreaseDrawDistance.Checked = this.LauncherSettings.UserSettings.DrawDistance;
-            this.DisableChat.Checked = this.LauncherSettings.UserSettings.DisableChat;
-            this.ThemeSelector.SelectedIndex = this.LauncherSettings.UserSettings.Style;
-            this.metroTextBox1.Text = this.LauncherSettings.UserSettings.ExtraArgs; // Optional Args
+        #endregion
 
-            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount1))
-            {
-                this.RecentAccounts1.Text = this.LauncherSettings.UserSettings.RecentAccount1;
-                this.RecentAccounts1.Visible = true;
-            }
-
-            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount2))
-            {
-                this.RecentAccounts2.Text = this.LauncherSettings.UserSettings.RecentAccount2;
-                this.RecentAccounts2.Visible = true;
-            }
-
-            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount3))
-            {
-                this.RecentAccounts3.Text = this.LauncherSettings.UserSettings.RecentAccount3;
-                this.RecentAccounts3.Visible = true;
-            }
-
-            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount4))
-            {
-                this.RecentAccounts4.Text = this.LauncherSettings.UserSettings.RecentAccount4;
-                this.RecentAccounts4.Visible = true;
-            }
-        }
-
-        private bool ConvertYesNoBool(string value)
-        {
-            if (value.ToLower() == "yes")
-                return true;
-            else
-                return false;
-        }
-
+        #region Background Worker
         private void LoadingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             this.LauncherSettings.ReadConfigFile(this);
@@ -283,7 +279,9 @@ namespace DSLauncherV2
                     break;
             }
         }
+        #endregion
 
+        #region Utility Functions
         private void GetDiscoveryAnnouncements()
         {
             HtmlWeb web = new HtmlWeb();
@@ -328,67 +326,16 @@ namespace DSLauncherV2
             return bytes / 1024.0 / 1024.0;
         }
 
-        private void ReadyToLaunch()
+        private bool ConvertYesNoBool(string value)
         {
-            this.patchDownload.Visible = true;
-            this.downloadProgress.Visible = true;
-            this.downloadProgress.Text = "Updates complete, good flying!";
-            this.launchGame.Enabled = true;
-            this.launchGame.UseCustomForeColor = true;
-            this.launchGame.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
-            this.launcherPatchSpinner.Value = 100;
-            this.launcherPatchSpinner.EnsureVisible = false;
-            this.launcherPatchSpinner.Spinning = false;
-            this.launcherPatchSpinner.Visible = false;
-            this.launcherCheckerLabel.Text = "You're all set, good flying!";
-            this.launcherCheckerLabel.Visible = false;
-            this.patchLauncher.Enabled = false;
-            this.patchGame.Enabled = false;
-            this.patchLauncher.ForeColor = Color.FromArgb(51, 51, 51);
-            this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
+            if (value.ToLower() == "yes")
+                return true;
+            else
+                return false;
         }
+        #endregion
 
-        private void CheckProcesses()
-        {
-            try
-            {
-                foreach (Process process in Process.GetProcessesByName("Freelancer"))
-                {
-                    if (MessageBox.Show(
-                            "A freelancer process was found running in background. Unless you absolutely know what you're doing, you should click Yes. Clicking no might prevent the launcher from updating your installation correctly and corrupt it.",
-                            "WARNING", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        process.Kill();
-                        process.WaitForExit();
-                    }
-                }
-
-                foreach (Process process in Process.GetProcessesByName("FLCompanion"))
-                {
-                    process.Kill();
-                    process.WaitForExit();
-                }
-
-                foreach (Process process in Process.GetProcessesByName("FLStat"))
-                {
-                    process.Kill();
-                    process.WaitForExit();
-                }
-
-                foreach (Process process in Process.GetProcessesByName("FLServer"))
-                {
-                    process.Kill();
-                    process.WaitForExit();
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(
-                    "Found a Freelancer.exe / FLStat / FLCompanion / FLServer process running, but couldn't kill it. Aborting patching.");
-                Environment.Exit(0);
-            }
-        }
-
+        #region Tab Control
         private void MTC_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (((TabControl) sender).SelectedIndex)
@@ -425,6 +372,58 @@ namespace DSLauncherV2
             }
         }
 
+        private void SetAccountsTab()
+        {
+            int iNum = 0;
+            List<MetroLink> lstMetroLinks = new List<MetroLink>();
+            foreach (KeyValuePair<int, UserSettings.AccountsListDataStruct> keyValuePair in LauncherSettings
+                .UserSettings.AccountListData)
+            {
+                string isFav = keyValuePair.Value.IsFavorite.ToLower() == "false" ? "No" : "Yes";
+                this.LoadInAccounts(keyValuePair.Value.AccountName, keyValuePair.Value.AccountDescription,
+                    keyValuePair.Value.AccountCategory, isFav,
+                    keyValuePair.Value.AccountCode, keyValuePair.Value.AccountSignature);
+
+                if (lstAccountCategories.All(category => category != keyValuePair.Value.AccountCategory) &&
+                    keyValuePair.Value.AccountCategory != "None")
+                    lstAccountCategories.Add(keyValuePair.Value.AccountCategory);
+
+                if (iNum < 4 && keyValuePair.Value.IsFavorite.ToLower() == "true")
+                {
+                    iNum++;
+                    switch (iNum)
+                    {
+                        case 1:
+                            this.FavAccount1.Text = keyValuePair.Value.AccountName;
+                            this.FavAccount1.Visible = true;
+                            lstMetroLinks.Add(FavAccount1);
+                            break;
+                        case 2:
+                            this.FavAccount2.Text = keyValuePair.Value.AccountName;
+                            this.FavAccount2.Visible = true;
+                            lstMetroLinks.Add(FavAccount2);
+                            break;
+                        case 3:
+                            this.FavAccount3.Text = keyValuePair.Value.AccountName;
+                            this.FavAccount3.Visible = true;
+                            lstMetroLinks.Add(FavAccount3);
+                            break;
+                        case 4:
+                            this.FavAccount4.Text = keyValuePair.Value.AccountName;
+                            this.FavAccount4.Visible = true;
+                            lstMetroLinks.Add(FavAccount4);
+                            break;
+                    }
+                }
+            }
+
+            lstFavoriteAccounts = lstMetroLinks;
+            foreach (string category in lstAccountCategories)
+                SortCategory.Items.Add(category);
+        }
+        #endregion
+
+        #region Accounts
         ///////////////////////////////////////////////
         /// Accounts Manager
         ///////////////////////////////////////////////
@@ -502,170 +501,9 @@ namespace DSLauncherV2
             this.addAccountNode(accountName, accountDescription, accountCategory, isFav, accountCode, accountSig);
         }
 
-        private void SetAccountsTab()
-        {
-            int iNum = 0;
-            List<MetroLink> lstMetroLinks = new List<MetroLink>();
-            foreach (KeyValuePair<int, UserSettings.AccountsListDataStruct> keyValuePair in LauncherSettings
-                .UserSettings.AccountListData)
-            {
-                string isFav = keyValuePair.Value.IsFavorite.ToLower() == "false" ? "No" : "Yes";
-                this.LoadInAccounts(keyValuePair.Value.AccountName, keyValuePair.Value.AccountDescription,
-                    keyValuePair.Value.AccountCategory, isFav,
-                    keyValuePair.Value.AccountCode, keyValuePair.Value.AccountSignature);
+        #endregion
 
-                if (lstAccountCategories.All(category => category != keyValuePair.Value.AccountCategory) &&
-                    keyValuePair.Value.AccountCategory != "None")
-                    lstAccountCategories.Add(keyValuePair.Value.AccountCategory);
-
-                if (iNum < 4 && keyValuePair.Value.IsFavorite.ToLower() == "true")
-                {
-                    iNum++;
-                    switch (iNum)
-                    {
-                        case 1:
-                            this.FavAccount1.Text = keyValuePair.Value.AccountName;
-                            this.FavAccount1.Visible = true;
-                            lstMetroLinks.Add(FavAccount1);
-                            break;
-                        case 2:
-                            this.FavAccount2.Text = keyValuePair.Value.AccountName;
-                            this.FavAccount2.Visible = true;
-                            lstMetroLinks.Add(FavAccount2);
-                            break;
-                        case 3:
-                            this.FavAccount3.Text = keyValuePair.Value.AccountName;
-                            this.FavAccount3.Visible = true;
-                            lstMetroLinks.Add(FavAccount3);
-                            break;
-                        case 4:
-                            this.FavAccount4.Text = keyValuePair.Value.AccountName;
-                            this.FavAccount4.Visible = true;
-                            lstMetroLinks.Add(FavAccount4);
-                            break;
-                    }
-                }
-            }
-
-            lstFavoriteAccounts = lstMetroLinks;
-            foreach (string category in lstAccountCategories)
-                SortCategory.Items.Add(category);
-        }
-
-        // Launch Game
-
-        void LaunchFreelancer()
-        {
-            string FLExe = this.LauncherSettings.UserSettings.InstallPath + @"/EXE/Freelancer.exe";
-            string DSAce = this.LauncherSettings.UserSettings.InstallPath + @"/EXE/DSAce.dll";
-            foreach (Process p in Process.GetProcessesByName("Freelancer"))
-            {
-                if (MessageBox.Show(
-                        @"A freelancer process was found running in background. Do you want to terminate it?",
-                        @"WARNING",
-                        MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    try
-                    {
-                        p.Kill(); // Try to kill all "Freelancer" processes
-                        p.WaitForExit(); // Wait until they are removed before attempting to continue
-                    }
-                    catch (Exception ex)
-                    {
-                        LauncherSettings.ExHandler.ExHandler("L04", ex.Message, this);
-                    }
-                }
-            }
-
-            if (!File.Exists(FLExe)) // We cannot find Freelancer.exe
-            {
-                this.LauncherSettings.ExHandler.ExHandler("L01", "", this);
-            }
-
-            else
-            {
-                if (!File.Exists(DSAce))
-                {
-                    this.LauncherSettings.ExHandler.ExHandler("L03", "", this);
-                }
-
-                else
-                {
-                    // Clean the saves directory in case multiple Discovery versions or FL mods are being run simultaneously
-                    if (System.IO.File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "My Games/Freelancer/Accts/SinglePlayer/Restart.fl")))
-                        foreach (string file in Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "My Games/Freelancer/Accts/SinglePlayer/"), "*.fl"))
-                            System.IO.File.Delete(file);
-
-                    string launchSettings = this.LauncherSettings.UserSettings.MainServer;
-
-                    if (this.LauncherSettings.UserSettings.DisplayMode)
-                        launchSettings += " -windowed";
-
-                    if (this.LauncherSettings.UserSettings.DisplayDesktopRes)
-                        launchSettings += " -dx";
-
-                    else
-                    {
-                        string width = "800";
-                        string height = "600";
-                        if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.DisplayHeight))
-                            height = this.LauncherSettings.UserSettings.DisplayHeight;
-                        if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.DisplayWidth))
-                            width = this.LauncherSettings.UserSettings.DisplayWidth;
-
-                        launchSettings += " -d" + width + "-x" + height;
-                    }
-
-                    if (this.LauncherSettings.UserSettings.ChatLogging)
-                        launchSettings += " -logchat";
-
-                    if (this.LauncherSettings.UserSettings.ChatAppend)
-                        launchSettings += " -logappend";
-
-                    if (this.LauncherSettings.UserSettings.ChatTime)
-                        launchSettings += " -logtime";
-
-                    if (this.LauncherSettings.UserSettings.ChatLocalTime)
-                        launchSettings += " -localtime";
-
-                    if (!this.LauncherSettings.UserSettings.ShowFlightText)
-                        launchSettings += " -noflighttext";
-
-                    if (this.LauncherSettings.UserSettings.ShowDepartingPlayers)
-                        launchSettings += " -dptplayer";
-
-                    if (this.LauncherSettings.UserSettings.ShowJoiningPlayers)
-                        launchSettings += " -newplayer";
-
-                    if (this.LauncherSettings.UserSettings.ShowLagIndicator)
-                        launchSettings += " -lag";
-
-                    if (this.LauncherSettings.UserSettings.DiscordRPC)
-                        launchSettings += " -discordrpc";
-
-                    if (this.LauncherSettings.UserSettings.DrawDistance)
-                        launchSettings += " -hdfx";
-
-                    if (this.LauncherSettings.UserSettings.DisableChat)
-                        launchSettings += " -nochat";
-
-                    try
-                    {
-                        Process.Start(new ProcessStartInfo()
-                        {
-                            FileName = this.LauncherSettings.UserSettings.InstallPath + "//EXE//Freelancer.exe",
-                            WorkingDirectory = this.LauncherSettings.UserSettings.InstallPath + "//EXE//",
-                            Arguments = launchSettings + " " + this.LauncherSettings.UserSettings.ExtraArgs + " " +
-                                        this.forcedArguments.Text
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        this.LauncherSettings.ExHandler.ExHandler("L02", ex.Message, this);
-                    }
-                }
-            }
-        }
+        #region Patching
 
         ///////////////////////////////////////////////
         /// Launch Game/Patch Game/Patch Launcher
@@ -777,11 +615,6 @@ namespace DSLauncherV2
                             this.LauncherSettings.ExHandler.ExHandler("D01", ex.Message, this);
                         }
                     }
-                    // I don't know why this is here, but I am keeping it in case I need it later
-                    /*else
-                    {
-                        int num2 = flag1 ? 1 : 0;
-                    }*/
 
                     try
                     {
@@ -870,6 +703,9 @@ namespace DSLauncherV2
                 this.patchLauncher.ForeColor = Color.CornflowerBlue;
         }
 
+        #endregion
+
+        #region Launcher Settings Changed
         ////////////////////////////////////////
         /// Launcher Settings Changed
         ////////////////////////////////////////
@@ -1020,6 +856,10 @@ namespace DSLauncherV2
             this.LauncherSettings.UserSettings.DisableChat = DisableChat.Checked;
             this.LauncherSettings.SetDisableChat();
         }
+
+        #endregion
+
+        #region Context Menu
 
         private void CreateNewAccount_Click(object sender, EventArgs e)
         {
@@ -1219,6 +1059,10 @@ namespace DSLauncherV2
                 this.LauncherSettings.UserSettings.ACode, this.LauncherSettings.UserSettings.ASignature);
         }
 
+        #endregion
+
+        #region Accounts Grid
+
         private void UpdateRecentAccounts()
         {
             this.RecentAccounts1.Text = this.LauncherSettings.UserSettings.RecentAccount1;
@@ -1251,7 +1095,7 @@ namespace DSLauncherV2
                     this.LauncherSettings.UserSettings.RecentAccount2 == accName ||
                     this.LauncherSettings.UserSettings.RecentAccount3 == accName ||
                     this.LauncherSettings.UserSettings.RecentAccount4 == accName)
-                        return;
+                    return;
 
                 this.LauncherSettings.UserSettings.RecentAccount4 = this.LauncherSettings.UserSettings.RecentAccount3;
                 this.LauncherSettings.UserSettings.RecentAccount3 = this.LauncherSettings.UserSettings.RecentAccount2;
@@ -1481,6 +1325,8 @@ namespace DSLauncherV2
             }
         }
 
+        #endregion
+
         private void CheckAccountRegistry()
         {
             try
@@ -1538,5 +1384,182 @@ namespace DSLauncherV2
             //int newY = this.downloadProgress.Location.Y;
             //this.downloadProgress.Location = new Point(newX, newY);
         }
+
+        #region Launching
+        // Launch Game
+        void LaunchFreelancer()
+        {
+            string FLExe = this.LauncherSettings.UserSettings.InstallPath + @"/EXE/Freelancer.exe";
+            string DSAce = this.LauncherSettings.UserSettings.InstallPath + @"/EXE/DSAce.dll";
+            foreach (Process p in Process.GetProcessesByName("Freelancer"))
+            {
+                if (MessageBox.Show(
+                        @"A freelancer process was found running in background. Do you want to terminate it?",
+                        @"WARNING",
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        p.Kill(); // Try to kill all "Freelancer" processes
+                        p.WaitForExit(); // Wait until they are removed before attempting to continue
+                    }
+                    catch (Exception ex)
+                    {
+                        LauncherSettings.ExHandler.ExHandler("L04", ex.Message, this);
+                    }
+                }
+            }
+
+            if (!File.Exists(FLExe)) // We cannot find Freelancer.exe
+            {
+                this.LauncherSettings.ExHandler.ExHandler("L01", "", this);
+            }
+
+            else
+            {
+                if (!File.Exists(DSAce))
+                {
+                    this.LauncherSettings.ExHandler.ExHandler("L03", "", this);
+                }
+
+                else
+                {
+                    // Clean the saves directory in case multiple Discovery versions or FL mods are being run simultaneously
+                    if (System.IO.File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "My Games/Freelancer/Accts/SinglePlayer/Restart.fl")))
+                        foreach (string file in Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "My Games/Freelancer/Accts/SinglePlayer/"), "*.fl"))
+                            System.IO.File.Delete(file);
+
+                    string launchSettings = this.LauncherSettings.UserSettings.MainServer;
+
+                    if (this.LauncherSettings.UserSettings.DisplayMode)
+                        launchSettings += " -windowed";
+
+                    if (this.LauncherSettings.UserSettings.DisplayDesktopRes)
+                        launchSettings += " -dx";
+
+                    else
+                    {
+                        string width = "800";
+                        string height = "600";
+                        if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.DisplayHeight))
+                            height = this.LauncherSettings.UserSettings.DisplayHeight;
+                        if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.DisplayWidth))
+                            width = this.LauncherSettings.UserSettings.DisplayWidth;
+
+                        launchSettings += " -d" + width + "-x" + height;
+                    }
+
+                    if (this.LauncherSettings.UserSettings.ChatLogging)
+                        launchSettings += " -logchat";
+
+                    if (this.LauncherSettings.UserSettings.ChatAppend)
+                        launchSettings += " -logappend";
+
+                    if (this.LauncherSettings.UserSettings.ChatTime)
+                        launchSettings += " -logtime";
+
+                    if (this.LauncherSettings.UserSettings.ChatLocalTime)
+                        launchSettings += " -localtime";
+
+                    if (!this.LauncherSettings.UserSettings.ShowFlightText)
+                        launchSettings += " -noflighttext";
+
+                    if (this.LauncherSettings.UserSettings.ShowDepartingPlayers)
+                        launchSettings += " -dptplayer";
+
+                    if (this.LauncherSettings.UserSettings.ShowJoiningPlayers)
+                        launchSettings += " -newplayer";
+
+                    if (this.LauncherSettings.UserSettings.ShowLagIndicator)
+                        launchSettings += " -lag";
+
+                    if (this.LauncherSettings.UserSettings.DiscordRPC)
+                        launchSettings += " -discordrpc";
+
+                    if (this.LauncherSettings.UserSettings.DrawDistance)
+                        launchSettings += " -hdfx";
+
+                    if (this.LauncherSettings.UserSettings.DisableChat)
+                        launchSettings += " -nochat";
+
+                    try
+                    {
+                        Process.Start(new ProcessStartInfo()
+                        {
+                            FileName = this.LauncherSettings.UserSettings.InstallPath + "//EXE//Freelancer.exe",
+                            WorkingDirectory = this.LauncherSettings.UserSettings.InstallPath + "//EXE//",
+                            Arguments = launchSettings + " " + this.LauncherSettings.UserSettings.ExtraArgs + " " +
+                                        this.forcedArguments.Text
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        this.LauncherSettings.ExHandler.ExHandler("L02", ex.Message, this);
+                    }
+                }
+            }
+        }
+
+        private void ReadyToLaunch()
+        {
+            this.patchDownload.Visible = true;
+            this.downloadProgress.Visible = true;
+            this.downloadProgress.Text = "Updates complete, good flying!";
+            this.launchGame.Enabled = true;
+            this.launchGame.UseCustomForeColor = true;
+            this.launchGame.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
+            this.launcherPatchSpinner.Value = 100;
+            this.launcherPatchSpinner.EnsureVisible = false;
+            this.launcherPatchSpinner.Spinning = false;
+            this.launcherPatchSpinner.Visible = false;
+            this.launcherCheckerLabel.Text = "You're all set, good flying!";
+            this.launcherCheckerLabel.Visible = false;
+            this.patchLauncher.Enabled = false;
+            this.patchGame.Enabled = false;
+            this.patchLauncher.ForeColor = Color.FromArgb(51, 51, 51);
+            this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
+        }
+
+        private void CheckProcesses()
+        {
+            try
+            {
+                foreach (Process process in Process.GetProcessesByName("Freelancer"))
+                {
+                    if (MessageBox.Show(
+                            "A freelancer process was found running in background. Unless you absolutely know what you're doing, you should click Yes. Clicking no might prevent the launcher from updating your installation correctly and corrupt it.",
+                            "WARNING", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        process.Kill();
+                        process.WaitForExit();
+                    }
+                }
+
+                foreach (Process process in Process.GetProcessesByName("FLCompanion"))
+                {
+                    process.Kill();
+                    process.WaitForExit();
+                }
+
+                foreach (Process process in Process.GetProcessesByName("FLStat"))
+                {
+                    process.Kill();
+                    process.WaitForExit();
+                }
+
+                foreach (Process process in Process.GetProcessesByName("FLServer"))
+                {
+                    process.Kill();
+                    process.WaitForExit();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(
+                    "Found a Freelancer.exe / FLStat / FLCompanion / FLServer process running, but couldn't kill it. Aborting patching.");
+                Environment.Exit(0);
+            }
+        }
+        #endregion
     }
 }
