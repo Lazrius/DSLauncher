@@ -29,8 +29,7 @@ namespace DSLauncherV2
         public BackgroundWorker LoadingBackgroundWorker;
         private LauncherSettings LauncherSettings = DSLauncherV2.LauncherSettings.Instance;
         private List<MetroLink> lstFavoriteAccounts;
-        private List<DataGridViewRow> FilteredRows = null;
-        private List<DataGridViewRow> UnfilterdRows = null;
+        private List<DataGridViewRow> UnfilterdRows = new List<DataGridViewRow>();
         private List<string> lstAccountCategories = new List<string>();
         private byte[] downloadedData;
         private string currentAnnouncement;
@@ -410,13 +409,24 @@ namespace DSLauncherV2
         #region Tab Control
         private void MTC_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // We assume it's not the accounts tab by default
+            this.accountsSearch.Visible = false;
+            this.accountsSearchLabel.Visible = false;
+
             switch (((TabControl) sender).SelectedIndex)
-            {
+            { 
+                // Game Settings
                 case 2:
                     this.forcedArguments.Text = this.LauncherSettings.UserSettings.MainServer;
                     this.forcedArguments.ReadOnly = true;
                     this.forcedArguments.Enabled = false;
                     break;
+                // Accounts
+                case 3:
+                    this.accountsSearch.Visible = true;
+                    this.accountsSearchLabel.Visible = true;
+                    break;
+                // About
                 case 4:
                     StringBuilder sb = new StringBuilder();
 
@@ -427,8 +437,8 @@ namespace DSLauncherV2
                     sb.Append("Cannon and Kazinsal for the account generator,\r\n");
                     sb.Append("Alley for the original launcher code,\r\n");
                     sb.Append("Alex. for the decompliation of the original launcher,\r\n");
-                    sb.Append("Laz for progamming the V2 launcher,\r\n");
-                    sb.Append("Kazinsal for aesthetic updates and continued development,\r\n");
+                    sb.Append("Laz for progamming the V2 launcher and continued development,\r\n");
+                    sb.Append("Kazinsal for aesthetic updates,\r\n");
                     sb.Append("thedoctor45 for the logo...\r\n");
                     sb.Append("...and you for being part of the community and keeping Discovery alive.\r\n\r\n");
 
@@ -505,6 +515,7 @@ namespace DSLauncherV2
         {
             this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, isFav, accountCode,
                 accountSig);
+            this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
         }
 
         private void addAccountNode(string accountName, string accountDescription, string accountCategory, string isFav,
@@ -545,6 +556,7 @@ namespace DSLauncherV2
             isFav = isFav.ToLower() == "false" ? "No" : "Yes";
             this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, isFav, accountCode,
                 accountSig);
+            this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
         }
 
         private void deleteAccountNode(string accountCode)
@@ -555,15 +567,19 @@ namespace DSLauncherV2
             xmlTextReader.Close();
 
             XmlElement documentElement = xmlDocument.DocumentElement;
-            string xpath = string.Format("/AccountsList/account[@code='{0}']", accountCode);
+            string xpath = $"/AccountsList/account[@code='{accountCode}']";
             XmlNode oldChild = documentElement.SelectSingleNode(xpath);
             documentElement.RemoveChild(oldChild);
             xmlDocument.Save(this.LauncherSettings.UserSettings.AccountsFile);
-            foreach (DataGridViewRow row in this.AccountsGrid.Rows)
+            foreach (DataGridViewRow row in this.UnfilterdRows)
             {
                 if (row.Cells[4].Value.ToString().Equals(accountCode))
+                {
                     this.AccountsGrid.Rows.Remove(row);
+                    this.UnfilterdRows.Remove(row);
+                }
             }
+            
         }
 
         private void editAccountNode(string accountName, string accountDescription, string accountCategory,
@@ -1230,15 +1246,6 @@ namespace DSLauncherV2
 
         private void SortCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (UnfilterdRows == null)
-            {
-                UnfilterdRows = new List<DataGridViewRow>();
-                foreach (DataGridViewRow row in this.AccountsGrid.Rows)
-                {
-                    UnfilterdRows.Add(row);
-                }
-            }
-
             if (SortCategory.SelectedIndex <= 0)
             {
                 this.AccountsGrid.Rows.Clear();
@@ -1247,25 +1254,16 @@ namespace DSLauncherV2
                     this.AccountsGrid.Rows.Add(row);
                 }
 
-                FilteredRows = null;
-                UnfilterdRows = null;
                 return;
             }
 
-            FilteredRows = new List<DataGridViewRow>();
-            for (int index = 0; index < UnfilterdRows.Count; index++)
+            this.AccountsGrid.Rows.Clear();
+            foreach (var row in UnfilterdRows)
             {
-                DataGridViewRow row = UnfilterdRows[index];
                 if (row.Cells[2].Value.ToString().Equals(SortCategory.Items[SortCategory.SelectedIndex]))
                 {
-                    FilteredRows.Add(row);
+                    this.AccountsGrid.Rows.Add(row);
                 }
-            }
-
-            this.AccountsGrid.Rows.Clear();
-            foreach (DataGridViewRow row in FilteredRows)
-            {
-                this.AccountsGrid.Rows.Add(row);
             }
         }
 
@@ -1338,6 +1336,40 @@ namespace DSLauncherV2
             catch (Exception ex)
             {
                 ExceptionHandler.Throw(ExceptionCode.I01, ex.Message, this);
+            }
+        }
+
+        private void accountsSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.accountsSearch.Text))
+            {
+                if (this.SortCategory.SelectedIndex <= 0)
+                {
+                    this.AccountsGrid.Rows.Clear();
+                    foreach (DataGridViewRow row in this.UnfilterdRows)
+                    {
+                        this.AccountsGrid.Rows.Add(row);
+                    }
+                }
+
+                else
+                {
+                    // A bit unorthadox, but since we never use sender or event args in that function, should be fine.
+                    SortCategory_SelectedIndexChanged(sender, e);
+                    
+                }
+                return;
+            }
+
+            this.AccountsGrid.Rows.Clear();
+            foreach (var row in this.UnfilterdRows)
+            {
+                // If we get a partial match to the name or description
+                if (row.Cells[0].Value.ToString().ToLowerInvariant().Contains(this.accountsSearch.Text.ToLowerInvariant()) || 
+                    row.Cells[1].Value.ToString().ToLowerInvariant().Contains(this.accountsSearch.Text.ToLowerInvariant()))
+                {
+                    this.AccountsGrid.Rows.Add(row);
+                }
             }
         }
 

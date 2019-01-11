@@ -132,6 +132,8 @@ namespace DSLauncherV2
             this.patchDownload = new MetroFramework.Controls.MetroProgressBar();
             this.launcherCheckerLabel = new MetroFramework.Controls.MetroLabel();
             this.launcherPatchSpinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.accountsSearch = new MetroFramework.Controls.MetroTextBox();
+            this.accountsSearchLabel = new MetroFramework.Controls.MetroLabel();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -232,7 +234,7 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 0;
+            this.MTC.SelectedIndex = 3;
             this.MTC.Size = new System.Drawing.Size(526, 347);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -1558,12 +1560,61 @@ namespace DSLauncherV2
             this.launcherPatchSpinner.UseSelectable = true;
             this.launcherPatchSpinner.Value = 60;
             // 
+            // accountsSearch
+            // 
+            // 
+            // 
+            // 
+            this.accountsSearch.CustomButton.Image = null;
+            this.accountsSearch.CustomButton.Location = new System.Drawing.Point(93, 1);
+            this.accountsSearch.CustomButton.Name = "";
+            this.accountsSearch.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.accountsSearch.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.accountsSearch.CustomButton.TabIndex = 1;
+            this.accountsSearch.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.accountsSearch.CustomButton.UseSelectable = true;
+            this.accountsSearch.CustomButton.Visible = false;
+            this.accountsSearch.Lines = new string[0];
+            this.accountsSearch.Location = new System.Drawing.Point(538, 100);
+            this.accountsSearch.Margin = new System.Windows.Forms.Padding(0);
+            this.accountsSearch.MaxLength = 32767;
+            this.accountsSearch.Name = "accountsSearch";
+            this.accountsSearch.PasswordChar = '\0';
+            this.accountsSearch.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.accountsSearch.SelectedText = "";
+            this.accountsSearch.SelectionLength = 0;
+            this.accountsSearch.SelectionStart = 0;
+            this.accountsSearch.ShortcutsEnabled = true;
+            this.accountsSearch.Size = new System.Drawing.Size(115, 23);
+            this.accountsSearch.TabIndex = 45;
+            this.accountsSearch.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.accountsSearch.UseCustomBackColor = true;
+            this.accountsSearch.UseSelectable = true;
+            this.accountsSearch.Visible = false;
+            this.accountsSearch.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.accountsSearch.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.accountsSearch.TextChanged += new System.EventHandler(this.accountsSearch_TextChanged);
+            // 
+            // accountsSearchLabel
+            // 
+            this.accountsSearchLabel.AutoSize = true;
+            this.accountsSearchLabel.ForeColor = System.Drawing.SystemColors.Control;
+            this.accountsSearchLabel.Location = new System.Drawing.Point(659, 102);
+            this.accountsSearchLabel.Name = "accountsSearchLabel";
+            this.accountsSearchLabel.Size = new System.Drawing.Size(104, 19);
+            this.accountsSearchLabel.TabIndex = 46;
+            this.accountsSearchLabel.Text = "Search Accounts";
+            this.accountsSearchLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.accountsSearchLabel.Visible = false;
+            // 
             // Primary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.accountsSearchLabel);
+            this.Controls.Add(this.accountsSearch);
             this.Controls.Add(this.downloadProgress);
             this.Controls.Add(this.patchDownload);
             this.Controls.Add(this.launcherCheckerLabel);
@@ -1716,6 +1767,8 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroProgressBar patchDownload;
         private MetroFramework.Controls.MetroLabel launcherCheckerLabel;
         private MetroFramework.Controls.MetroProgressSpinner launcherPatchSpinner;
+        private MetroFramework.Controls.MetroLabel accountsSearchLabel;
+        private MetroFramework.Controls.MetroTextBox accountsSearch;
     }
 }
 
