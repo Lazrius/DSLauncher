@@ -258,8 +258,14 @@ namespace DSLauncherV2
                 HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes("//div[contains(@style, 'margin-left')]");
                 HtmlNode node = nodes[nodes.Count - 2]; // The last one in the collection is always contact us
 
-                // We want to replace the first \n we see, as we otherwise we'll have an ugly newline at the start of every log
-                ScrollMessageBox.ShowDialog($"Recent Launcher Update: {version}", node.InnerText.Remove(0, 1), this);
+                // We want to switch from the background worker to a UI thread
+                // Doing it this way stops us from having lag when invoking the entire function
+                // directly from the worker.
+                this.Invoke((MethodInvoker) delegate()
+                {
+                    // We want to replace the first \n we see, as we otherwise we'll have an ugly newline at the start of every log
+                    ScrollMessageBox.ShowDialog($"Recent Launcher Update: {version}", node.InnerText.Remove(0, 1), this);
+                });
                 File.WriteAllText(Directory.GetCurrentDirectory() + @"\DSLauncher.log", version);
             }
 
@@ -285,7 +291,7 @@ namespace DSLauncherV2
             this.GetDiscoveryAnnouncements();
             this.LauncherSettings.CheckForPatches(this);
             this.LoadingBackgroundWorker.ReportProgress(4);
-            this.Invoke((MethodInvoker) this.CheckLauncherChangeLog);
+            this.CheckLauncherChangeLog();
         }
 
         private void LoadingBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
