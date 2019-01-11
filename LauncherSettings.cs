@@ -212,7 +212,7 @@ namespace DSLauncherV2
             {
                 this.UserSettings.InstallPath = Path.GetDirectoryName(Application.ExecutablePath);
                 if (!System.IO.File.Exists(this.UserSettings.ConfigFile))
-                    ExceptionHandler.Throw("C01", "", primary);
+                    ExceptionHandler.Throw(ExceptionCode.C01, "", primary);
 
                 XmlDocument xmlDocument = new XmlDocument();
                 StreamReader streamReader = new StreamReader(this.UserSettings.ConfigFile);
@@ -606,7 +606,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                ExceptionHandler.Throw("C02", ex.Message, primary);
+                ExceptionHandler.Throw(ExceptionCode.C02, ex.Message, primary);
             }
         }
 
@@ -640,7 +640,7 @@ namespace DSLauncherV2
                 }
                 catch (Exception ex)
                 {
-                    ExceptionHandler.Throw("C03", ex.Message, primary);
+                    ExceptionHandler.Throw(ExceptionCode.C03, ex.Message, primary);
                 }
             }
             try
@@ -677,7 +677,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                ExceptionHandler.Throw("C04", ex.Message, primary);
+                ExceptionHandler.Throw(ExceptionCode.C04, ex.Message, primary);
             }
         }
 
@@ -723,7 +723,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                ExceptionHandler.Throw("F02", ex.Message, primary);
+                ExceptionHandler.Throw(ExceptionCode.F02, ex.Message, primary);
             }
         }
 

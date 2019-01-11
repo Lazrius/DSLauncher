@@ -39,7 +39,7 @@ namespace DSLauncherV2
         {
             // Before we init we want to make sure the patcher is present
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\DSSelfPatch.exe"))
-                ExceptionHandler.Throw("D03", "Self Patcher not found. Please reinstall Discovery.", this);
+                ExceptionHandler.Throw(ExceptionCode.P03, "Self Patcher not found. Please reinstall Discovery.", this);
 
             InitializeComponent();
             this.ControlBox = true;
@@ -156,7 +156,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                ExceptionHandler.Throw("F01", ex.Message, this);
+                ExceptionHandler.Throw(ExceptionCode.F01, ex.Message, this);
             }
         }
 
@@ -677,14 +677,10 @@ namespace DSLauncherV2
                                     "An error has occured while downloading one of the files. Please try again.");
                                 Environment.Exit(0);
                             }
-                            else
-                            {
-                                int num1 = flag2 ? 1 : 0;
-                            }
                         }
                         catch (Exception ex)
                         {
-                            ExceptionHandler.Throw("D01", ex.Message, this);
+                            ExceptionHandler.Throw(ExceptionCode.P01, ex.Message, this);
                         }
                     }
 
@@ -709,7 +705,7 @@ namespace DSLauncherV2
                     }
                     catch (Exception ex)
                     {
-                        ExceptionHandler.Throw("D02", ex.Message, this);
+                        ExceptionHandler.Throw(ExceptionCode.P02, ex.Message, this);
                     }
 
                     try
@@ -728,7 +724,7 @@ namespace DSLauncherV2
                     }
                     catch (Exception ex)
                     {
-                        ExceptionHandler.Throw("D02", ex.Message, this);
+                        ExceptionHandler.Throw(ExceptionCode.P02, ex.Message, this);
                     }
                 }
             }
@@ -1381,7 +1377,7 @@ namespace DSLauncherV2
             }
             catch (Exception ex)
             {
-                ExceptionHandler.Throw("P01", ex.Message, this);
+                ExceptionHandler.Throw(ExceptionCode.I01, ex.Message, this);
             }
         }
 
@@ -1465,21 +1461,21 @@ namespace DSLauncherV2
                     }
                     catch (Exception ex)
                     {
-                        ExceptionHandler.Throw("L04", ex.Message, this);
+                        ExceptionHandler.Throw(ExceptionCode.L04, ex.Message, this);
                     }
                 }
             }
 
             if (!File.Exists(FLExe)) // We cannot find Freelancer.exe
             {
-                ExceptionHandler.Throw("L01", "", this);
+                ExceptionHandler.Throw(ExceptionCode.L01, "", this);
             }
 
             else
             {
                 if (!File.Exists(DSAce))
                 {
-                    ExceptionHandler.Throw("L03", "", this);
+                    ExceptionHandler.Throw(ExceptionCode.L03, "", this);
                 }
 
                 else
@@ -1554,7 +1550,7 @@ namespace DSLauncherV2
                     }
                     catch (Exception ex)
                     {
-                        ExceptionHandler.Throw("L02", ex.Message, this);
+                        ExceptionHandler.Throw(ExceptionCode.L02, ex.Message, this);
                     }
                 }
             }
