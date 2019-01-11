@@ -1165,57 +1165,49 @@ namespace DSLauncherV2
             }
         }
 
-        private int GetRowIndex(string accName)
+        // This function is called when someone selects a recent or favorite account.
+        private void QuickSelectAccount(object sender, EventArgs e)
         {
             int index = -1;
-            foreach (DataGridViewRow r in AccountsGrid.Rows)
+
+            if (SortCategory.SelectedIndex <= 0)
             {
-                if (r.Cells[0].Value.ToString() == accName)
+                foreach (DataGridViewRow r in AccountsGrid.Rows)
                 {
+                    if (r.Cells[0].Value.ToString() != ((MetroLink)sender).Text) continue;
                     index = r.Index;
                     break;
                 }
+
+                if (index == -1)
+                {
+                    ExceptionHandler.Throw(ExceptionCode.C05, "", this);
+                    ((MetroLink) sender).Visible = false;
+                    return;
+                }
+
+                SelectNewAccount(AccountsGrid.Rows[index]);
             }
 
-            if (index == -1)
+            else
             {
-                MetroMessageBox.Show(this, "Unable to load account. Account no longer exists or is corrpted.", "",
-                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                for (var i = 0; i < UnfilterdRows.Count; i++)
+                {
+                    DataGridViewRow r = UnfilterdRows[i];
+                    if (r.Cells[0].Value.ToString() != ((MetroLink) sender).Text) continue;
+                    index = i;
+                    break;
+                }
+
+                if (index == -1)
+                {
+                    ExceptionHandler.Throw(ExceptionCode.C05, "", this);
+                    ((MetroLink)sender).Visible = false;
+                    return;
+                }
+
+                SelectNewAccount(UnfilterdRows[index]);
             }
-
-            return index;
-        }
-
-        private void FavAccount1_Click(object sender, EventArgs e)
-        {
-            int index = GetRowIndex(FavAccount1.Text);
-            if (index == -1)
-                return;
-            SelectNewAccount(AccountsGrid.Rows[index]);
-        }
-
-        private void FavAccount2_Click(object sender, EventArgs e)
-        {
-            int index = GetRowIndex(FavAccount2.Text);
-            if (index == -1)
-                return;
-            SelectNewAccount(AccountsGrid.Rows[index]);
-        }
-
-        private void FavAccount3_Click(object sender, EventArgs e)
-        {
-            int index = GetRowIndex(FavAccount3.Text);
-            if (index == -1)
-                return;
-            SelectNewAccount(AccountsGrid.Rows[index]);
-        }
-
-        private void FavAccount4_Click(object sender, EventArgs e)
-        {
-            int index = GetRowIndex(FavAccount4.Text);
-            if (index == -1)
-                return;
-            SelectNewAccount(AccountsGrid.Rows[index]);
         }
 
         private void AccountsGrid_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -1236,38 +1228,6 @@ namespace DSLauncherV2
             SelectNewAccount(row);
         }
 
-        private void RecentAccounts1_Click(object sender, EventArgs e)
-        {
-            int index = GetRowIndex(RecentAccounts1.Text);
-            if (index == -1)
-                return;
-            SelectNewAccount(AccountsGrid.Rows[index]);
-        }
-
-        private void RecentAccounts2_Click(object sender, EventArgs e)
-        {
-            int index = GetRowIndex(RecentAccounts2.Text);
-            if (index == -1)
-                return;
-            SelectNewAccount(AccountsGrid.Rows[index]);
-        }
-
-        private void RecentAccounts3_Click(object sender, EventArgs e)
-        {
-            int index = GetRowIndex(RecentAccounts3.Text);
-            if (index == -1)
-                return;
-            SelectNewAccount(AccountsGrid.Rows[index]);
-        }
-
-        private void RecentAccounts4_Click(object sender, EventArgs e)
-        {
-            int index = GetRowIndex(RecentAccounts4.Text);
-            if (index == -1)
-                return;
-            SelectNewAccount(AccountsGrid.Rows[index]);
-        }
-
         private void SortCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (UnfilterdRows == null)
@@ -1279,7 +1239,7 @@ namespace DSLauncherV2
                 }
             }
 
-            if (SortCategory.SelectedIndex == 0)
+            if (SortCategory.SelectedIndex <= 0)
             {
                 this.AccountsGrid.Rows.Clear();
                 foreach (DataGridViewRow row in UnfilterdRows)

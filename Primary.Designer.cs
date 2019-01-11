@@ -1378,7 +1378,7 @@ namespace DSLauncherV2
             this.FavAccount1.UseSelectable = true;
             this.FavAccount1.UseStyleColors = true;
             this.FavAccount1.Visible = false;
-            this.FavAccount1.Click += new System.EventHandler(this.FavAccount1_Click);
+            this.FavAccount1.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
             // FavAccount2
             // 
@@ -1392,7 +1392,7 @@ namespace DSLauncherV2
             this.FavAccount2.UseSelectable = true;
             this.FavAccount2.UseStyleColors = true;
             this.FavAccount2.Visible = false;
-            this.FavAccount2.Click += new System.EventHandler(this.FavAccount2_Click);
+            this.FavAccount2.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
             // FavAccount3
             // 
@@ -1406,7 +1406,7 @@ namespace DSLauncherV2
             this.FavAccount3.UseSelectable = true;
             this.FavAccount3.UseStyleColors = true;
             this.FavAccount3.Visible = false;
-            this.FavAccount3.Click += new System.EventHandler(this.FavAccount3_Click);
+            this.FavAccount3.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
             // FavAccount4
             // 
@@ -1420,7 +1420,7 @@ namespace DSLauncherV2
             this.FavAccount4.UseSelectable = true;
             this.FavAccount4.UseStyleColors = true;
             this.FavAccount4.Visible = false;
-            this.FavAccount4.Click += new System.EventHandler(this.FavAccount4_Click);
+            this.FavAccount4.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
             // RecentAccounts4
             // 
@@ -1434,7 +1434,7 @@ namespace DSLauncherV2
             this.RecentAccounts4.UseSelectable = true;
             this.RecentAccounts4.UseStyleColors = true;
             this.RecentAccounts4.Visible = false;
-            this.RecentAccounts4.Click += new System.EventHandler(this.RecentAccounts4_Click);
+            this.RecentAccounts4.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
             // RecentAccounts3
             // 
@@ -1448,7 +1448,7 @@ namespace DSLauncherV2
             this.RecentAccounts3.UseSelectable = true;
             this.RecentAccounts3.UseStyleColors = true;
             this.RecentAccounts3.Visible = false;
-            this.RecentAccounts3.Click += new System.EventHandler(this.RecentAccounts3_Click);
+            this.RecentAccounts3.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
             // RecentAccounts2
             // 
@@ -1462,7 +1462,7 @@ namespace DSLauncherV2
             this.RecentAccounts2.UseSelectable = true;
             this.RecentAccounts2.UseStyleColors = true;
             this.RecentAccounts2.Visible = false;
-            this.RecentAccounts2.Click += new System.EventHandler(this.RecentAccounts2_Click);
+            this.RecentAccounts2.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
             // RecentAccounts1
             // 
@@ -1476,7 +1476,7 @@ namespace DSLauncherV2
             this.RecentAccounts1.UseSelectable = true;
             this.RecentAccounts1.UseStyleColors = true;
             this.RecentAccounts1.Visible = false;
-            this.RecentAccounts1.Click += new System.EventHandler(this.RecentAccounts1_Click);
+            this.RecentAccounts1.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
             // SortCategory
             // 

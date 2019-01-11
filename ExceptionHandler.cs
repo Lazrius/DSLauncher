@@ -26,6 +26,9 @@ namespace DSLauncherV2
                     MetroMessageBox.Show(activeForm, "DSLauncher could not load the account file.\n\nAdditional Informations: " + exmessage, "Error Code: C04", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     Environment.Exit(0);
                     break;
+                case ExceptionCode.C05:
+                    MetroMessageBox.Show(activeForm, "Unable to load account. Account no longer exists or is corrpted.", "Error Code: C05", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    break;
                 case ExceptionCode.F01:
                     MetroMessageBox.Show(activeForm, "DSLauncher could not contact the patch server.\n\nAdditional Informations: " + exmessage, "Error Code: F01", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
@@ -80,6 +83,8 @@ namespace DSLauncherV2
         C03,
         /// <summary>Cannot load in account (probably a malformed account or registry issue)</summary>
         C04,
+        /// <summary>Account in fav/recent menu no longer exists</summary>
+        C05,
         /// <summary>Can't download patch</summary>
         P01,
         /// <summary>Can't install patch</summary>
