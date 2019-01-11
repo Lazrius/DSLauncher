@@ -72,20 +72,34 @@ namespace DSLauncherV2
 
     internal enum ExceptionCode
     {
-        C01, // Cannot find config file
-        C02, // Config file is corrupted
-        C03, // Cannot create default account (probably a registry issue)
-        C04, // Cannot load in account (probably a malformed account or registry issue)
-        P01, // Can't download patch
-        P02, // Can't install patch
-        P03, // Can't find DSSelfPatch
-        F01, // Can't contact patch server
-        F02, // Can't download patch from server
-        I01, // Can't Import account
-        L01, // Can't find Freelancer
-        L02, // Can't start Freelancer
-        L03, // Can't find DSAce
-        L04, // Can't close Freelancer/Programs reading FL's data
+        /// <summary>Cannot find config file</summary>
+        C01,
+        /// <summary>Config file is corrupted</summary>
+        C02,
+        /// <summary>Cannot create default account (probably a registry issue)</summary>
+        C03,
+        /// <summary>Cannot load in account (probably a malformed account or registry issue)</summary>
+        C04,
+        /// <summary>Can't download patch</summary>
+        P01,
+        /// <summary>Can't install patch</summary>
+        P02,
+        /// <summary>Can't find DSSelfPatch</summary>
+        P03,
+        /// <summary>Can't contact patch server</summary>
+        F01,
+        /// <summary>Can't download patch from server</summary>
+        F02,
+        /// <summary>Can't Import account</summary>
+        I01,
+        /// <summary>Can't find Freelancer</summary>
+        L01,
+        /// <summary>Can't start Freelancer</summary>
+        L02,
+        /// <summary>Can't find DSAce</summary>
+        L03,
+        /// <summary>Can't close Freelancer/Programs reading FL's data</summary>
+        L04, 
         Unknown
     }
 }
