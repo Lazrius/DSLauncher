@@ -793,12 +793,6 @@ namespace DSLauncherV2
             SaveConfig();
         }
 
-        private void DiscordRPCCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-
-            
-        }
-
         private void ToggleChatLog_CheckedChanged(object sender, EventArgs e)
         {
             this.LauncherSettings.UserSettings.Config.ChatLogging = ToggleChatLog.Checked;
@@ -922,22 +916,21 @@ namespace DSLauncherV2
 
         private void CreateNewAccount_Click(object sender, EventArgs e)
         {
-
             NewAccount accountForm = new NewAccount();
-            this.LauncherSettings.UserSettings.Favorite = false;
-            this.LauncherSettings.UserSettings.Name = "";
-            this.LauncherSettings.UserSettings.Description = "";
-            this.LauncherSettings.UserSettings.Code = "";
-            this.LauncherSettings.UserSettings.Signature = "";
-            this.LauncherSettings.UserSettings.AccountCategory = "";
+            UserSettings.Favorite = false;
+            UserSettings.Name = "";
+            UserSettings.Description = "";
+            UserSettings.Code = "";
+            UserSettings.Signature = "";
+            UserSettings.AccountCategory = "";
             accountForm.ShowDialog();
             switch (accountForm.DialogResult)
             {
                 case DialogResult.OK:
                     bool flag = false;
-                    foreach (DataGridViewRow row in this.AccountsGrid.Rows)
+                    foreach (DataGridViewRow row in this.UnfilterdRows)
                     {
-                        if (row.Cells[5].Value.ToString().Equals(this.LauncherSettings.UserSettings.Signature))
+                        if (row.Cells[5].Value.ToString().Equals(UserSettings.Signature))
                         {
                             MetroMessageBox.Show(this, "This account already exist in the launcher.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                             flag = true;
@@ -946,9 +939,8 @@ namespace DSLauncherV2
                     }
                     if (flag)
                         break;
-                    this.addAccountNode(this.LauncherSettings.UserSettings.Name, this.LauncherSettings.UserSettings.Description,
-                        this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.Favorite.ToString(),
-                        this.LauncherSettings.UserSettings.Code, this.LauncherSettings.UserSettings.Signature);
+                    this.addAccountNode(UserSettings.Name, UserSettings.Description, UserSettings.AccountCategory, UserSettings.Favorite.ToString(),
+                        UserSettings.Code, UserSettings.Signature);
                     this.AccountsGrid.Visible = false;
                     this.AccountsGrid.Visible = true;
                     break;
@@ -1035,47 +1027,55 @@ namespace DSLauncherV2
             string currentAccountName = "";
             foreach (DataGridViewRow r in AccountsGrid.Rows)
             {
-                if (r.Selected)
-                {
-                    currentAccountName = r.Cells[0].Value.ToString();
-                    iNum++;
-                }
+                if (!r.Selected) continue;
+                currentAccountName = r.Cells[0].Value.ToString();
+                iNum++;
             }
 
-            if (iNum == 0 || iNum > 1)
+            if (iNum == 0)
+            {
+                MetroMessageBox.Show(this, "You must have an account selected to edit.", "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
+
+            else if (iNum > 1)
             {
                 MetroMessageBox.Show(this, "You cannot select multiple accounts to edit. You must select only one at a time.", "",
                     MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
             }
 
-            NewAccount accountForm = new NewAccount();
-            DataGridViewRow row = this.AccountsGrid.Rows[this.AccountsGrid.SelectedCells[0].RowIndex];
-
-            this.LauncherSettings.UserSettings.Name = row.Cells[0].Value.ToString();
-            this.LauncherSettings.UserSettings.Description = row.Cells[1].Value.ToString();
-            this.LauncherSettings.UserSettings.AccountCategory = row.Cells[2].Value.ToString();
-            this.LauncherSettings.UserSettings.Favorite = ConvertYesNoBool(row.Cells[3].Value.ToString());
-            this.LauncherSettings.UserSettings.Code = row.Cells[4].Value.ToString();
-            this.LauncherSettings.UserSettings.Signature = row.Cells[5].Value.ToString();
-
-            accountForm.ShowDialog();
-            if (accountForm.DialogResult != DialogResult.OK) return;
-
-            this.editAccountNode(this.LauncherSettings.UserSettings.Name, this.LauncherSettings.UserSettings.Description,
-                this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.Favorite.ToString(),
-                this.LauncherSettings.UserSettings.Code, this.LauncherSettings.UserSettings.Signature);
-            
-            this.AccountsGrid.Visible = false;
-            this.AccountsGrid.Visible = true;
-            if (this.CurrentSelectedAccountLabel.Text == currentAccountName)
-                this.CurrentSelectedAccountLabel.Text = this.LauncherSettings.UserSettings.Name;
-
-            // ReSharper disable once ForCanBeConvertedToForeach
-            for (int i = 0; i < lstFavoriteAccounts.Count; i++) // Using Foreach will throw exception
+            else
             {
-                if (lstFavoriteAccounts[i].Text == currentAccountName)
-                    lstFavoriteAccounts[i].Text = this.LauncherSettings.UserSettings.Name;
+                DataGridViewRow row = this.AccountsGrid.Rows[this.AccountsGrid.SelectedCells[0].RowIndex];
+                UserSettings.Name = row.Cells[0].Value.ToString();
+                UserSettings.Description = row.Cells[1].Value.ToString();
+                UserSettings.AccountCategory = row.Cells[2].Value.ToString();
+                UserSettings.Favorite = ConvertYesNoBool(row.Cells[3].Value.ToString());
+                UserSettings.Code = row.Cells[4].Value.ToString();
+                UserSettings.Signature = row.Cells[5].Value.ToString();
+
+                NewAccount accountForm = new NewAccount(UserSettings.Name, UserSettings.Description, UserSettings.AccountCategory,
+                    UserSettings.Code, UserSettings.Signature);
+                accountForm.ShowDialog();
+                if (accountForm.DialogResult != DialogResult.OK) return;
+
+                this.editAccountNode(UserSettings.Name,
+                    UserSettings.Description,
+                    UserSettings.AccountCategory,
+                    UserSettings.Favorite.ToString(),
+                    UserSettings.Code, UserSettings.Signature);
+
+                this.AccountsGrid.Visible = false;
+                this.AccountsGrid.Visible = true;
+                if (this.CurrentSelectedAccountLabel.Text == currentAccountName)
+                    this.CurrentSelectedAccountLabel.Text = UserSettings.Name;
+
+                // ReSharper disable once ForCanBeConvertedToForeach
+                for (int i = 0; i < lstFavoriteAccounts.Count; i++) // Using Foreach will throw exception
+                {
+                    if (lstFavoriteAccounts[i].Text == currentAccountName)
+                        lstFavoriteAccounts[i].Text = UserSettings.Name;
+                }
             }
         }
 
@@ -1099,23 +1099,23 @@ namespace DSLauncherV2
 
             DataGridViewRow row = this.AccountsGrid.Rows[this.AccountsGrid.SelectedCells[0].RowIndex];
 
-            this.LauncherSettings.UserSettings.Name = row.Cells[0].Value.ToString();
-            this.LauncherSettings.UserSettings.Description = row.Cells[1].Value.ToString();
-            this.LauncherSettings.UserSettings.AccountCategory = row.Cells[2].Value.ToString();
-            this.LauncherSettings.UserSettings.Favorite = !ConvertYesNoBool(row.Cells[3].Value.ToString()); // Invert whatever it already is
-            this.LauncherSettings.UserSettings.Code = row.Cells[4].Value.ToString();
-            this.LauncherSettings.UserSettings.Signature = row.Cells[5].Value.ToString();
+            UserSettings.Name = row.Cells[0].Value.ToString();
+            UserSettings.Description = row.Cells[1].Value.ToString();
+            UserSettings.AccountCategory = row.Cells[2].Value.ToString();
+            UserSettings.Favorite = !ConvertYesNoBool(row.Cells[3].Value.ToString()); // Invert whatever it already is
+            UserSettings.Code = row.Cells[4].Value.ToString();
+            UserSettings.Signature = row.Cells[5].Value.ToString();
 
-            if (lstFavoriteAccounts.Count == 4 && this.LauncherSettings.UserSettings.Favorite)
+            if (lstFavoriteAccounts.Count == 4 && UserSettings.Favorite)
             {
                 MetroMessageBox.Show(this, "You already have four accounts favorited. You can not add more.", "",
                     MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
 
-            this.editAccountNode(this.LauncherSettings.UserSettings.Name, this.LauncherSettings.UserSettings.Description,
-                this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.Favorite.ToString(),
-                this.LauncherSettings.UserSettings.Code, this.LauncherSettings.UserSettings.Signature);
+            this.editAccountNode(UserSettings.Name, UserSettings.Description,
+                UserSettings.AccountCategory, UserSettings.Favorite.ToString(),
+                UserSettings.Code, UserSettings.Signature);
         }
 
         #endregion

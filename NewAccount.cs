@@ -15,11 +15,21 @@ namespace DSLauncherV2
 {
     public partial class NewAccount : MetroFramework.Forms.MetroForm
     {
-        private String CodeSigRegex = @"^[0-9a-fA-F]{8}-[0-9a-fA-F]{8}-[0-9a-fA-F]{8}-[0-9a-fA-F]{8}$";
-        private UserSettings UserSettings = new UserSettings();
+        private string CodeSigRegex = @"^[0-9a-fA-F]{8}-[0-9a-fA-F]{8}-[0-9a-fA-F]{8}-[0-9a-fA-F]{8}$";
         public NewAccount()
         {
             InitializeComponent();
+        }
+
+        public NewAccount(string name, string desc, string cat, string code, string sig)
+        {
+            InitializeComponent();
+            this.NameTextbox.Text = name;
+            this.DescriptionTextbox.Text = desc;
+            this.CategoryTextbox.Text = cat;
+            this.CodeTextbox.Text = code;
+            this.SigTextbox.Text = sig;
+            this.GenerateButton.Enabled = false;
         }
 
         private void GenerateButton_Click(object sender, EventArgs e)
@@ -106,7 +116,7 @@ namespace DSLauncherV2
                     MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
-
+            
             if (!Regex.IsMatch(this.CodeTextbox.Text, CodeSigRegex) || !Regex.IsMatch(this.SigTextbox.Text, CodeSigRegex))
             {
                 MetroMessageBox.Show(this,
@@ -115,32 +125,13 @@ namespace DSLauncherV2
                 return;
             }
 
-            this.UserSettings.Name = NameTextbox.Text;
-            this.UserSettings.Description = DescriptionTextbox.Text;
-            this.UserSettings.AccountCategory = CategoryTextbox.Text;
-            this.UserSettings.Favorite = false;
-            this.UserSettings.Code = CodeTextbox.Text;
-            this.UserSettings.Signature = SigTextbox.Text;
+            UserSettings.Name = NameTextbox.Text;
+            UserSettings.Description = DescriptionTextbox.Text;
+            UserSettings.AccountCategory = CategoryTextbox.Text;
+            UserSettings.Favorite = false;
+            UserSettings.Code = CodeTextbox.Text;
+            UserSettings.Signature = SigTextbox.Text;
             this.DialogResult = DialogResult.OK;
-        }
-
-        private void NewAccount_Load(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(this.UserSettings.Name))
-            {
-                this.NameTextbox.Text = this.UserSettings.Name;
-                this.DescriptionTextbox.Text = this.UserSettings.Description;
-                this.CategoryTextbox.Text = this.UserSettings.AccountCategory;
-                this.CodeTextbox.Text = this.UserSettings.Code;
-                this.SigTextbox.Text = this.UserSettings.Signature;
-                this.CodeTextbox.ReadOnly = true;
-                this.SigTextbox.ReadOnly = true;
-            }
-            else
-            {
-                this.CodeTextbox.ForeColor = System.Drawing.SystemColors.Control;
-                this.SigTextbox.ForeColor = System.Drawing.SystemColors.Control;
-            }
         }
     }
 }

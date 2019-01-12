@@ -53,8 +53,6 @@ namespace DSLauncherV2
             this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel23 = new MetroFramework.Controls.MetroLabel();
             this.ThemeSelector = new MetroFramework.Controls.MetroComboBox();
-            this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
-            this.DiscordRPCCheckBox = new MetroFramework.Controls.MetroToggle();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
             this.ToggleLocalTime = new MetroFramework.Controls.MetroToggle();
             this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
@@ -134,6 +132,8 @@ namespace DSLauncherV2
             this.launcherPatchSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.accountsSearch = new MetroFramework.Controls.MetroTextBox();
             this.accountsSearchLabel = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
+            this.DiscordRPCCheckBox = new MetroFramework.Controls.MetroToggle();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -234,7 +234,7 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 3;
+            this.MTC.SelectedIndex = 1;
             this.MTC.Size = new System.Drawing.Size(526, 347);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -388,32 +388,6 @@ namespace DSLauncherV2
             this.ThemeSelector.UseSelectable = true;
             this.ThemeSelector.UseStyleColors = true;
             this.ThemeSelector.SelectedIndexChanged += new System.EventHandler(this.ThemeSelector_SelectedIndexChanged);
-            // 
-            // metroLabel19
-            // 
-            this.metroLabel19.AutoSize = true;
-            this.metroLabel19.Location = new System.Drawing.Point(359, 45);
-            this.metroLabel19.Name = "metroLabel19";
-            this.metroLabel19.Size = new System.Drawing.Size(109, 19);
-            this.metroLabel19.TabIndex = 11;
-            this.metroLabel19.Text = "Discord Presence";
-            this.metroLabel19.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.metroLabel19.UseCustomBackColor = true;
-            // 
-            // DiscordRPCCheckBox
-            // 
-            this.DiscordRPCCheckBox.AutoSize = true;
-            this.DiscordRPCCheckBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DiscordRPCCheckBox.Enabled = false;
-            this.DiscordRPCCheckBox.Location = new System.Drawing.Point(279, 46);
-            this.DiscordRPCCheckBox.Name = "DiscordRPCCheckBox";
-            this.DiscordRPCCheckBox.Size = new System.Drawing.Size(80, 17);
-            this.DiscordRPCCheckBox.TabIndex = 10;
-            this.DiscordRPCCheckBox.Text = "Off";
-            this.DiscordRPCCheckBox.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.DiscordRPCCheckBox.UseCustomBackColor = true;
-            this.DiscordRPCCheckBox.UseSelectable = true;
-            this.DiscordRPCCheckBox.CheckedChanged += new System.EventHandler(this.DiscordRPCCheckBox_CheckedChanged);
             // 
             // metroLabel7
             // 
@@ -1605,6 +1579,31 @@ namespace DSLauncherV2
             this.accountsSearchLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.accountsSearchLabel.Visible = false;
             // 
+            // metroLabel19
+            // 
+            this.metroLabel19.AutoSize = true;
+            this.metroLabel19.Location = new System.Drawing.Point(359, 45);
+            this.metroLabel19.Name = "metroLabel19";
+            this.metroLabel19.Size = new System.Drawing.Size(109, 19);
+            this.metroLabel19.TabIndex = 11;
+            this.metroLabel19.Text = "Discord Presence";
+            this.metroLabel19.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroLabel19.UseCustomBackColor = true;
+            // 
+            // DiscordRPCCheckBox
+            // 
+            this.DiscordRPCCheckBox.AutoSize = true;
+            this.DiscordRPCCheckBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.DiscordRPCCheckBox.Enabled = false;
+            this.DiscordRPCCheckBox.Location = new System.Drawing.Point(279, 46);
+            this.DiscordRPCCheckBox.Name = "DiscordRPCCheckBox";
+            this.DiscordRPCCheckBox.Size = new System.Drawing.Size(80, 17);
+            this.DiscordRPCCheckBox.TabIndex = 10;
+            this.DiscordRPCCheckBox.Text = "Off";
+            this.DiscordRPCCheckBox.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.DiscordRPCCheckBox.UseCustomBackColor = true;
+            this.DiscordRPCCheckBox.UseSelectable = true;
+            // 
             // Primary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1725,8 +1724,6 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroToggle ToggleFlightText;
         private MetroFramework.Controls.MetroLabel metroLabel23;
         private MetroFramework.Controls.MetroComboBox ThemeSelector;
-        private MetroFramework.Controls.MetroLabel metroLabel19;
-        private MetroFramework.Controls.MetroToggle DiscordRPCCheckBox;
         private MetroFramework.Controls.MetroLabel ChatWarning;
         private MetroFramework.Controls.MetroLabel metroLabel15;
         private MetroFramework.Controls.MetroToggle DisableChat;
@@ -1767,6 +1764,8 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroProgressSpinner launcherPatchSpinner;
         private MetroFramework.Controls.MetroLabel accountsSearchLabel;
         private MetroFramework.Controls.MetroTextBox accountsSearch;
+        private MetroFramework.Controls.MetroLabel metroLabel19;
+        private MetroFramework.Controls.MetroToggle DiscordRPCCheckBox;
     }
 }
 

@@ -17,24 +17,26 @@ namespace DSLauncherV2
         [XmlArrayItem("Patch")]
         public List<string> PatchHistory { get; set; }
 
+        // Static because need to call them from multiple forms.
         [XmlIgnore]
-        public string Name = "";
+        public static string Name = "";
         [XmlIgnore]
-        public string Description = "";
+        public static string Description = "";
         [XmlIgnore]
-        public string Code = "";
+        public static string Code = "";
         [XmlIgnore]
-        public string Signature = "";
+        public static string Signature = "";
         [XmlIgnore]
-        public bool Favorite = false;
+        public static bool Favorite = false;
+        [XmlIgnore]
+        public static string AccountCategory = "";
+
         [XmlIgnore]
         public string ActiveCode = "";
         [XmlIgnore]
         public string ActiveSignature = "";
         [XmlIgnore]
         public string AccountsFile = "/launcheraccounts.xml";
-        [XmlIgnore]
-        public string AccountCategory = "";
 
         [XmlIgnore]
         public Dictionary<int, PatchListDataStruct> PatchListData = new Dictionary<int, PatchListDataStruct>();

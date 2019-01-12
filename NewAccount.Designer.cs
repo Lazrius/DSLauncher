@@ -243,12 +243,14 @@
             this.CodeTextbox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.CodeTextbox.CustomButton.UseSelectable = true;
             this.CodeTextbox.CustomButton.Visible = false;
+            this.CodeTextbox.Enabled = false;
             this.CodeTextbox.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.CodeTextbox.Lines = new string[0];
             this.CodeTextbox.Location = new System.Drawing.Point(83, 123);
             this.CodeTextbox.MaxLength = 32767;
             this.CodeTextbox.Name = "CodeTextbox";
             this.CodeTextbox.PasswordChar = '\0';
+            this.CodeTextbox.ReadOnly = true;
             this.CodeTextbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.CodeTextbox.SelectedText = "";
             this.CodeTextbox.SelectionLength = 0;
@@ -277,12 +279,14 @@
             this.SigTextbox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.SigTextbox.CustomButton.UseSelectable = true;
             this.SigTextbox.CustomButton.Visible = false;
+            this.SigTextbox.Enabled = false;
             this.SigTextbox.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.SigTextbox.Lines = new string[0];
             this.SigTextbox.Location = new System.Drawing.Point(83, 151);
             this.SigTextbox.MaxLength = 32767;
             this.SigTextbox.Name = "SigTextbox";
             this.SigTextbox.PasswordChar = '\0';
+            this.SigTextbox.ReadOnly = true;
             this.SigTextbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.SigTextbox.SelectedText = "";
             this.SigTextbox.SelectionLength = 0;
@@ -324,7 +328,6 @@
             this.ShowIcon = false;
             this.Text = "Add/Edit Account";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.Load += new System.EventHandler(this.NewAccount_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
