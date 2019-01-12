@@ -12,5 +12,10 @@ namespace DSLauncherV2.Properties
         [ApplicationScopedSetting]
         [DebuggerNonUserCode]
         public string KittyURL => (string) this[nameof(KittyURL)];
+
+        [DefaultSettingValue("launcherconfig.xml")]
+        [ApplicationScopedSetting]
+        [DebuggerNonUserCode]
+        public string ConfigFile => (string) this[nameof(ConfigFile)];
     }
 }

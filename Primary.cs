@@ -21,6 +21,7 @@ using SharpCompress.Readers;
 using SharpCompress.Common;
 using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace DSLauncherV2
 {
@@ -67,44 +68,43 @@ namespace DSLauncherV2
 
         private void ApplyLauncherConfig()
         {
-            this.ToggleDesktopRes.Checked = this.LauncherSettings.UserSettings.DisplayDesktopRes;
-            this.ToggleArrivingPlayer.Checked = this.LauncherSettings.UserSettings.ShowJoiningPlayers;
-            this.ToggleChatAppend.Checked = this.LauncherSettings.UserSettings.ChatAppend;
-            this.ToggleChatLog.Checked = this.LauncherSettings.UserSettings.ChatLogging;
-            this.ToggleDepartingPlayer.Checked = this.LauncherSettings.UserSettings.ShowDepartingPlayers;
-            this.ToggleFlightText.Checked = this.LauncherSettings.UserSettings.ShowFlightText;
-            this.ToggleLagIcon.Checked = this.LauncherSettings.UserSettings.ShowLagIndicator;
-            this.ToggleLocalTime.Checked = this.LauncherSettings.UserSettings.ChatLocalTime;
-            this.ToggleWindowedMode.Checked = this.LauncherSettings.UserSettings.DisplayMode;
-            this.HeightBox.Text = this.LauncherSettings.UserSettings.DisplayHeight;
-            this.WidthBox.Text = this.LauncherSettings.UserSettings.DisplayWidth;
-            this.DiscordRPCCheckBox.Checked = this.LauncherSettings.UserSettings.DiscordRPC;
-            this.IncreaseDrawDistance.Checked = this.LauncherSettings.UserSettings.DrawDistance;
-            this.DisableChat.Checked = this.LauncherSettings.UserSettings.DisableChat;
-            this.ThemeSelector.SelectedIndex = this.LauncherSettings.UserSettings.Style;
-            this.metroTextBox1.Text = this.LauncherSettings.UserSettings.ExtraArgs; // Optional Args
+            this.ToggleDesktopRes.Checked = this.LauncherSettings.UserSettings.Config.DisplayDesktopRes;
+            this.ToggleArrivingPlayer.Checked = this.LauncherSettings.UserSettings.Config.ShowJoiningPlayers;
+            this.ToggleChatAppend.Checked = this.LauncherSettings.UserSettings.Config.ChatAppend;
+            this.ToggleChatLog.Checked = this.LauncherSettings.UserSettings.Config.ChatLogging;
+            this.ToggleDepartingPlayer.Checked = this.LauncherSettings.UserSettings.Config.ShowDepartingPlayers;
+            this.ToggleFlightText.Checked = this.LauncherSettings.UserSettings.Config.ShowFlightText;
+            this.ToggleLagIcon.Checked = this.LauncherSettings.UserSettings.Config.ShowLagIndicator;
+            this.ToggleLocalTime.Checked = this.LauncherSettings.UserSettings.Config.ChatLocalTime;
+            this.ToggleWindowedMode.Checked = this.LauncherSettings.UserSettings.Config.DisplayMode;
+            this.HeightBox.Text = this.LauncherSettings.UserSettings.Config.DisplayHeight;
+            this.WidthBox.Text = this.LauncherSettings.UserSettings.Config.DisplayWidth;
+            this.IncreaseDrawDistance.Checked = this.LauncherSettings.UserSettings.Config.DrawDistance;
+            this.DisableChat.Checked = this.LauncherSettings.UserSettings.Config.DisableChat;
+            this.ThemeSelector.SelectedIndex = this.LauncherSettings.UserSettings.Config.Style;
+            this.metroTextBox1.Text = this.LauncherSettings.UserSettings.Config.ExtraArgs; // Optional Args
 
-            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount1))
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.RecentAccounts.One))
             {
-                this.RecentAccounts1.Text = this.LauncherSettings.UserSettings.RecentAccount1;
+                this.RecentAccounts1.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.One;
                 this.RecentAccounts1.Visible = true;
             }
 
-            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount2))
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.RecentAccounts.Two))
             {
-                this.RecentAccounts2.Text = this.LauncherSettings.UserSettings.RecentAccount2;
+                this.RecentAccounts2.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.Two;
                 this.RecentAccounts2.Visible = true;
             }
 
-            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount3))
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.RecentAccounts.Three))
             {
-                this.RecentAccounts3.Text = this.LauncherSettings.UserSettings.RecentAccount3;
+                this.RecentAccounts3.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.Three;
                 this.RecentAccounts3.Visible = true;
             }
 
-            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.RecentAccount4))
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.RecentAccounts.Four))
             {
-                this.RecentAccounts4.Text = this.LauncherSettings.UserSettings.RecentAccount4;
+                this.RecentAccounts4.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.Four;
                 this.RecentAccounts4.Visible = true;
             }
         }
@@ -112,22 +112,21 @@ namespace DSLauncherV2
         #region Connections
         private void CheckConnectivity()
         {
-            if (this.LauncherSettings.UserSettings.RemotePatchLocation.Contains("discoverygc.com"))
+            if (this.LauncherSettings.UserSettings.Config.RemotePatchLocation.Contains("discoverygc.com"))
             {
-                this.LauncherSettings.UserSettings.RemotePatchLocation = "http://patch.discoverygc.net/";
-                LauncherSettings.SetRemotePatchLocation(this.LauncherSettings.UserSettings.RemotePatchLocation);
+                this.LauncherSettings.UserSettings.Config.RemotePatchLocation = "http://patch.discoverygc.net/";
+                SaveConfig();
             }
             try
             {
                 WebClient webClient = new WebClient {CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)};
-                webClient.DownloadFile(this.LauncherSettings.UserSettings.RemotePatchLocation + "patchlist.xml",
+                webClient.DownloadFile(this.LauncherSettings.UserSettings.Config.RemotePatchLocation + "patchlist.xml",
                     this.LauncherSettings.UserSettings.PatchListTempFile);
                 webClient.Dispose();
             }
             catch (Exception)
             {
-                this.LauncherSettings.UserSettings.UseKitty = 1;
-                this.LauncherSettings.UserSettings.RemotePatchLocation = Defaults.Settings.KittyURL;
+                this.LauncherSettings.UserSettings.Config.RemotePatchLocation = Defaults.Settings.KittyURL;
                 this.launcherCheckerLabel.Invoke((Action) (() =>
                 {
                     this.launcherCheckerLabel.Text = "Contacting Discovery Patch Server...";
@@ -143,7 +142,7 @@ namespace DSLauncherV2
             try
             {
                 WebClient webClient = new WebClient { CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore) };
-                webClient.DownloadFile(this.LauncherSettings.UserSettings.RemotePatchLocation + "patchlist.xml",
+                webClient.DownloadFile(this.LauncherSettings.UserSettings.Config.RemotePatchLocation + "patchlist.xml",
                     this.LauncherSettings.UserSettings.PatchListTempFile);
                 webClient.Dispose();
                 this.launcherCheckerLabel.Invoke((Action) (() =>
@@ -166,7 +165,7 @@ namespace DSLauncherV2
                 WebClient client = new WebClient();
                 if (File.Exists(Directory.GetCurrentDirectory() + @"\ToS.txt"))
                 {
-                    byte[] newBytes = client.DownloadData(this.LauncherSettings.UserSettings.RemotePatchLocation + @"\launcher\ToS.txt");
+                    byte[] newBytes = client.DownloadData(this.LauncherSettings.UserSettings.Config.RemotePatchLocation + @"\launcher\ToS.txt");
                     byte[] oldBytes = File.ReadAllBytes(Directory.GetCurrentDirectory() + @"\ToS.txt");
                     if (newBytes.SequenceEqual(oldBytes) == false)
                     {
@@ -190,7 +189,7 @@ namespace DSLauncherV2
             {
                 WebClient client = new WebClient();
                 string tos = Path.GetTempFileName();
-                client.DownloadFile(this.LauncherSettings.UserSettings.RemotePatchLocation + @"\launcher\ToS.txt", tos);
+                client.DownloadFile(this.LauncherSettings.UserSettings.Config.RemotePatchLocation + @"\launcher\ToS.txt", tos);
                 StreamReader sr = new StreamReader(tos);
                 ScrollMessageBox.ShowDialog(sr.ReadLine(), sr.ReadToEnd(), this);
             }
@@ -305,7 +304,7 @@ namespace DSLauncherV2
             {
                 case 0:
                     this.launcherCheckerLabel.Text = "Contacting Patch Server...";
-                    this.metroStyleManager1.Style = (MetroColorStyle) this.LauncherSettings.UserSettings.Style;
+                    this.metroStyleManager1.Style = (MetroColorStyle) this.LauncherSettings.UserSettings.Config.Style;
                     this.ApplyLauncherConfig();
                     break;
                 case 1:
@@ -327,7 +326,7 @@ namespace DSLauncherV2
                     if(!string.IsNullOrEmpty(CNSImport.DocumentText))
                         CNSImport.Visible = true;
                     if (this.LauncherSettings.UserSettings.RemoteLauncherVersion >
-                        this.LauncherSettings.UserSettings.LocalLauncherVersion)
+                        this.LauncherSettings.UserSettings.Config.LocalLauncherVersion)
                     {
                         Process.Start(Directory.GetCurrentDirectory() + @"\DSSelfPatch.exe");
                         this.launcherPatchSpinner.Visible = false;
@@ -464,7 +463,7 @@ namespace DSLauncherV2
         {
             int iNum = 0;
             List<MetroLink> lstMetroLinks = new List<MetroLink>();
-            foreach (KeyValuePair<int, UserSettings.AccountsListDataStruct> keyValuePair in LauncherSettings
+            foreach (KeyValuePair<int, AccountsListDataStruct> keyValuePair in LauncherSettings
                 .UserSettings.AccountListData)
             {
                 string isFav = keyValuePair.Value.IsFavorite.ToLower() == "false" ? "No" : "Yes";
@@ -630,11 +629,11 @@ namespace DSLauncherV2
             CheckProcesses();
             this.patchDownload.Visible = true;
             this.downloadProgress.Visible = true;
-            foreach (KeyValuePair<int, UserSettings.PatchListDataStruct> keyValuePair in this.LauncherSettings
+            foreach (KeyValuePair<int, PatchListDataStruct> keyValuePair in this.LauncherSettings
                 .UserSettings.PatchListData)
             {
-                string str = this.LauncherSettings.UserSettings.InstallPath + "\\" + keyValuePair.Value.PatchURL;
-                if (!this.LauncherSettings.UserSettings.installedpatchlist.Contains(keyValuePair.Value.PatchMD5Hash))
+                string str = this.LauncherSettings.UserSettings.Config.InstallPath + "\\" + keyValuePair.Value.PatchURL;
+                if (this.LauncherSettings.UserSettings.PatchHistory.All(p => p != keyValuePair.Value.PatchMD5Hash))
                 {
                     bool flag1 = System.IO.File.Exists(str) && this.CompareMD5(str, keyValuePair.Value.PatchMD5Hash);
                     if (!flag1)
@@ -643,7 +642,7 @@ namespace DSLauncherV2
                         {
                             this.downloadedData = new byte[0];
                             WebResponse response = WebRequest
-                                .Create(this.LauncherSettings.UserSettings.RemotePatchLocation +
+                                .Create(this.LauncherSettings.UserSettings.Config.RemotePatchLocation +
                                         keyValuePair.Value.PatchURL).GetResponse();
                             Stream responseStream = response.GetResponseStream();
                             byte[] buffer = new byte[1024];
@@ -720,7 +719,7 @@ namespace DSLauncherV2
                             while (reader.MoveToNextEntry())
                             {
                                 if (!reader.Entry.IsDirectory)
-                                    reader.WriteEntryToDirectory(this.LauncherSettings.UserSettings.InstallPath,
+                                    reader.WriteEntryToDirectory(this.LauncherSettings.UserSettings.Config.InstallPath,
                                         new ExtractionOptions() {Overwrite = true, ExtractFullPath = true});
                             }
                         }
@@ -741,7 +740,7 @@ namespace DSLauncherV2
                             element.InnerText = keyValuePair.Value.PatchMD5Hash;
                             xmlDocument.SelectSingleNode("/BadassRoot/PatchHistory").AppendChild(element);
                             xmlDocument.Save("launcherconfig.xml");
-                            this.LauncherSettings.UserSettings.installedpatchlist.Add(keyValuePair.Value.PatchMD5Hash);
+                            this.LauncherSettings.UserSettings.PatchHistory.Add(keyValuePair.Value.PatchMD5Hash);
                         }
                     }
                     catch (Exception ex)
@@ -750,16 +749,6 @@ namespace DSLauncherV2
                     }
                 }
             }
-
-            /*this.patchDownload.Visible = true;
-            this.downloadProgress.Visible = true;
-            this.patchGame.Enabled = false;
-            this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
-            this.launchGame.Enabled = true;
-            this.launchGame.UseCustomForeColor = true;
-            this.launchGame.ForeColor = Color.FromKnownColor(KnownColor.CornflowerBlue);
-            this.launcherPatchSpinner.Visible = true;
-            this.launcherCheckerLabel.Text = "You're all set.";*/
             ReadyToLaunch();
         }
 
@@ -775,82 +764,87 @@ namespace DSLauncherV2
                 this.patchGame.ForeColor = Color.CornflowerBlue;
         }
 
-        private void patchLauncher_Click(object sender, EventArgs e)
-        {
-            Process.Start(this.LauncherSettings.UserSettings.InstallPath + "\\DSSelfPatch.exe");
-            Environment.Exit(0);
-        }
-
         #endregion
 
         #region Launcher Settings Changed
-        ////////////////////////////////////////
-        /// Launcher Settings Changed
-        ////////////////////////////////////////
+
+        public void SaveConfig()
+        {
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(UserSettings));
+                TextWriter writer = new StreamWriter("launcherconfig.xml");
+                serializer.Serialize(writer, this.LauncherSettings.UserSettings);
+                writer.Close();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.Throw(ExceptionCode.C06, ex.Message, this);
+            }
+        }
 
         private void ThemeSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             metroStyleManager1.Style = (MetroColorStyle) Convert.ToInt32(ThemeSelector.SelectedIndex);
             launcherPatchSpinner.Style = (MetroColorStyle) Convert.ToInt32(ThemeSelector.SelectedIndex);
             metroProgressSpinner1.Style = (MetroColorStyle) Convert.ToInt32(ThemeSelector.SelectedIndex);
-            LauncherSettings.SetLauncherStyle(Convert.ToInt32(ThemeSelector.SelectedIndex)); // Save it in the config
+            patchDownload.Style = (MetroColorStyle) Convert.ToInt32(ThemeSelector.SelectedIndex);
+            this.LauncherSettings.UserSettings.Config.Style = Convert.ToInt32(ThemeSelector.Style);
+            SaveConfig();
         }
 
         private void DiscordRPCCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.DiscordRPC = DiscordRPCCheckBox.Checked;
-            this.LauncherSettings.SetDiscordRPC();
+
+            
         }
 
         private void ToggleChatLog_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.ChatLogging = ToggleChatLog.Checked;
-            this.LauncherSettings.SetConfigValue("ChatLogging", this.LauncherSettings.UserSettings.ChatLogging);
+            this.LauncherSettings.UserSettings.Config.ChatLogging = ToggleChatLog.Checked;
+            SaveConfig();
         }
 
         private void ToggleChatAppend_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.ChatAppend = ToggleChatAppend.Checked;
-            this.LauncherSettings.SetConfigValue("ChatAppend", this.LauncherSettings.UserSettings.ChatAppend);
+            this.LauncherSettings.UserSettings.Config.ChatAppend = ToggleChatAppend.Checked;
+            SaveConfig();
         }
 
         private void ToggleLogTime_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.ChatTime = ToggleLogTime.Checked;
-            this.LauncherSettings.SetConfigValue("ChatTime", this.LauncherSettings.UserSettings.ChatTime);
+            this.LauncherSettings.UserSettings.Config.ChatTime = ToggleLogTime.Checked;
+            SaveConfig();
         }
 
         private void ToggleLocalTime_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.ChatLocalTime = ToggleLocalTime.Checked;
-            this.LauncherSettings.SetConfigValue("ChatLocalTime", this.LauncherSettings.UserSettings.ChatLocalTime);
+            this.LauncherSettings.UserSettings.Config.ChatLocalTime = ToggleLocalTime.Checked;
+            SaveConfig();
         }
 
         private void ToggleFlightText_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.ShowFlightText = ToggleFlightText.Checked;
-            this.LauncherSettings.SetConfigValue("ShowFlightText", this.LauncherSettings.UserSettings.ShowFlightText);
+            this.LauncherSettings.UserSettings.Config.ShowFlightText = ToggleFlightText.Checked;
+            SaveConfig();
         }
 
         private void ToggleLagIcon_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.ShowLagIndicator = ToggleLagIcon.Checked;
-            this.LauncherSettings.SetConfigValue("ShowLagIndicator",
-                this.LauncherSettings.UserSettings.ShowLagIndicator);
+            this.LauncherSettings.UserSettings.Config.ShowLagIndicator = ToggleLagIcon.Checked;
+            SaveConfig();
         }
 
         private void ToggleArrivingPlayer_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.ShowJoiningPlayers = ToggleArrivingPlayer.Checked;
-            this.LauncherSettings.SetConfigValue("ShowJoiningPlayers",
-                this.LauncherSettings.UserSettings.ShowJoiningPlayers);
+            this.LauncherSettings.UserSettings.Config.ShowJoiningPlayers = ToggleArrivingPlayer.Checked;
+            SaveConfig();
         }
 
         private void ToggleDepartingPlayer_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.ShowDepartingPlayers = ToggleDepartingPlayer.Checked;
-            this.LauncherSettings.SetConfigValue("ShowDepartingPlayers",
-                this.LauncherSettings.UserSettings.ShowDepartingPlayers);
+            this.LauncherSettings.UserSettings.Config.ShowDepartingPlayers = ToggleDepartingPlayer.Checked;
+            SaveConfig();
         }
 
         private void ToggleDesktopRes_CheckedChanged(object sender, EventArgs e)
@@ -871,25 +865,20 @@ namespace DSLauncherV2
                 this.WidthLabel.Visible = false;
             }
 
-            this.LauncherSettings.UserSettings.DisplayDesktopRes = ToggleDesktopRes.Checked;
-            this.LauncherSettings.SetConfigValue("DisplayDesktopRes",
-                this.LauncherSettings.UserSettings.DisplayDesktopRes);
+            this.LauncherSettings.UserSettings.Config.DisplayDesktopRes = ToggleDesktopRes.Checked;
+            SaveConfig();
         }
 
         private void ToggleWindowedMode_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.DisplayMode = ToggleWindowedMode.Checked;
-            this.LauncherSettings.SetConfigValue("DisplayMode", this.LauncherSettings.UserSettings.DisplayMode);
+            this.LauncherSettings.UserSettings.Config.DisplayMode = ToggleWindowedMode.Checked;
+            SaveConfig();
         }
 
         private void metroTextBox1_TextChanged(object sender, EventArgs e) // Optional Arguments
         {
-            this.LauncherSettings.UserSettings.ExtraArgs = this.metroTextBox1.Text;
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load("launcherconfig.xml");
-            xmlDocument.SelectSingleNode("/BadassRoot/Config/ExtraArgs").InnerText =
-                this.LauncherSettings.UserSettings.ExtraArgs;
-            xmlDocument.Save("launcherconfig.xml");
+            this.LauncherSettings.UserSettings.Config.ExtraArgs = this.metroTextBox1.Text;
+            SaveConfig();
         }
 
         private void HeightBox_TextChanged(object sender, EventArgs e)
@@ -901,12 +890,8 @@ namespace DSLauncherV2
             }
             else
             {
-                this.LauncherSettings.UserSettings.DisplayHeight = this.HeightBox.Text;
-                XmlDocument XML = new XmlDocument();
-                XML.Load("launcherconfig.xml");
-                XML.SelectSingleNode("/BadassRoot/Config/DisplayHeight").InnerText =
-                    this.LauncherSettings.UserSettings.DisplayHeight;
-                XML.Save("launcherconfig.xml");
+                this.LauncherSettings.UserSettings.Config.DisplayHeight = this.HeightBox.Text;
+                SaveConfig();
             }
         }
 
@@ -919,20 +904,16 @@ namespace DSLauncherV2
             }
             else
             {
-                this.LauncherSettings.UserSettings.DisplayWidth = this.WidthBox.Text;
-                XmlDocument XML = new XmlDocument();
-                XML.Load("launcherconfig.xml");
-                XML.SelectSingleNode("/BadassRoot/Config/DisplayWidth").InnerText =
-                    this.LauncherSettings.UserSettings.DisplayWidth;
-                XML.Save("launcherconfig.xml");
+                this.LauncherSettings.UserSettings.Config.DisplayWidth = this.WidthBox.Text;
+                SaveConfig();
             }
         }
 
         private void DisableChat_CheckedChanged(object sender, EventArgs e)
         {
             this.ChatWarning.Visible = DisableChat.Checked;
-            this.LauncherSettings.UserSettings.DisableChat = DisableChat.Checked;
-            this.LauncherSettings.SetDisableChat();
+            this.LauncherSettings.UserSettings.Config.DisableChat = DisableChat.Checked;
+            SaveConfig();
         }
 
         #endregion
@@ -943,11 +924,11 @@ namespace DSLauncherV2
         {
 
             NewAccount accountForm = new NewAccount();
-            this.LauncherSettings.UserSettings.AFavorite = false;
-            this.LauncherSettings.UserSettings.AName = "";
-            this.LauncherSettings.UserSettings.ADescription = "";
-            this.LauncherSettings.UserSettings.ACode = "";
-            this.LauncherSettings.UserSettings.ASignature = "";
+            this.LauncherSettings.UserSettings.Favorite = false;
+            this.LauncherSettings.UserSettings.Name = "";
+            this.LauncherSettings.UserSettings.Description = "";
+            this.LauncherSettings.UserSettings.Code = "";
+            this.LauncherSettings.UserSettings.Signature = "";
             this.LauncherSettings.UserSettings.AccountCategory = "";
             accountForm.ShowDialog();
             switch (accountForm.DialogResult)
@@ -956,7 +937,7 @@ namespace DSLauncherV2
                     bool flag = false;
                     foreach (DataGridViewRow row in this.AccountsGrid.Rows)
                     {
-                        if (row.Cells[5].Value.ToString().Equals(this.LauncherSettings.UserSettings.ASignature))
+                        if (row.Cells[5].Value.ToString().Equals(this.LauncherSettings.UserSettings.Signature))
                         {
                             MetroMessageBox.Show(this, "This account already exist in the launcher.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                             flag = true;
@@ -965,9 +946,9 @@ namespace DSLauncherV2
                     }
                     if (flag)
                         break;
-                    this.addAccountNode(this.LauncherSettings.UserSettings.AName, this.LauncherSettings.UserSettings.ADescription,
-                        this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.AFavorite.ToString(),
-                        this.LauncherSettings.UserSettings.ACode, this.LauncherSettings.UserSettings.ASignature);
+                    this.addAccountNode(this.LauncherSettings.UserSettings.Name, this.LauncherSettings.UserSettings.Description,
+                        this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.Favorite.ToString(),
+                        this.LauncherSettings.UserSettings.Code, this.LauncherSettings.UserSettings.Signature);
                     this.AccountsGrid.Visible = false;
                     this.AccountsGrid.Visible = true;
                     break;
@@ -1071,30 +1052,30 @@ namespace DSLauncherV2
             NewAccount accountForm = new NewAccount();
             DataGridViewRow row = this.AccountsGrid.Rows[this.AccountsGrid.SelectedCells[0].RowIndex];
 
-            this.LauncherSettings.UserSettings.AName = row.Cells[0].Value.ToString();
-            this.LauncherSettings.UserSettings.ADescription = row.Cells[1].Value.ToString();
+            this.LauncherSettings.UserSettings.Name = row.Cells[0].Value.ToString();
+            this.LauncherSettings.UserSettings.Description = row.Cells[1].Value.ToString();
             this.LauncherSettings.UserSettings.AccountCategory = row.Cells[2].Value.ToString();
-            this.LauncherSettings.UserSettings.AFavorite = ConvertYesNoBool(row.Cells[3].Value.ToString());
-            this.LauncherSettings.UserSettings.ACode = row.Cells[4].Value.ToString();
-            this.LauncherSettings.UserSettings.ASignature = row.Cells[5].Value.ToString();
+            this.LauncherSettings.UserSettings.Favorite = ConvertYesNoBool(row.Cells[3].Value.ToString());
+            this.LauncherSettings.UserSettings.Code = row.Cells[4].Value.ToString();
+            this.LauncherSettings.UserSettings.Signature = row.Cells[5].Value.ToString();
 
             accountForm.ShowDialog();
             if (accountForm.DialogResult != DialogResult.OK) return;
 
-            this.editAccountNode(this.LauncherSettings.UserSettings.AName, this.LauncherSettings.UserSettings.ADescription,
-                this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.AFavorite.ToString(),
-                this.LauncherSettings.UserSettings.ACode, this.LauncherSettings.UserSettings.ASignature);
+            this.editAccountNode(this.LauncherSettings.UserSettings.Name, this.LauncherSettings.UserSettings.Description,
+                this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.Favorite.ToString(),
+                this.LauncherSettings.UserSettings.Code, this.LauncherSettings.UserSettings.Signature);
             
             this.AccountsGrid.Visible = false;
             this.AccountsGrid.Visible = true;
             if (this.CurrentSelectedAccountLabel.Text == currentAccountName)
-                this.CurrentSelectedAccountLabel.Text = this.LauncherSettings.UserSettings.AName;
+                this.CurrentSelectedAccountLabel.Text = this.LauncherSettings.UserSettings.Name;
 
             // ReSharper disable once ForCanBeConvertedToForeach
             for (int i = 0; i < lstFavoriteAccounts.Count; i++) // Using Foreach will throw exception
             {
                 if (lstFavoriteAccounts[i].Text == currentAccountName)
-                    lstFavoriteAccounts[i].Text = this.LauncherSettings.UserSettings.AName;
+                    lstFavoriteAccounts[i].Text = this.LauncherSettings.UserSettings.Name;
             }
         }
 
@@ -1118,23 +1099,23 @@ namespace DSLauncherV2
 
             DataGridViewRow row = this.AccountsGrid.Rows[this.AccountsGrid.SelectedCells[0].RowIndex];
 
-            this.LauncherSettings.UserSettings.AName = row.Cells[0].Value.ToString();
-            this.LauncherSettings.UserSettings.ADescription = row.Cells[1].Value.ToString();
+            this.LauncherSettings.UserSettings.Name = row.Cells[0].Value.ToString();
+            this.LauncherSettings.UserSettings.Description = row.Cells[1].Value.ToString();
             this.LauncherSettings.UserSettings.AccountCategory = row.Cells[2].Value.ToString();
-            this.LauncherSettings.UserSettings.AFavorite = !ConvertYesNoBool(row.Cells[3].Value.ToString()); // Invert whatever it already is
-            this.LauncherSettings.UserSettings.ACode = row.Cells[4].Value.ToString();
-            this.LauncherSettings.UserSettings.ASignature = row.Cells[5].Value.ToString();
+            this.LauncherSettings.UserSettings.Favorite = !ConvertYesNoBool(row.Cells[3].Value.ToString()); // Invert whatever it already is
+            this.LauncherSettings.UserSettings.Code = row.Cells[4].Value.ToString();
+            this.LauncherSettings.UserSettings.Signature = row.Cells[5].Value.ToString();
 
-            if (lstFavoriteAccounts.Count == 4 && this.LauncherSettings.UserSettings.AFavorite)
+            if (lstFavoriteAccounts.Count == 4 && this.LauncherSettings.UserSettings.Favorite)
             {
                 MetroMessageBox.Show(this, "You already have four accounts favorited. You can not add more.", "",
                     MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
 
-            this.editAccountNode(this.LauncherSettings.UserSettings.AName, this.LauncherSettings.UserSettings.ADescription,
-                this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.AFavorite.ToString(),
-                this.LauncherSettings.UserSettings.ACode, this.LauncherSettings.UserSettings.ASignature);
+            this.editAccountNode(this.LauncherSettings.UserSettings.Name, this.LauncherSettings.UserSettings.Description,
+                this.LauncherSettings.UserSettings.AccountCategory, this.LauncherSettings.UserSettings.Favorite.ToString(),
+                this.LauncherSettings.UserSettings.Code, this.LauncherSettings.UserSettings.Signature);
         }
 
         #endregion
@@ -1143,14 +1124,11 @@ namespace DSLauncherV2
 
         private void UpdateRecentAccounts()
         {
-            this.RecentAccounts1.Text = this.LauncherSettings.UserSettings.RecentAccount1;
-            this.RecentAccounts2.Text = this.LauncherSettings.UserSettings.RecentAccount2;
-            this.RecentAccounts3.Text = this.LauncherSettings.UserSettings.RecentAccount3;
-            this.RecentAccounts4.Text = this.LauncherSettings.UserSettings.RecentAccount4;
-            this.LauncherSettings.SetRecentAccount(1);
-            this.LauncherSettings.SetRecentAccount(2);
-            this.LauncherSettings.SetRecentAccount(3);
-            this.LauncherSettings.SetRecentAccount(4);
+            this.RecentAccounts1.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.One;
+            this.RecentAccounts2.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.Two;
+            this.RecentAccounts3.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.Three;
+            this.RecentAccounts4.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.Four;
+            SaveConfig();
         }
 
         private void SelectNewAccount(DataGridViewRow row)
@@ -1169,16 +1147,16 @@ namespace DSLauncherV2
                     this.CurrentSelectedAccountLabel.Text = accName;
                 }
 
-                if (this.LauncherSettings.UserSettings.RecentAccount1 == accName ||
-                    this.LauncherSettings.UserSettings.RecentAccount2 == accName ||
-                    this.LauncherSettings.UserSettings.RecentAccount3 == accName ||
-                    this.LauncherSettings.UserSettings.RecentAccount4 == accName)
+                if (this.LauncherSettings.UserSettings.Config.RecentAccounts.One == accName ||
+                    this.LauncherSettings.UserSettings.Config.RecentAccounts.Two == accName ||
+                    this.LauncherSettings.UserSettings.Config.RecentAccounts.Three == accName ||
+                    this.LauncherSettings.UserSettings.Config.RecentAccounts.Four == accName)
                     return;
 
-                this.LauncherSettings.UserSettings.RecentAccount4 = this.LauncherSettings.UserSettings.RecentAccount3;
-                this.LauncherSettings.UserSettings.RecentAccount3 = this.LauncherSettings.UserSettings.RecentAccount2;
-                this.LauncherSettings.UserSettings.RecentAccount2 = this.LauncherSettings.UserSettings.RecentAccount1;
-                this.LauncherSettings.UserSettings.RecentAccount1 = accName;
+                this.LauncherSettings.UserSettings.Config.RecentAccounts.Four = this.LauncherSettings.UserSettings.Config.RecentAccounts.Four;
+                this.LauncherSettings.UserSettings.Config.RecentAccounts.Three = this.LauncherSettings.UserSettings.Config.RecentAccounts.Three;
+                this.LauncherSettings.UserSettings.Config.RecentAccounts.Two = this.LauncherSettings.UserSettings.Config.RecentAccounts.Two;
+                this.LauncherSettings.UserSettings.Config.RecentAccounts.One = accName;
                 UpdateRecentAccounts();
             }
             catch (Exception ex)
@@ -1428,8 +1406,8 @@ namespace DSLauncherV2
 
         private void IncreaseDrawDistance_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.DrawDistance = this.IncreaseDrawDistance.Checked;
-            this.LauncherSettings.SetDrawDistance();
+            this.LauncherSettings.UserSettings.Config.DrawDistance = this.IncreaseDrawDistance.Checked;
+            SaveConfig();
         }
 
         private void downloadProgress_TextChanged(object sender, EventArgs e)
@@ -1443,8 +1421,8 @@ namespace DSLauncherV2
         // Launch Game
         void LaunchFreelancer()
         {
-            string FLExe = this.LauncherSettings.UserSettings.InstallPath + @"/EXE/Freelancer.exe";
-            string DSAce = this.LauncherSettings.UserSettings.InstallPath + @"/EXE/DSAce.dll";
+            string FLExe = this.LauncherSettings.UserSettings.Config.InstallPath + @"/EXE/Freelancer.exe";
+            string DSAce = this.LauncherSettings.UserSettings.Config.InstallPath + @"/EXE/DSAce.dll";
             foreach (Process p in Process.GetProcessesByName("Freelancer"))
             {
                 if (MessageBox.Show(
@@ -1485,64 +1463,61 @@ namespace DSLauncherV2
 
                     string launchSettings = this.LauncherSettings.UserSettings.MainServer;
 
-                    if (this.LauncherSettings.UserSettings.DisplayMode)
+                    if (this.LauncherSettings.UserSettings.Config.DisplayMode)
                         launchSettings += " -windowed";
 
-                    if (this.LauncherSettings.UserSettings.DisplayDesktopRes)
+                    if (this.LauncherSettings.UserSettings.Config.DisplayDesktopRes)
                         launchSettings += " -dx";
 
                     else
                     {
                         string width = "800";
                         string height = "600";
-                        if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.DisplayHeight))
-                            height = this.LauncherSettings.UserSettings.DisplayHeight;
-                        if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.DisplayWidth))
-                            width = this.LauncherSettings.UserSettings.DisplayWidth;
+                        if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.DisplayHeight))
+                            height = this.LauncherSettings.UserSettings.Config.DisplayHeight;
+                        if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.DisplayWidth))
+                            width = this.LauncherSettings.UserSettings.Config.DisplayWidth;
 
                         launchSettings += " -d" + width + "-x" + height;
                     }
 
-                    if (this.LauncherSettings.UserSettings.ChatLogging)
+                    if (this.LauncherSettings.UserSettings.Config.ChatLogging)
                         launchSettings += " -logchat";
 
-                    if (this.LauncherSettings.UserSettings.ChatAppend)
+                    if (this.LauncherSettings.UserSettings.Config.ChatAppend)
                         launchSettings += " -logappend";
 
-                    if (this.LauncherSettings.UserSettings.ChatTime)
+                    if (this.LauncherSettings.UserSettings.Config.ChatTime)
                         launchSettings += " -logtime";
 
-                    if (this.LauncherSettings.UserSettings.ChatLocalTime)
+                    if (this.LauncherSettings.UserSettings.Config.ChatLocalTime)
                         launchSettings += " -localtime";
 
-                    if (!this.LauncherSettings.UserSettings.ShowFlightText)
+                    if (!this.LauncherSettings.UserSettings.Config.ShowFlightText)
                         launchSettings += " -noflighttext";
 
-                    if (this.LauncherSettings.UserSettings.ShowDepartingPlayers)
+                    if (this.LauncherSettings.UserSettings.Config.ShowDepartingPlayers)
                         launchSettings += " -dptplayer";
 
-                    if (this.LauncherSettings.UserSettings.ShowJoiningPlayers)
+                    if (this.LauncherSettings.UserSettings.Config.ShowJoiningPlayers)
                         launchSettings += " -newplayer";
 
-                    if (this.LauncherSettings.UserSettings.ShowLagIndicator)
+                    if (this.LauncherSettings.UserSettings.Config.ShowLagIndicator)
                         launchSettings += " -lag";
 
-                    if (this.LauncherSettings.UserSettings.DiscordRPC)
-                        launchSettings += " -discordrpc";
-
-                    if (this.LauncherSettings.UserSettings.DrawDistance)
+                    if (this.LauncherSettings.UserSettings.Config.DrawDistance)
                         launchSettings += " -hdfx";
 
-                    if (this.LauncherSettings.UserSettings.DisableChat)
+                    if (this.LauncherSettings.UserSettings.Config.DisableChat)
                         launchSettings += " -nochat";
 
                     try
                     {
                         Process.Start(new ProcessStartInfo()
                         {
-                            FileName = this.LauncherSettings.UserSettings.InstallPath + "//EXE//Freelancer.exe",
-                            WorkingDirectory = this.LauncherSettings.UserSettings.InstallPath + "//EXE//",
-                            Arguments = launchSettings + " " + this.LauncherSettings.UserSettings.ExtraArgs + " " +
+                            FileName = this.LauncherSettings.UserSettings.Config.InstallPath + "//EXE//Freelancer.exe",
+                            WorkingDirectory = this.LauncherSettings.UserSettings.Config.InstallPath + "//EXE//",
+                            Arguments = launchSettings + " " + this.LauncherSettings.UserSettings.Config.ExtraArgs + " " +
                                         this.forcedArguments.Text
                         });
                     }

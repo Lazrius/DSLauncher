@@ -16,7 +16,7 @@ namespace DSLauncherV2
     public partial class NewAccount : MetroFramework.Forms.MetroForm
     {
         private String CodeSigRegex = @"^[0-9a-fA-F]{8}-[0-9a-fA-F]{8}-[0-9a-fA-F]{8}-[0-9a-fA-F]{8}$";
-        private UserSettings UserSettings = UserSettings.Instance;
+        private UserSettings UserSettings = new UserSettings();
         public NewAccount()
         {
             InitializeComponent();
@@ -115,24 +115,24 @@ namespace DSLauncherV2
                 return;
             }
 
-            this.UserSettings.AName = NameTextbox.Text;
-            this.UserSettings.ADescription = DescriptionTextbox.Text;
+            this.UserSettings.Name = NameTextbox.Text;
+            this.UserSettings.Description = DescriptionTextbox.Text;
             this.UserSettings.AccountCategory = CategoryTextbox.Text;
-            this.UserSettings.AFavorite = false;
-            this.UserSettings.ACode = CodeTextbox.Text;
-            this.UserSettings.ASignature = SigTextbox.Text;
+            this.UserSettings.Favorite = false;
+            this.UserSettings.Code = CodeTextbox.Text;
+            this.UserSettings.Signature = SigTextbox.Text;
             this.DialogResult = DialogResult.OK;
         }
 
         private void NewAccount_Load(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.UserSettings.AName))
+            if (!string.IsNullOrEmpty(this.UserSettings.Name))
             {
-                this.NameTextbox.Text = this.UserSettings.AName;
-                this.DescriptionTextbox.Text = this.UserSettings.ADescription;
+                this.NameTextbox.Text = this.UserSettings.Name;
+                this.DescriptionTextbox.Text = this.UserSettings.Description;
                 this.CategoryTextbox.Text = this.UserSettings.AccountCategory;
-                this.CodeTextbox.Text = this.UserSettings.ACode;
-                this.SigTextbox.Text = this.UserSettings.ASignature;
+                this.CodeTextbox.Text = this.UserSettings.Code;
+                this.SigTextbox.Text = this.UserSettings.Signature;
                 this.CodeTextbox.ReadOnly = true;
                 this.SigTextbox.ReadOnly = true;
             }

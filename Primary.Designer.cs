@@ -1530,7 +1530,6 @@ namespace DSLauncherV2
             this.patchDownload.Location = new System.Drawing.Point(11, 396);
             this.patchDownload.Name = "patchDownload";
             this.patchDownload.Size = new System.Drawing.Size(522, 23);
-            this.patchDownload.Style = MetroFramework.MetroColorStyle.Blue;
             this.patchDownload.TabIndex = 32;
             this.patchDownload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.patchDownload.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -1554,7 +1553,6 @@ namespace DSLauncherV2
             this.launcherPatchSpinner.Name = "launcherPatchSpinner";
             this.launcherPatchSpinner.Size = new System.Drawing.Size(27, 27);
             this.launcherPatchSpinner.Speed = 2F;
-            this.launcherPatchSpinner.Style = MetroFramework.MetroColorStyle.Blue;
             this.launcherPatchSpinner.TabIndex = 30;
             this.launcherPatchSpinner.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.launcherPatchSpinner.UseSelectable = true;

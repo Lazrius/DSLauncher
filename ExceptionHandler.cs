@@ -29,6 +29,10 @@ namespace DSLauncherV2
                 case ExceptionCode.C05:
                     MetroMessageBox.Show(activeForm, "Unable to load account. Account no longer exists or is corrpted.", "Error Code: C05", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
+                case ExceptionCode.C06:
+                    MetroMessageBox.Show(activeForm, "Unable to save config file.\n\nAdditional Informations: " + exmessage, "Error Code: C06", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    Environment.Exit(0);
+                    break;
                 case ExceptionCode.F01:
                     MetroMessageBox.Show(activeForm, "DSLauncher could not contact the patch server.\n\nAdditional Informations: " + exmessage, "Error Code: F01", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
@@ -38,7 +42,7 @@ namespace DSLauncherV2
                         Environment.Exit(0);
                     break;
                 case ExceptionCode.I01:
-                    MetroMessageBox.Show(activeForm, "DSLauncher account import exception.\n\nAdditional Informations: " + exmessage, "Error Code: P01", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MetroMessageBox.Show(activeForm, "DSLauncher account import exception.\n\nAdditional Informations: " + exmessage, "Error Code: I01", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     Environment.Exit(0);
                     break;
                 case ExceptionCode.L01:
@@ -54,15 +58,15 @@ namespace DSLauncherV2
                     MetroMessageBox.Show(activeForm, "Unable to terminate Freelancer process. \n\nAdditional Information: " + exmessage, "Error Code L04", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
                 case ExceptionCode.P01:
-                    MetroMessageBox.Show(activeForm, "An error has occurred while downloading a patch.\n\nAdditional Informations: " + exmessage, "Error Code: D01", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MetroMessageBox.Show(activeForm, "An error has occurred while downloading a patch.\n\nAdditional Informations: " + exmessage, "Error Code: P01", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     Environment.Exit(0);
                     break;
                 case ExceptionCode.P02:
-                    MetroMessageBox.Show(activeForm, "A fatal error has occurred while applying a patch.\n\nAdditional Informations: " + exmessage, "Error Code: D02", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MetroMessageBox.Show(activeForm, "A fatal error has occurred while applying a patch.\n\nAdditional Informations: " + exmessage, "Error Code: P02", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     Environment.Exit(0);
                     break;
                 case ExceptionCode.P03:
-                    MetroMessageBox.Show(activeForm, exmessage, "Error Code: D03", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroMessageBox.Show(activeForm, exmessage, "Error Code: P03", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Environment.Exit(0);
                     break;
                 default:
@@ -85,6 +89,8 @@ namespace DSLauncherV2
         C04,
         /// <summary>Account in fav/recent menu no longer exists</summary>
         C05,
+        /// <summary>Unable to save config file </summary>
+        C06,
         /// <summary>Can't download patch</summary>
         P01,
         /// <summary>Can't install patch</summary>
