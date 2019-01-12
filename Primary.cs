@@ -576,8 +576,10 @@ namespace DSLauncherV2
             XmlNode oldChild = documentElement.SelectSingleNode(xpath);
             documentElement.RemoveChild(oldChild);
             xmlDocument.Save(this.LauncherSettings.UserSettings.AccountsFile);
-            foreach (DataGridViewRow row in this.UnfilterdRows)
+
+            for (int i = 0; i < UnfilterdRows.Count; i++)
             {
+                DataGridViewRow row = this.UnfilterdRows[i];
                 if (row.Cells[4].Value.ToString().Equals(accountCode))
                 {
                     this.AccountsGrid.Rows.Remove(row);
