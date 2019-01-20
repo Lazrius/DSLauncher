@@ -80,31 +80,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExceptionHandler.cs" />
-    <Compile Include="NewAccount.cs">
+    <Compile Include="Settings\ExceptionHandler.cs" />
+    <Compile Include="Forms\NewAccount.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewAccount.Designer.cs">
+    <Compile Include="Forms\NewAccount.Designer.cs">
       <DependentUpon>NewAccount.cs</DependentUpon>
     </Compile>
-    <Compile Include="LauncherSettings.cs" />
-    <Compile Include="Primary.cs">
+    <Compile Include="Settings\LauncherSettings.cs" />
+    <Compile Include="Forms\Primary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Primary.Designer.cs">
+    <Compile Include="Forms\Primary.Designer.cs">
       <DependentUpon>Primary.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Defaults.cs" />
-    <Compile Include="ScrollMessageBox.cs">
+    <Compile Include="Forms\ScrollMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserSettings.cs" />
-    <EmbeddedResource Include="NewAccount.resx">
+    <Compile Include="Settings\UserSettings.cs" />
+    <EmbeddedResource Include="Forms\NewAccount.resx">
       <DependentUpon>NewAccount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Primary.resx">
+    <EmbeddedResource Include="Forms\Primary.resx">
       <DependentUpon>Primary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -117,7 +117,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ScrollMessageBox.resx">
+    <EmbeddedResource Include="Forms\ScrollMessageBox.resx">
       <DependentUpon>ScrollMessageBox.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -144,6 +144,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Accounts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
