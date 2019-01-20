@@ -562,6 +562,8 @@ namespace DSLauncherV2
             this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, isFav, accountCode,
                 accountSig);
             this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
+            this.AccountsGrid.Visible = false;
+            this.AccountsGrid.Visible = true;
         }
 
         private void deleteAccountNode(string accountCode)
