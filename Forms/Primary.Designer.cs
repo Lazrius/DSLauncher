@@ -53,6 +53,8 @@ namespace DSLauncherV2
             this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel23 = new MetroFramework.Controls.MetroLabel();
             this.ThemeSelector = new MetroFramework.Controls.MetroComboBox();
+            this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
+            this.DiscordRPCCheckBox = new MetroFramework.Controls.MetroToggle();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
             this.ToggleLocalTime = new MetroFramework.Controls.MetroToggle();
             this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
@@ -132,8 +134,6 @@ namespace DSLauncherV2
             this.launcherPatchSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.accountsSearch = new MetroFramework.Controls.MetroTextBox();
             this.accountsSearchLabel = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
-            this.DiscordRPCCheckBox = new MetroFramework.Controls.MetroToggle();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -175,7 +175,7 @@ namespace DSLauncherV2
             this.currentAccountLabel.Name = "currentAccountLabel";
             this.currentAccountLabel.Size = new System.Drawing.Size(111, 19);
             this.currentAccountLabel.TabIndex = 6;
-            this.currentAccountLabel.Text = "Current Account: ";
+            this.currentAccountLabel.Text = "Current Accounts: ";
             this.currentAccountLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
             // label1
@@ -388,6 +388,31 @@ namespace DSLauncherV2
             this.ThemeSelector.UseSelectable = true;
             this.ThemeSelector.UseStyleColors = true;
             this.ThemeSelector.SelectedIndexChanged += new System.EventHandler(this.ThemeSelector_SelectedIndexChanged);
+            // 
+            // metroLabel19
+            // 
+            this.metroLabel19.AutoSize = true;
+            this.metroLabel19.Location = new System.Drawing.Point(359, 45);
+            this.metroLabel19.Name = "metroLabel19";
+            this.metroLabel19.Size = new System.Drawing.Size(109, 19);
+            this.metroLabel19.TabIndex = 11;
+            this.metroLabel19.Text = "Discord Presence";
+            this.metroLabel19.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroLabel19.UseCustomBackColor = true;
+            // 
+            // DiscordRPCCheckBox
+            // 
+            this.DiscordRPCCheckBox.AutoSize = true;
+            this.DiscordRPCCheckBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.DiscordRPCCheckBox.Enabled = false;
+            this.DiscordRPCCheckBox.Location = new System.Drawing.Point(279, 46);
+            this.DiscordRPCCheckBox.Name = "DiscordRPCCheckBox";
+            this.DiscordRPCCheckBox.Size = new System.Drawing.Size(80, 17);
+            this.DiscordRPCCheckBox.TabIndex = 10;
+            this.DiscordRPCCheckBox.Text = "Off";
+            this.DiscordRPCCheckBox.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.DiscordRPCCheckBox.UseCustomBackColor = true;
+            this.DiscordRPCCheckBox.UseSelectable = true;
             // 
             // metroLabel7
             // 
@@ -971,6 +996,7 @@ namespace DSLauncherV2
             // 
             // AccountsGrid
             // 
+            this.AccountsGrid.AllowDrop = true;
             this.AccountsGrid.AllowUserToAddRows = false;
             this.AccountsGrid.AllowUserToDeleteRows = false;
             this.AccountsGrid.AllowUserToOrderColumns = true;
@@ -1029,6 +1055,9 @@ namespace DSLauncherV2
             this.AccountsGrid.TabIndex = 7;
             this.AccountsGrid.UseStyleColors = true;
             this.AccountsGrid.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.AccountsGrid_MouseDoubleClick);
+            this.AccountsGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AccountsGrid_MouseDown);
+            this.AccountsGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AccountsGrid_MouseMove);
+            this.AccountsGrid.MouseUp += new System.Windows.Forms.MouseEventHandler(this.AccountsGrid_MouseUp);
             // 
             // AccName
             // 
@@ -1091,7 +1120,7 @@ namespace DSLauncherV2
             // 
             this.CreateNewAccount.Name = "CreateNewAccount";
             this.CreateNewAccount.Size = new System.Drawing.Size(215, 22);
-            this.CreateNewAccount.Text = "Create New Account";
+            this.CreateNewAccount.Text = "Create New Accounts";
             this.CreateNewAccount.Click += new System.EventHandler(this.CreateNewAccount_Click);
             // 
             // DeleteSelectedAccounts
@@ -1112,7 +1141,7 @@ namespace DSLauncherV2
             // 
             this.EditAccount.Name = "EditAccount";
             this.EditAccount.Size = new System.Drawing.Size(215, 22);
-            this.EditAccount.Text = "Edit Selected Account";
+            this.EditAccount.Text = "Edit Selected Accounts";
             this.EditAccount.Click += new System.EventHandler(this.EditAccount_Click);
             // 
             // MarkFavorite
@@ -1578,31 +1607,6 @@ namespace DSLauncherV2
             this.accountsSearchLabel.Text = "Search Accounts";
             this.accountsSearchLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.accountsSearchLabel.Visible = false;
-            // 
-            // metroLabel19
-            // 
-            this.metroLabel19.AutoSize = true;
-            this.metroLabel19.Location = new System.Drawing.Point(359, 45);
-            this.metroLabel19.Name = "metroLabel19";
-            this.metroLabel19.Size = new System.Drawing.Size(109, 19);
-            this.metroLabel19.TabIndex = 11;
-            this.metroLabel19.Text = "Discord Presence";
-            this.metroLabel19.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.metroLabel19.UseCustomBackColor = true;
-            // 
-            // DiscordRPCCheckBox
-            // 
-            this.DiscordRPCCheckBox.AutoSize = true;
-            this.DiscordRPCCheckBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.DiscordRPCCheckBox.Enabled = false;
-            this.DiscordRPCCheckBox.Location = new System.Drawing.Point(279, 46);
-            this.DiscordRPCCheckBox.Name = "DiscordRPCCheckBox";
-            this.DiscordRPCCheckBox.Size = new System.Drawing.Size(80, 17);
-            this.DiscordRPCCheckBox.TabIndex = 10;
-            this.DiscordRPCCheckBox.Text = "Off";
-            this.DiscordRPCCheckBox.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.DiscordRPCCheckBox.UseCustomBackColor = true;
-            this.DiscordRPCCheckBox.UseSelectable = true;
             // 
             // Primary
             // 

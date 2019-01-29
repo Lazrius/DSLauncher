@@ -326,7 +326,7 @@
             this.Padding = new System.Windows.Forms.Padding(20, 30, 20, 20);
             this.Resizable = false;
             this.ShowIcon = false;
-            this.Text = "Add/Edit Account";
+            this.Text = "Add/Edit Accounts";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.ResumeLayout(false);
             this.PerformLayout();

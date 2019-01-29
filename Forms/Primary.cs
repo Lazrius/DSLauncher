@@ -34,6 +34,9 @@ namespace DSLauncherV2
         private List<string> lstAccountCategories = new List<string>();
         private byte[] downloadedData;
         private string currentAnnouncement;
+        private int dragIndex = -1;
+        private MetroLabel dragLabel = null;
+        private Timer timer;
 
         public Primary()
         {
@@ -463,40 +466,35 @@ namespace DSLauncherV2
         {
             int iNum = 0;
             List<MetroLink> lstMetroLinks = new List<MetroLink>();
-            foreach (KeyValuePair<int, AccountsListDataStruct> keyValuePair in LauncherSettings
-                .UserSettings.AccountListData)
+            foreach (Account account in LauncherSettings.UserSettings.AccountList.Accounts)
             {
-                string isFav = keyValuePair.Value.IsFavorite.ToLower() == "false" ? "No" : "Yes";
-                this.LoadInAccounts(keyValuePair.Value.AccountName, keyValuePair.Value.AccountDescription,
-                    keyValuePair.Value.AccountCategory, isFav,
-                    keyValuePair.Value.AccountCode, keyValuePair.Value.AccountSignature);
+                this.LoadInAccounts(account.Name, account.Description, account.Category, account.IsFavorite, account.Code, account.Signature);
 
-                if (lstAccountCategories.All(category => category != keyValuePair.Value.AccountCategory) &&
-                    keyValuePair.Value.AccountCategory != "None")
-                    lstAccountCategories.Add(keyValuePair.Value.AccountCategory);
+                if (lstAccountCategories.All(category => category != account.Category) && account.Category != "None")
+                    lstAccountCategories.Add(account.Category);
 
-                if (iNum < 4 && keyValuePair.Value.IsFavorite.ToLower() == "true")
+                if (iNum < 4 && account.IsFavorite)
                 {
                     iNum++;
                     switch (iNum)
                     {
                         case 1:
-                            this.FavAccount1.Text = keyValuePair.Value.AccountName;
+                            this.FavAccount1.Text = account.Name;
                             this.FavAccount1.Visible = true;
                             lstMetroLinks.Add(FavAccount1);
                             break;
                         case 2:
-                            this.FavAccount2.Text = keyValuePair.Value.AccountName;
+                            this.FavAccount2.Text = account.Name;
                             this.FavAccount2.Visible = true;
                             lstMetroLinks.Add(FavAccount2);
                             break;
                         case 3:
-                            this.FavAccount3.Text = keyValuePair.Value.AccountName;
+                            this.FavAccount3.Text = account.Name;
                             this.FavAccount3.Visible = true;
                             lstMetroLinks.Add(FavAccount3);
                             break;
                         case 4:
-                            this.FavAccount4.Text = keyValuePair.Value.AccountName;
+                            this.FavAccount4.Text = account.Name;
                             this.FavAccount4.Visible = true;
                             lstMetroLinks.Add(FavAccount4);
                             break;
@@ -522,70 +520,38 @@ namespace DSLauncherV2
         /// Accounts Manager
         ///////////////////////////////////////////////
 
-        private void LoadInAccounts(string accountName, string accountDescription, string accountCategory, string isFav,
+        private void LoadInAccounts(string accountName, string accountDescription, string accountCategory, bool isFav,
             string accountCode, string accountSig)
         {
-            this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, isFav, accountCode,
+            string fav = isFav ? "No" : "Yes";
+            this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, fav, accountCode,
                 accountSig);
             this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
         }
 
-        private void addAccountNode(string accountName, string accountDescription, string accountCategory, string isFav,
+        private void AddAccountNode(string accountName, string accountDescription, string accountCategory, bool isFav,
             string accountCode, string accountSig)
         {
-            XmlTextReader xmlTextReader = new XmlTextReader(this.LauncherSettings.UserSettings.AccountsFile);
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(xmlTextReader);
-            xmlTextReader.Close();
-
-            XmlElement element = xmlDocument.CreateElement("account");
-
-            XmlAttribute favAttribute = xmlDocument.CreateAttribute("favorite");
-            favAttribute.Value = isFav;
-
-            XmlAttribute descriptionAttribute = xmlDocument.CreateAttribute("description");
-            descriptionAttribute.Value = accountDescription;
-
-            XmlAttribute codeAttribute = xmlDocument.CreateAttribute("code");
-            codeAttribute.Value = accountCode;
-
-            XmlAttribute sigAttribute = xmlDocument.CreateAttribute("signature");
-            sigAttribute.Value = accountSig;
-
-            XmlAttribute catAttribute = xmlDocument.CreateAttribute("category");
-            catAttribute.Value = accountCategory;
-
-            element.InnerText = accountName;
-            element.Attributes.Append(codeAttribute);
-            element.Attributes.Append(sigAttribute);
-            element.Attributes.Append(descriptionAttribute);
-            element.Attributes.Append(favAttribute);
-            element.Attributes.Append(catAttribute);
-
-            xmlDocument.DocumentElement.AppendChild(element);
-            xmlDocument.Save(this.LauncherSettings.UserSettings.AccountsFile);
-
-            isFav = isFav.ToLower() == "false" ? "No" : "Yes";
+            Account account = new Account()
+            {
+                Name = accountName,
+                Description = accountDescription,
+                Category = accountCategory,
+                Code = accountCode,
+                Signature = accountSig,
+                IsFavorite = isFav
+            };
             this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, isFav, accountCode,
                 accountSig);
             this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
             this.AccountsGrid.Visible = false;
             this.AccountsGrid.Visible = true;
+            this.LauncherSettings.UserSettings.AccountList.Accounts.Add(account);
+            this.LauncherSettings.SaveAccounts(this);
         }
 
-        private void deleteAccountNode(string accountCode)
+        private void DeleteAccountNode(string accountCode)
         {
-            XmlTextReader xmlTextReader = new XmlTextReader(this.LauncherSettings.UserSettings.AccountsFile);
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(xmlTextReader);
-            xmlTextReader.Close();
-
-            XmlElement documentElement = xmlDocument.DocumentElement;
-            string xpath = $"/AccountsList/account[@code='{accountCode}']";
-            XmlNode oldChild = documentElement.SelectSingleNode(xpath);
-            documentElement.RemoveChild(oldChild);
-            xmlDocument.Save(this.LauncherSettings.UserSettings.AccountsFile);
-
             for (int i = 0; i < UnfilterdRows.Count; i++)
             {
                 DataGridViewRow row = this.UnfilterdRows[i];
@@ -595,14 +561,129 @@ namespace DSLauncherV2
                     this.UnfilterdRows.Remove(row);
                 }
             }
-            
+
+            Account account = this.LauncherSettings.UserSettings.AccountList.Accounts.Find(x => x.Code == accountCode);
+            this.LauncherSettings.UserSettings.AccountList.Accounts.Remove(account);
+            this.LauncherSettings.SaveAccounts(this);
         }
 
-        private void editAccountNode(string accountName, string accountDescription, string accountCategory,
-            string isFav, string accountCode, string accountSig)
+        private void EditAccountNode(string accountName, string accountDescription, string accountCategory,
+            bool isFav, string accountCode, string accountSig)
         {
-            this.deleteAccountNode(accountCode);
-            this.addAccountNode(accountName, accountDescription, accountCategory, isFav, accountCode, accountSig);
+            this.DeleteAccountNode(accountCode);
+            this.AddAccountNode(accountName, accountDescription, accountCategory, isFav, accountCode, accountSig);
+        }
+
+        private void AccountsGrid_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Taken from:
+            // https://stackoverflow.com/questions/43890477/drag-and-drop-rows-of-datagrid-view-winform-c-sharp
+            // Modified to work with the application
+
+            // Only do this when we are working without a category
+            if (AccountsGrid.Rows.Count != UnfilterdRows.Count) return;
+            int i = this.AccountsGrid.HitTest(e.X, e.Y).RowIndex;
+            if (i < 0) return; // If we haven't clicked on a row
+
+            timer = new Timer();
+            timer.Tick += delegate { MouseHeld_Timer(i); };
+            timer.Interval = 1000;
+            timer.Start();
+        }
+
+        private void MouseHeld_Timer(int row1)
+        {
+            timer.Stop();
+            if (MouseButtons != MouseButtons.Left) return; // If we are not holding down the left mouse button.
+            Point i = this.AccountsGrid.PointToClient(Cursor.Position);
+            int row2 = this.AccountsGrid.HitTest(i.X, i.Y).RowIndex;
+            if (row2 < 0) return; // If we are not selected on a row
+            if (row1 != row2) return; // If we are selected on a different row
+
+            dragIndex = row1; // Grab our row index to use later
+            this.AccountsGrid.ClearSelection(); // Otherwise we end up selecting all accounts
+            this.AccountsGrid.MultiSelect = false;
+
+            // Setup our Label
+            if (dragLabel == null)
+                dragLabel = new MetroLabel();
+
+            dragLabel.Style = (MetroColorStyle)this.LauncherSettings.UserSettings.Config.Style; // Copy our theme
+            dragLabel.Theme = MetroThemeStyle.Dark; // Dark is best
+            dragLabel.UseStyleColors = true; // Blue writing by default
+            dragLabel.Parent = this.AccountsGrid; // Don't let us drag this outside the grid
+            dragLabel.Text = this.AccountsGrid.Rows[dragIndex].Cells[0].Value.ToString(); // So they don't forget the account
+            dragLabel.Location = this.AccountsGrid.PointToClient(Cursor.Position); // Summon our label at our cursor
+        }
+
+        private void AccountsGrid_MouseMove(object sender, MouseEventArgs e)
+        {
+            // If the user is no longer holding down left click, or if the label is no longer in use
+            if (e.Button != MouseButtons.Left || dragLabel == null)
+            {
+                this.AccountsGrid.MultiSelect = true; // Re-enable multi-select
+                return;
+            }
+
+            dragLabel.Location = e.Location; // Keep it glued to our cursor
+            AccountsGrid.ClearSelection(); // Clear what was selected 
+        }
+
+        private void AccountsGrid_MouseUp(object sender, MouseEventArgs e)
+        {
+            // If we dont do this and drag outside of the grid, we crash.
+            if (AccountsGrid.Rows.Count != UnfilterdRows.Count) return;
+
+            var hit = this.AccountsGrid.HitTest(e.X, e.Y);
+            if (hit.Type != DataGridViewHitTestType.None)
+            {
+                var dropRow = hit.RowIndex;
+                if (dragIndex >= 0)
+                {
+                    int tgtRow = dropRow + (dragIndex > dropRow ? 1 : 0);
+                    if (tgtRow != dragIndex)
+                    {
+                        DataGridViewRow row = this.AccountsGrid.Rows[dragIndex];
+                        this.AccountsGrid.Rows.Remove(row);
+                        this.AccountsGrid.Rows.Insert(tgtRow, row);
+                        this.UnfilterdRows.Clear();
+                        foreach (var i in this.AccountsGrid.Rows)
+                            this.UnfilterdRows.Add((DataGridViewRow)i);
+
+                        this.LauncherSettings.UserSettings.AccountList.Accounts.Clear();
+                        foreach (var i in this.UnfilterdRows)
+                        {
+                            Account account = new Account()
+                            {
+                                Name = i.Cells[0].Value.ToString(),
+                                Description = i.Cells[1].Value.ToString(),
+                                Category = i.Cells[2].Value.ToString(),
+                                IsFavorite = i.Cells[3].Value.ToString().ToLower() == "yes",
+                                Code = i.Cells[4].Value.ToString(),
+                                Signature = i.Cells[5].Value.ToString(),
+                            };
+
+                            this.LauncherSettings.UserSettings.AccountList.Accounts.Add(account);
+                        }
+
+                        this.LauncherSettings.SaveAccounts(this);
+
+                        this.AccountsGrid.ClearSelection();
+                        row.Selected = true;
+                    }
+                }
+            }
+            else if (dragIndex > 0)
+            {
+                this.AccountsGrid.Rows[dragIndex].Selected = true;
+            }
+
+            if (dragLabel != null)
+            {
+                dragLabel.Dispose();
+                dragLabel = null;
+                dragIndex = 0;
+            }
         }
 
         #endregion
@@ -950,7 +1031,7 @@ namespace DSLauncherV2
                     }
                     if (flag)
                         break;
-                    this.addAccountNode(UserSettings.Name, UserSettings.Description, UserSettings.AccountCategory, UserSettings.Favorite.ToString(),
+                    this.AddAccountNode(UserSettings.Name, UserSettings.Description, UserSettings.AccountCategory, UserSettings.Favorite,
                         UserSettings.Code, UserSettings.Signature);
                     this.AccountsGrid.Visible = false;
                     this.AccountsGrid.Visible = true;
@@ -972,7 +1053,7 @@ namespace DSLauncherV2
             {
                 foreach (var row in lstSelectedRows)
                 {
-                    this.deleteAccountNode(row.Cells[4].Value.ToString());
+                    this.DeleteAccountNode(row.Cells[4].Value.ToString());
                 }
             }
         }
@@ -1070,10 +1151,10 @@ namespace DSLauncherV2
                 accountForm.ShowDialog();
                 if (accountForm.DialogResult != DialogResult.OK) return;
 
-                this.editAccountNode(UserSettings.Name,
+                this.EditAccountNode(UserSettings.Name,
                     UserSettings.Description,
                     UserSettings.AccountCategory,
-                    UserSettings.Favorite.ToString(),
+                    UserSettings.Favorite,
                     UserSettings.Code, UserSettings.Signature);
 
                 this.AccountsGrid.Visible = false;
@@ -1124,8 +1205,8 @@ namespace DSLauncherV2
                 return;
             }
 
-            this.editAccountNode(UserSettings.Name, UserSettings.Description,
-                UserSettings.AccountCategory, UserSettings.Favorite.ToString(),
+            this.EditAccountNode(UserSettings.Name, UserSettings.Description,
+                UserSettings.AccountCategory, UserSettings.Favorite,
                 UserSettings.Code, UserSettings.Signature);
         }
 
@@ -1249,6 +1330,8 @@ namespace DSLauncherV2
                     this.AccountsGrid.Rows.Add(row);
                 }
 
+                this.LauncherSettings.UserSettings.Config.LastCategory = null;
+                this.SaveConfig();
                 return;
             }
 
@@ -1322,8 +1405,9 @@ namespace DSLauncherV2
                             }
                         }
 
+                        bool isFav = accountFavorite.ToLower() == "true";
                         if (num4 == 0)
-                            this.addAccountNode(accountName, accountDescription, accountCategory, accountFavorite, accountCode, accouneSignature);
+                            this.AddAccountNode(accountName, accountDescription, accountCategory, isFav, accountCode, accouneSignature);
                     }
 
                     streamReader.Close();
@@ -1396,10 +1480,11 @@ namespace DSLauncherV2
                     }
                 }
 
-                MetroMessageBox.Show(this, "The account currently in the registry is not in your accounts list. It will now be added in the list as My New Account.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                this.addAccountNode("New Account", "Extracted from the registry", "None", "False",
-                    this.LauncherSettings.UserSettings.ActiveCode, this.LauncherSettings.UserSettings.ActiveSignature);
-                this.CurrentSelectedAccountLabel.Text = "New Account";
+                MetroMessageBox.Show(this, "The account currently in the registry is not in your accounts list. It will now be added in the list as My New Accounts.",
+                    "Notice", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                this.AddAccountNode("New Accounts", "Extracted from the registry", "None", false, this.LauncherSettings.UserSettings.ActiveCode,
+                    this.LauncherSettings.UserSettings.ActiveSignature);
+                this.CurrentSelectedAccountLabel.Text = "New Accounts";
             }
             catch (Exception)
             {

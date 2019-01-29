@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
@@ -40,8 +41,9 @@ namespace DSLauncherV2
 
         [XmlIgnore]
         public Dictionary<int, PatchListDataStruct> PatchListData = new Dictionary<int, PatchListDataStruct>();
+
         [XmlIgnore]
-        public Dictionary<int, AccountsListDataStruct> AccountListData = new Dictionary<int, AccountsListDataStruct>();
+        public AccountList AccountList { get; set; }
 
         // Remote Patch Files
         [XmlIgnore]
@@ -144,13 +146,26 @@ namespace DSLauncherV2
         public string PatchMD5Hash;
     }
 
-    public struct AccountsListDataStruct
+    [XmlRoot("AccountsList")]
+    public sealed class AccountList
     {
-        public string AccountName;
-        public string AccountDescription;
-        public string AccountSignature;
-        public string AccountCode;
-        public string IsFavorite;
-        public string AccountCategory;
+        [XmlElement("account")]
+        public List<Account> Accounts { get; set; }
+    }
+
+    public class Account
+    {
+        [XmlText]
+        public string Name { get; set; }
+        [XmlAttribute("description")]
+        public string Description { get; set; }
+        [XmlAttribute("signature")]
+        public string Signature { get; set; }
+        [XmlAttribute("code")]
+        public string Code { get; set; }
+        [XmlAttribute("favorite")]
+        public bool IsFavorite { get; set; }
+        [XmlAttribute("category")]
+        public string Category { get; set; }
     }
 }

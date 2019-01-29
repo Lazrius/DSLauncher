@@ -53,20 +53,6 @@ namespace DSLauncherV2
             }
         }
 
-        private static string GetXMLText(XmlNode XML, string attrName)
-        {
-            var xmlAttribute = XML.Attributes[attrName];
-
-            if (xmlAttribute == null)
-                return string.Empty;
-
-            var value = xmlAttribute.Value;
-            if (value == null)
-                return string.Empty;
-
-            return value;
-        }
-
         public void LoadAccounts(Primary primary)
         {
             if (!File.Exists(this.UserSettings.AccountsFile))
@@ -88,39 +74,48 @@ namespace DSLauncherV2
             }
             try
             {
-                XmlDocument xmlDocument = new XmlDocument();
-                StreamReader streamReader = new StreamReader(this.UserSettings.AccountsFile);
-                xmlDocument.Load(streamReader);
-                XmlNode xmlNode1 = xmlDocument.SelectSingleNode("/AccountsList");
-                int key = 0;
-                foreach (XmlNode xmlNode2 in xmlNode1)
-                {
-                    ++key;
-                    string innerText = xmlNode2.InnerText;
-                    string str1 = GetXMLText(xmlNode2, "description");
-                    string str2 = GetXMLText(xmlNode2, "code");
-                    string str3 = GetXMLText(xmlNode2, "signature");
-                    string str4 = GetXMLText(xmlNode2, "favorite");
-                    string str5 = GetXMLText(xmlNode2, "category");
-                    if (string.IsNullOrEmpty(str5))
-                        str5 = "None";
+                XmlSerializer serializer = new XmlSerializer(typeof(AccountList));
 
-                    this.UserSettings.AccountListData.Add(key, new AccountsListDataStruct()
-                    {
-                        AccountName = innerText,
-                        AccountDescription = str1,
-                        AccountCode = str2,
-                        AccountSignature = str3,
-                        IsFavorite = str4,
-                        AccountCategory = str5
-                    });
+                string xml = File.ReadAllText(this.UserSettings.AccountsFile);
+                xml = xml.Replace("True", "true");
+                xml = xml.Replace("False", "false");
+                using (TextReader reader = new StringReader(xml))
+                {
+                    this.UserSettings.AccountList = (AccountList) serializer.Deserialize(reader);
+                    reader.Dispose();
                 }
-                streamReader.Close();
-                streamReader.Dispose();
+
+                for (var index = 0; index < this.UserSettings.AccountList.Accounts.Count; index++)
+                {
+                    Account account = this.UserSettings.AccountList.Accounts[index];
+                    if (string.IsNullOrEmpty(account.Category))
+                        account.Category = "None";
+
+                    if (string.IsNullOrEmpty(account.Code) || string.IsNullOrEmpty(account.Name) ||
+                        string.IsNullOrEmpty(account.Signature) || string.IsNullOrEmpty(account.Description))
+                        this.UserSettings.AccountList.Accounts.RemoveAt(index);
+                    else
+                        this.UserSettings.AccountList.Accounts[index] = account;
+                }
             }
             catch (Exception ex)
             {
                 ExceptionHandler.Throw(ExceptionCode.C04, ex.Message, primary);
+            }
+        }
+
+        public void SaveAccounts(Primary primary)
+        {
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(AccountList));
+                TextWriter writer = new StreamWriter(this.UserSettings.AccountsFile);
+                serializer.Serialize(writer, this.UserSettings.AccountList);
+                writer.Close();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.Throw(ExceptionCode.C07, ex.Message, primary);
             }
         }
 

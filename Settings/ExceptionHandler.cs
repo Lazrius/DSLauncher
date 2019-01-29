@@ -15,7 +15,7 @@ namespace DSLauncherV2
                     Environment.Exit(0);
                     break;
                 case ExceptionCode.C02:
-                    MetroMessageBox.Show((IWin32Window)Form.ActiveForm, "DSLauncher configuration file corrupted. \n\nAdditional Informations: " + exmessage, "Error Code: C02", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MetroMessageBox.Show(Form.ActiveForm, "DSLauncher configuration file corrupted. \n\nAdditional Informations: " + exmessage, "Error Code: C02", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     Environment.Exit(0);
                     break;
                 case ExceptionCode.C03:
@@ -27,11 +27,15 @@ namespace DSLauncherV2
                     Environment.Exit(0);
                     break;
                 case ExceptionCode.C05:
-                    MetroMessageBox.Show(activeForm, "Unable to load account. Account no longer exists or is corrpted.", "Error Code: C05", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MetroMessageBox.Show(activeForm, "Unable to load account. Accounts no longer exists or is corrpted.", "Error Code: C05", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
                 case ExceptionCode.C06:
                     MetroMessageBox.Show(activeForm, "Unable to save config file.\n\nAdditional Informations: " + exmessage, "Error Code: C06", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     Environment.Exit(0);
+                    break;
+                case ExceptionCode.C07:
+                    MetroMessageBox.Show(activeForm, "Unable to save launcher accounts. Any accounts changed will be lost when the launcher is restarted." +
+                                                     "\n\nAdditional Informations: " + exmessage, "Error Code: C07", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
                 case ExceptionCode.F01:
                     MetroMessageBox.Show(activeForm, "DSLauncher could not contact the patch server.\n\nAdditional Informations: " + exmessage, "Error Code: F01", MessageBoxButtons.OK, MessageBoxIcon.Hand);
@@ -87,10 +91,12 @@ namespace DSLauncherV2
         C03,
         /// <summary>Cannot load in account (probably a malformed account or registry issue)</summary>
         C04,
-        /// <summary>Account in fav/recent menu no longer exists</summary>
+        /// <summary>Accounts in fav/recent menu no longer exists</summary>
         C05,
         /// <summary>Unable to save config file </summary>
         C06,
+        /// <summary>Unable to save accounts file</summary>
+        C07,
         /// <summary>Can't download patch</summary>
         P01,
         /// <summary>Can't install patch</summary>
