@@ -79,6 +79,9 @@ namespace DSLauncherV2
         [XmlElement("DisplayHeight"), DefaultValue("600")]
         public string DisplayHeight { get; set; }
 
+        [XmlElement("LastCategory")]
+        public string LastCategory { get; set; }
+
         [XmlElement("ShowJoiningPlayers")]
         public bool ShowJoiningPlayers { get; set; }
 

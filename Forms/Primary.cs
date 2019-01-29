@@ -507,6 +507,13 @@ namespace DSLauncherV2
             lstFavoriteAccounts = lstMetroLinks;
             foreach (string category in lstAccountCategories)
                 SortCategory.Items.Add(category);
+
+            if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.LastCategory))
+            {
+                int iSort = SortCategory.Items.IndexOf(this.LauncherSettings.UserSettings.Config.LastCategory);
+                if (iSort > -1)
+                    SortCategory.SelectedIndex = iSort;
+            }
         }
         #endregion
 
@@ -1253,6 +1260,8 @@ namespace DSLauncherV2
                     this.AccountsGrid.Rows.Add(row);
                 }
             }
+            this.LauncherSettings.UserSettings.Config.LastCategory = SortCategory.Items[SortCategory.SelectedIndex].ToString();
+            this.SaveConfig();
         }
 
         private void importLauncherAccountsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1302,7 +1311,7 @@ namespace DSLauncherV2
                         string accountCode = xmlNode2.Attributes.GetNamedItem("code").Value;
                         string accouneSignature = xmlNode2.Attributes.GetNamedItem("signature").Value;
                         int num4 = 0;
-                        foreach (DataGridViewRow row in this.AccountsGrid.Rows)
+                        foreach (DataGridViewRow row in this.UnfilterdRows)
                         {
                             if (row.Cells[4].Value.ToString() == accountCode)
                             {
@@ -1375,19 +1384,18 @@ namespace DSLauncherV2
                 this.LauncherSettings.UserSettings.ActiveCode = obj1.ToString();
                 this.LauncherSettings.UserSettings.ActiveSignature = obj2.ToString();
                 bool flag = false;
-                foreach (DataGridViewRow row in this.AccountsGrid.Rows)
+                foreach (DataGridViewRow row in this.UnfilterdRows)
                 {
                     if (row.Cells[4].Value.ToString().Equals(this.LauncherSettings.UserSettings.ActiveCode))
                     {
-                        int index = row.Index;
-                        this.AccountsGrid.Rows[index].Selected = true;
-                        this.CurrentSelectedAccountLabel.Text = this.AccountsGrid.Rows[index].Cells[0].Value.ToString();
-                        flag = true;
-                        break;
+                        this.CurrentSelectedAccountLabel.Text = row.Cells[0].Value.ToString();
+                        int index = this.AccountsGrid.Rows.IndexOf(row);
+                        if (index != -1)
+                            this.AccountsGrid.Rows[index].Selected = true;
+                        return;
                     }
                 }
-                if (flag)
-                    return;
+
                 MetroMessageBox.Show(this, "The account currently in the registry is not in your accounts list. It will now be added in the list as My New Account.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 this.addAccountNode("New Account", "Extracted from the registry", "None", "False",
                     this.LauncherSettings.UserSettings.ActiveCode, this.LauncherSettings.UserSettings.ActiveSignature);
