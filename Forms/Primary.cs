@@ -1631,10 +1631,7 @@ namespace DSLauncherV2
                             this.LauncherSettings.UserSettings.Config.ExtraArgs = string.Join(" ", extraArgs);
                         }
 
-                        catch
-                        {
-                            return;
-                        }
+                        catch { }
                     }
 
                     try
