@@ -79,6 +79,10 @@ namespace DSLauncherV2
                 string xml = File.ReadAllText(this.UserSettings.AccountsFile);
                 xml = xml.Replace("True", "true");
                 xml = xml.Replace("False", "false");
+                xml = xml.Replace("favorite=\"Yes\"", "favorite = \"true\"");
+                xml = xml.Replace("favorite=\"No\"", "favorite = \"false\"");
+                xml = xml.Replace("favorite=\"yes\"", "favorite = \"true\"");
+                xml = xml.Replace("favorite=\"no\"", "favorite = \"false\"");
                 using (TextReader reader = new StringReader(xml))
                 {
                     this.UserSettings.AccountList = (AccountList) serializer.Deserialize(reader);
