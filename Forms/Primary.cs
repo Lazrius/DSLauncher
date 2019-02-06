@@ -331,13 +331,9 @@ namespace DSLauncherV2
                     if (this.LauncherSettings.UserSettings.RemoteLauncherVersion >
                         this.LauncherSettings.UserSettings.Config.LocalLauncherVersion)
                     {
+                        MetroMessageBox.Show(this, "A new patch is available. Press 'Ok' to continue.", "Patch Time!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         Process.Start(Directory.GetCurrentDirectory() + @"\DSSelfPatch.exe");
-                        this.launcherPatchSpinner.Visible = false;
-                        this.launcherCheckerLabel.Visible = false;
-                        this.downloadProgress.Visible = true;
-                        this.downloadProgress.Text = "Launcher updates required; press \"Patch Launcher\" to install.";
-                        this.patchGame.Enabled = false;
-                        this.patchGame.ForeColor = Color.FromArgb(51, 51, 51);
+                        Environment.Exit(0);
                     }
 
                     break;
