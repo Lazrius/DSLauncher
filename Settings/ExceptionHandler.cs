@@ -75,7 +75,7 @@ namespace DSLauncherV2
                     break;
                 default:
                     MetroMessageBox.Show(activeForm, "Unknown Error: \n\nAdditional Informations: " + exmessage,
-                        "Unknown Error Code: " + code, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        "Unknown Error Code: " + code, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     break;
             }
         }
