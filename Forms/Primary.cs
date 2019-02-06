@@ -87,6 +87,15 @@ namespace DSLauncherV2
             this.ThemeSelector.SelectedIndex = this.LauncherSettings.UserSettings.Config.Style;
             this.metroTextBox1.Text = this.LauncherSettings.UserSettings.Config.ExtraArgs; // Optional Args
 
+            if (this.LauncherSettings.UserSettings.Config.RecentAccounts == null)
+                this.LauncherSettings.UserSettings.Config.RecentAccounts = new RecentAccounts()
+                {
+                    One = string.Empty,
+                    Two = string.Empty,
+                    Three = string.Empty,
+                    Four = string.Empty
+                };
+
             if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.RecentAccounts.One))
             {
                 this.RecentAccounts1.Text = this.LauncherSettings.UserSettings.Config.RecentAccounts.One;

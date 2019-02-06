@@ -60,7 +60,7 @@ namespace DSLauncherV2
 
     public sealed class Config
     {      
-        [XmlElement("ModName")]
+        [XmlElement("ModName"), DefaultValue("Discovery")]
         public string ModName { get; set; }
 
         [XmlElement("InstallPath")]
@@ -117,25 +117,25 @@ namespace DSLauncherV2
         [XmlElement("Style")]
         public int Style { get; set; }
 
-        [XmlElement("RecentAccounts")]
+        [XmlElement("RecentAccounts", IsNullable = true)]
         public RecentAccounts RecentAccounts { get; set; }
 
-        [XmlElement("DrawDistance")]
+        [XmlElement("DrawDistance"), DefaultValue(false)]
         public bool DrawDistance { get; set; }
 
-        [XmlElement("DisableChat")]
+        [XmlElement("DisableChat"), DefaultValue(false)]
         public bool DisableChat { get; set; }
     }
 
     public sealed class RecentAccounts
     {
-        [XmlElement("One")]
+        [XmlElement("One", IsNullable = true)]
         public string One;
-        [XmlElement("Two")]
+        [XmlElement("Two", IsNullable = true)]
         public string Two;
-        [XmlElement("Three")]
+        [XmlElement("Three", IsNullable = true)]
         public string Three;
-        [XmlElement("Four")]
+        [XmlElement("Four", IsNullable = true)]
         public string Four;
     }
 
