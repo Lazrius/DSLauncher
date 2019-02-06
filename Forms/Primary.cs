@@ -523,7 +523,7 @@ namespace DSLauncherV2
         private void LoadInAccounts(string accountName, string accountDescription, string accountCategory, bool isFav,
             string accountCode, string accountSig)
         {
-            string fav = isFav ? "No" : "Yes";
+            string fav = isFav ? "Yes" : "No";
             this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, fav, accountCode,
                 accountSig);
             this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
@@ -541,7 +541,7 @@ namespace DSLauncherV2
                 Signature = accountSig,
                 IsFavorite = isFav
             };
-            this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, isFav, accountCode,
+            this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, isFav ? "Yes" : "No" , accountCode,
                 accountSig);
             this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
             this.AccountsGrid.Visible = false;
@@ -582,6 +582,7 @@ namespace DSLauncherV2
 
             // Only do this when we are working without a category
             if (AccountsGrid.Rows.Count != UnfilterdRows.Count) return;
+            if (dragIndex != -1) return; // We dont want to stack drag ops (causing it to move on every click)
             int i = this.AccountsGrid.HitTest(e.X, e.Y).RowIndex;
             if (i < 0) return; // If we haven't clicked on a row
 
@@ -673,6 +674,7 @@ namespace DSLauncherV2
                     }
                 }
             }
+
             else if (dragIndex > 0)
             {
                 this.AccountsGrid.Rows[dragIndex].Selected = true;
@@ -682,7 +684,7 @@ namespace DSLauncherV2
             {
                 dragLabel.Dispose();
                 dragLabel = null;
-                dragIndex = 0;
+                dragIndex = -1;
             }
         }
 
