@@ -335,8 +335,12 @@ namespace DSLauncherV2
                 case 4:
                     CNSImport.Capture = false;
                     CNSImport.DocumentText = currentAnnouncement;
-                    if(!string.IsNullOrEmpty(CNSImport.DocumentText))
+                    if (!string.IsNullOrEmpty(CNSImport.DocumentText))
+                    {
                         CNSImport.Visible = true;
+                        CNSImport.AllowNavigation = true;
+                    }
+
                     if (this.LauncherSettings.UserSettings.RemoteLauncherVersion >
                         this.LauncherSettings.UserSettings.Config.LocalLauncherVersion)
                     {
