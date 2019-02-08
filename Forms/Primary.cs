@@ -1252,9 +1252,12 @@ namespace DSLauncherV2
                     this.LauncherSettings.UserSettings.Config.RecentAccounts.Four == accName)
                     return;
 
-                this.LauncherSettings.UserSettings.Config.RecentAccounts.Four = this.LauncherSettings.UserSettings.Config.RecentAccounts.Four;
-                this.LauncherSettings.UserSettings.Config.RecentAccounts.Three = this.LauncherSettings.UserSettings.Config.RecentAccounts.Three;
-                this.LauncherSettings.UserSettings.Config.RecentAccounts.Two = this.LauncherSettings.UserSettings.Config.RecentAccounts.Two;
+                if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.RecentAccounts.Three))
+                    this.LauncherSettings.UserSettings.Config.RecentAccounts.Four = this.LauncherSettings.UserSettings.Config.RecentAccounts.Three;
+                if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.RecentAccounts.Two))
+                    this.LauncherSettings.UserSettings.Config.RecentAccounts.Three = this.LauncherSettings.UserSettings.Config.RecentAccounts.Two;
+                if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.RecentAccounts.One))
+                    this.LauncherSettings.UserSettings.Config.RecentAccounts.Two = this.LauncherSettings.UserSettings.Config.RecentAccounts.One;
                 this.LauncherSettings.UserSettings.Config.RecentAccounts.One = accName;
                 UpdateRecentAccounts();
             }
