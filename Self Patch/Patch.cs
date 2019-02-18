@@ -269,7 +269,14 @@ namespace DSSelfPatch
 					if (!string.IsNullOrEmpty(xmlElement1.InnerText))
 					{
 						this.settings.InstallPath = xmlElement1.InnerText;
-					}
+                        if (!Directory.Exists(this.settings.InstallPath))
+                        {
+                            this.settings.InstallPath = Path.GetDirectoryName(Application.ExecutablePath);
+                            MetroMessageBox.Show(this, "Directory Error", 
+                                "Warning: Unable to find install directory specified in launcherconfig.xml - Using the following directory instead: ", 
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
 					else
 					{
 						this.settings.InstallPath = Path.GetDirectoryName(Application.ExecutablePath);
