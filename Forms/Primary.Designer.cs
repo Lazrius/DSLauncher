@@ -104,6 +104,8 @@ namespace DSLauncherV2
             this.EditAccount = new System.Windows.Forms.ToolStripMenuItem();
             this.MarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.importLauncherAccountsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AccountCategoryTabControl = new MetroFramework.Controls.MetroTabControl();
+            this.unfilteredTab = new System.Windows.Forms.TabPage();
             this.About = new MetroFramework.Controls.MetroTabPage();
             this.metroTile4 = new MetroFramework.Controls.MetroTile();
             this.metroTile3 = new MetroFramework.Controls.MetroTile();
@@ -125,8 +127,6 @@ namespace DSLauncherV2
             this.RecentAccounts3 = new MetroFramework.Controls.MetroLink();
             this.RecentAccounts2 = new MetroFramework.Controls.MetroLink();
             this.RecentAccounts1 = new MetroFramework.Controls.MetroLink();
-            this.SortCategory = new MetroFramework.Controls.MetroComboBox();
-            this.metroLabel16 = new MetroFramework.Controls.MetroLabel();
             this.ImportLauncherFile = new System.Windows.Forms.OpenFileDialog();
             this.downloadProgress = new MetroFramework.Controls.MetroLabel();
             this.patchDownload = new MetroFramework.Controls.MetroProgressBar();
@@ -134,6 +134,8 @@ namespace DSLauncherV2
             this.launcherPatchSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.accountsSearch = new MetroFramework.Controls.MetroTextBox();
             this.accountsSearchLabel = new MetroFramework.Controls.MetroLabel();
+            this.OpenSortAccountWindow = new MetroFramework.Controls.MetroButton();
+            this.bulkSetCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -141,6 +143,7 @@ namespace DSLauncherV2
             this.Accounts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AccountsGrid)).BeginInit();
             this.AccountContextMenu.SuspendLayout();
+            this.AccountCategoryTabControl.SuspendLayout();
             this.About.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             this.SuspendLayout();
@@ -171,9 +174,9 @@ namespace DSLauncherV2
             // 
             this.currentAccountLabel.AutoSize = true;
             this.currentAccountLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.currentAccountLabel.Location = new System.Drawing.Point(7, 364);
+            this.currentAccountLabel.Location = new System.Drawing.Point(11, 372);
             this.currentAccountLabel.Name = "currentAccountLabel";
-            this.currentAccountLabel.Size = new System.Drawing.Size(111, 19);
+            this.currentAccountLabel.Size = new System.Drawing.Size(116, 19);
             this.currentAccountLabel.TabIndex = 6;
             this.currentAccountLabel.Text = "Current Accounts: ";
             this.currentAccountLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -234,8 +237,8 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 1;
-            this.MTC.Size = new System.Drawing.Size(526, 347);
+            this.MTC.SelectedIndex = 3;
+            this.MTC.Size = new System.Drawing.Size(526, 367);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.MTC.UseSelectable = true;
@@ -253,7 +256,7 @@ namespace DSLauncherV2
             this.CNS.HorizontalScrollbarSize = 10;
             this.CNS.Location = new System.Drawing.Point(4, 38);
             this.CNS.Name = "CNS";
-            this.CNS.Size = new System.Drawing.Size(518, 305);
+            this.CNS.Size = new System.Drawing.Size(518, 325);
             this.CNS.TabIndex = 0;
             this.CNS.Text = "News";
             this.CNS.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -271,7 +274,7 @@ namespace DSLauncherV2
             this.CNSImport.MinimumSize = new System.Drawing.Size(20, 20);
             this.CNSImport.Name = "CNSImport";
             this.CNSImport.ScrollBarsEnabled = false;
-            this.CNSImport.Size = new System.Drawing.Size(512, 299);
+            this.CNSImport.Size = new System.Drawing.Size(512, 319);
             this.CNSImport.TabIndex = 23;
             this.CNSImport.TabStop = false;
             this.CNSImport.WebBrowserShortcutsEnabled = false;
@@ -327,7 +330,7 @@ namespace DSLauncherV2
             this.ExternalSettings.HorizontalScrollbarSize = 10;
             this.ExternalSettings.Location = new System.Drawing.Point(4, 38);
             this.ExternalSettings.Name = "ExternalSettings";
-            this.ExternalSettings.Size = new System.Drawing.Size(518, 305);
+            this.ExternalSettings.Size = new System.Drawing.Size(518, 325);
             this.ExternalSettings.TabIndex = 2;
             this.ExternalSettings.Text = "External Settings";
             this.ExternalSettings.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -555,7 +558,7 @@ namespace DSLauncherV2
             this.GameSettings.HorizontalScrollbarSize = 10;
             this.GameSettings.Location = new System.Drawing.Point(4, 38);
             this.GameSettings.Name = "GameSettings";
-            this.GameSettings.Size = new System.Drawing.Size(518, 305);
+            this.GameSettings.Size = new System.Drawing.Size(518, 325);
             this.GameSettings.TabIndex = 5;
             this.GameSettings.Text = "Game Settings";
             this.GameSettings.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -783,7 +786,7 @@ namespace DSLauncherV2
             // metroLabel13
             // 
             this.metroLabel13.AutoSize = true;
-            this.metroLabel13.Location = new System.Drawing.Point(17, 240);
+            this.metroLabel13.Location = new System.Drawing.Point(17, 255);
             this.metroLabel13.Name = "metroLabel13";
             this.metroLabel13.Size = new System.Drawing.Size(131, 19);
             this.metroLabel13.TabIndex = 41;
@@ -794,7 +797,7 @@ namespace DSLauncherV2
             // metroLabel12
             // 
             this.metroLabel12.AutoSize = true;
-            this.metroLabel12.Location = new System.Drawing.Point(18, 271);
+            this.metroLabel12.Location = new System.Drawing.Point(18, 286);
             this.metroLabel12.Name = "metroLabel12";
             this.metroLabel12.Size = new System.Drawing.Size(121, 19);
             this.metroLabel12.TabIndex = 40;
@@ -817,7 +820,7 @@ namespace DSLauncherV2
             this.metroTextBox1.CustomButton.UseSelectable = true;
             this.metroTextBox1.CustomButton.Visible = false;
             this.metroTextBox1.Lines = new string[0];
-            this.metroTextBox1.Location = new System.Drawing.Point(167, 238);
+            this.metroTextBox1.Location = new System.Drawing.Point(167, 253);
             this.metroTextBox1.Margin = new System.Windows.Forms.Padding(0);
             this.metroTextBox1.MaxLength = 32767;
             this.metroTextBox1.Name = "metroTextBox1";
@@ -852,7 +855,7 @@ namespace DSLauncherV2
             this.forcedArguments.CustomButton.UseSelectable = true;
             this.forcedArguments.CustomButton.Visible = false;
             this.forcedArguments.Lines = new string[0];
-            this.forcedArguments.Location = new System.Drawing.Point(167, 269);
+            this.forcedArguments.Location = new System.Drawing.Point(167, 284);
             this.forcedArguments.Margin = new System.Windows.Forms.Padding(0);
             this.forcedArguments.MaxLength = 32767;
             this.forcedArguments.Name = "forcedArguments";
@@ -980,12 +983,13 @@ namespace DSLauncherV2
             // 
             this.Accounts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
             this.Accounts.Controls.Add(this.AccountsGrid);
+            this.Accounts.Controls.Add(this.AccountCategoryTabControl);
             this.Accounts.HorizontalScrollbarBarColor = true;
             this.Accounts.HorizontalScrollbarHighlightOnWheel = false;
             this.Accounts.HorizontalScrollbarSize = 10;
             this.Accounts.Location = new System.Drawing.Point(4, 38);
             this.Accounts.Name = "Accounts";
-            this.Accounts.Size = new System.Drawing.Size(518, 305);
+            this.Accounts.Size = new System.Drawing.Size(518, 325);
             this.Accounts.TabIndex = 1;
             this.Accounts.Text = "Accounts";
             this.Accounts.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -1034,7 +1038,7 @@ namespace DSLauncherV2
             this.AccountsGrid.EnableHeadersVisualStyles = false;
             this.AccountsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.AccountsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.AccountsGrid.Location = new System.Drawing.Point(3, 3);
+            this.AccountsGrid.Location = new System.Drawing.Point(0, 33);
             this.AccountsGrid.Name = "AccountsGrid";
             this.AccountsGrid.ReadOnly = true;
             this.AccountsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -1050,14 +1054,11 @@ namespace DSLauncherV2
             this.AccountsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.AccountsGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.AccountsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.AccountsGrid.Size = new System.Drawing.Size(512, 299);
+            this.AccountsGrid.Size = new System.Drawing.Size(518, 291);
             this.AccountsGrid.StandardTab = true;
             this.AccountsGrid.TabIndex = 7;
             this.AccountsGrid.UseStyleColors = true;
             this.AccountsGrid.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.AccountsGrid_MouseDoubleClick);
-            this.AccountsGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AccountsGrid_MouseDown);
-            this.AccountsGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AccountsGrid_MouseMove);
-            this.AccountsGrid.MouseUp += new System.Windows.Forms.MouseEventHandler(this.AccountsGrid_MouseUp);
             // 
             // AccName
             // 
@@ -1085,6 +1086,7 @@ namespace DSLauncherV2
             this.AccIsFav.HeaderText = "Favourite";
             this.AccIsFav.Name = "AccIsFav";
             this.AccIsFav.ReadOnly = true;
+            this.AccIsFav.Width = 118;
             // 
             // AccCode
             // 
@@ -1105,14 +1107,16 @@ namespace DSLauncherV2
             this.AccountContextMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.AccountContextMenu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this.AccountContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CreateNewAccount,
-            this.DeleteSelectedAccounts,
-            this.ExportAccounts,
-            this.EditAccount,
-            this.MarkFavorite,
-            this.importLauncherAccountsToolStripMenuItem});
+                this.bulkSetCategoryToolStripMenuItem,
+                this.CreateNewAccount,
+                this.DeleteSelectedAccounts,
+                this.ExportAccounts,
+                this.EditAccount,
+                this.MarkFavorite,
+                this.importLauncherAccountsToolStripMenuItem
+            });
             this.AccountContextMenu.Name = "metroContextMenu1";
-            this.AccountContextMenu.Size = new System.Drawing.Size(216, 136);
+            this.AccountContextMenu.Size = new System.Drawing.Size(216, 180);
             this.AccountContextMenu.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.AccountContextMenu.UseStyleColors = true;
             // 
@@ -1158,6 +1162,28 @@ namespace DSLauncherV2
             this.importLauncherAccountsToolStripMenuItem.Text = "Import Launcher Accounts";
             this.importLauncherAccountsToolStripMenuItem.Click += new System.EventHandler(this.importLauncherAccountsToolStripMenuItem_Click);
             // 
+            // AccountCategoryTabControl
+            // 
+            this.AccountCategoryTabControl.Controls.Add(this.unfilteredTab);
+            this.AccountCategoryTabControl.Location = new System.Drawing.Point(-5, -8);
+            this.AccountCategoryTabControl.Name = "AccountCategoryTabControl";
+            this.AccountCategoryTabControl.SelectedIndex = 0;
+            this.AccountCategoryTabControl.Size = new System.Drawing.Size(527, 46);
+            this.AccountCategoryTabControl.TabIndex = 8;
+            this.AccountCategoryTabControl.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.AccountCategoryTabControl.UseSelectable = true;
+            this.AccountCategoryTabControl.UseStyleColors = true;
+            this.AccountCategoryTabControl.SelectedIndexChanged += new System.EventHandler(this.AccountCategoryTabControl_SelectedIndexChanged);
+            // 
+            // unfilteredTab
+            // 
+            this.unfilteredTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.unfilteredTab.Location = new System.Drawing.Point(4, 38);
+            this.unfilteredTab.Name = "unfilteredTab";
+            this.unfilteredTab.Size = new System.Drawing.Size(519, 4);
+            this.unfilteredTab.TabIndex = 0;
+            this.unfilteredTab.Text = "Unfiltered";
+            // 
             // About
             // 
             this.About.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
@@ -1173,7 +1199,7 @@ namespace DSLauncherV2
             this.About.HorizontalScrollbarSize = 10;
             this.About.Location = new System.Drawing.Point(4, 38);
             this.About.Name = "About";
-            this.About.Size = new System.Drawing.Size(518, 305);
+            this.About.Size = new System.Drawing.Size(518, 325);
             this.About.Style = MetroFramework.MetroColorStyle.Pink;
             this.About.TabIndex = 3;
             this.About.Text = "About";
@@ -1363,7 +1389,7 @@ namespace DSLauncherV2
             // 
             this.CurrentSelectedAccountLabel.AutoSize = true;
             this.CurrentSelectedAccountLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.CurrentSelectedAccountLabel.Location = new System.Drawing.Point(117, 364);
+            this.CurrentSelectedAccountLabel.Location = new System.Drawing.Point(121, 372);
             this.CurrentSelectedAccountLabel.Name = "CurrentSelectedAccountLabel";
             this.CurrentSelectedAccountLabel.Size = new System.Drawing.Size(181, 19);
             this.CurrentSelectedAccountLabel.TabIndex = 19;
@@ -1483,32 +1509,6 @@ namespace DSLauncherV2
             this.RecentAccounts1.Visible = false;
             this.RecentAccounts1.Click += new System.EventHandler(this.QuickSelectAccount);
             // 
-            // SortCategory
-            // 
-            this.SortCategory.FormattingEnabled = true;
-            this.SortCategory.ItemHeight = 23;
-            this.SortCategory.Items.AddRange(new object[] {
-            "Show All Accounts"});
-            this.SortCategory.Location = new System.Drawing.Point(409, 358);
-            this.SortCategory.Name = "SortCategory";
-            this.SortCategory.Size = new System.Drawing.Size(121, 29);
-            this.SortCategory.TabIndex = 28;
-            this.SortCategory.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.SortCategory.UseSelectable = true;
-            this.SortCategory.UseStyleColors = true;
-            this.SortCategory.SelectedIndexChanged += new System.EventHandler(this.SortCategory_SelectedIndexChanged);
-            // 
-            // metroLabel16
-            // 
-            this.metroLabel16.AutoSize = true;
-            this.metroLabel16.ForeColor = System.Drawing.SystemColors.Control;
-            this.metroLabel16.Location = new System.Drawing.Point(536, 364);
-            this.metroLabel16.Name = "metroLabel16";
-            this.metroLabel16.Size = new System.Drawing.Size(171, 19);
-            this.metroLabel16.TabIndex = 29;
-            this.metroLabel16.Text = "Sort Accounts Via Category";
-            this.metroLabel16.Theme = MetroFramework.MetroThemeStyle.Dark;
-            // 
             // ImportLauncherFile
             // 
             this.ImportLauncherFile.FileName = "LauncherFile";
@@ -1518,7 +1518,7 @@ namespace DSLauncherV2
             // 
             this.downloadProgress.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.downloadProgress.ForeColor = System.Drawing.SystemColors.Control;
-            this.downloadProgress.Location = new System.Drawing.Point(11, 422);
+            this.downloadProgress.Location = new System.Drawing.Point(11, 426);
             this.downloadProgress.Name = "downloadProgress";
             this.downloadProgress.Size = new System.Drawing.Size(522, 19);
             this.downloadProgress.TabIndex = 33;
@@ -1530,7 +1530,7 @@ namespace DSLauncherV2
             // 
             // patchDownload
             // 
-            this.patchDownload.Location = new System.Drawing.Point(11, 396);
+            this.patchDownload.Location = new System.Drawing.Point(11, 400);
             this.patchDownload.Name = "patchDownload";
             this.patchDownload.Size = new System.Drawing.Size(522, 23);
             this.patchDownload.TabIndex = 32;
@@ -1541,7 +1541,7 @@ namespace DSLauncherV2
             // 
             this.launcherCheckerLabel.AutoSize = true;
             this.launcherCheckerLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.launcherCheckerLabel.Location = new System.Drawing.Point(581, 410);
+            this.launcherCheckerLabel.Location = new System.Drawing.Point(581, 403);
             this.launcherCheckerLabel.Name = "launcherCheckerLabel";
             this.launcherCheckerLabel.Size = new System.Drawing.Size(140, 19);
             this.launcherCheckerLabel.TabIndex = 31;
@@ -1550,7 +1550,7 @@ namespace DSLauncherV2
             // 
             // launcherPatchSpinner
             // 
-            this.launcherPatchSpinner.Location = new System.Drawing.Point(544, 405);
+            this.launcherPatchSpinner.Location = new System.Drawing.Point(544, 398);
             this.launcherPatchSpinner.Maximum = 100;
             this.launcherPatchSpinner.Minimum = 30;
             this.launcherPatchSpinner.Name = "launcherPatchSpinner";
@@ -1608,12 +1608,33 @@ namespace DSLauncherV2
             this.accountsSearchLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.accountsSearchLabel.Visible = false;
             // 
+            // OpenSortAccountWindow
+            // 
+            this.OpenSortAccountWindow.Location = new System.Drawing.Point(411, 372);
+            this.OpenSortAccountWindow.Name = "OpenSortAccountWindow";
+            this.OpenSortAccountWindow.Size = new System.Drawing.Size(115, 23);
+            this.OpenSortAccountWindow.TabIndex = 47;
+            this.OpenSortAccountWindow.Text = "Sort My Accounts";
+            this.OpenSortAccountWindow.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.OpenSortAccountWindow.UseSelectable = true;
+            this.OpenSortAccountWindow.UseStyleColors = true;
+            this.OpenSortAccountWindow.Visible = false;
+            this.OpenSortAccountWindow.Click += new System.EventHandler(this.OpenSortAccountWindow_Click);
+            // 
+            // bulkSetCategoryToolStripMenuItem
+            // 
+            this.bulkSetCategoryToolStripMenuItem.Name = "bulkSetCategoryToolStripMenuItem";
+            this.bulkSetCategoryToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.bulkSetCategoryToolStripMenuItem.Text = "Bulk Set Category";
+            this.bulkSetCategoryToolStripMenuItem.Click += new System.EventHandler(this.SetSelectedAccountsCategory);
+            // 
             // Primary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.OpenSortAccountWindow);
             this.Controls.Add(this.accountsSearchLabel);
             this.Controls.Add(this.accountsSearch);
             this.Controls.Add(this.downloadProgress);
@@ -1623,8 +1644,6 @@ namespace DSLauncherV2
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.hrLabel1);
-            this.Controls.Add(this.metroLabel16);
-            this.Controls.Add(this.SortCategory);
             this.Controls.Add(this.RecentAccounts4);
             this.Controls.Add(this.RecentAccounts3);
             this.Controls.Add(this.RecentAccounts2);
@@ -1665,6 +1684,7 @@ namespace DSLauncherV2
             this.Accounts.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.AccountsGrid)).EndInit();
             this.AccountContextMenu.ResumeLayout(false);
+            this.AccountCategoryTabControl.ResumeLayout(false);
             this.About.ResumeLayout(false);
             this.About.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).EndInit();
@@ -1748,20 +1768,12 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroLink RecentAccounts3;
         private MetroFramework.Controls.MetroLink RecentAccounts2;
         private MetroFramework.Controls.MetroLink RecentAccounts1;
-        private MetroFramework.Controls.MetroComboBox SortCategory;
-        private MetroFramework.Controls.MetroLabel metroLabel16;
         private ToolStripMenuItem importLauncherAccountsToolStripMenuItem;
         private OpenFileDialog ImportLauncherFile;
         private WebBrowser CNSImport;
         private MetroFramework.Controls.MetroLabel IncreaseDrawDistanceLabel;
         private MetroFramework.Controls.MetroToggle IncreaseDrawDistance;
         private MetroFramework.Controls.MetroLabel metroLabel20;
-        private DataGridViewTextBoxColumn AccName;
-        private DataGridViewTextBoxColumn AccDescription;
-        private DataGridViewTextBoxColumn AccCategory;
-        private DataGridViewTextBoxColumn AccIsFav;
-        private DataGridViewTextBoxColumn AccCode;
-        private DataGridViewTextBoxColumn AccSignature;
         private MetroFramework.Controls.MetroLabel downloadProgress;
         private MetroFramework.Controls.MetroProgressBar patchDownload;
         private MetroFramework.Controls.MetroLabel launcherCheckerLabel;
@@ -1770,6 +1782,16 @@ namespace DSLauncherV2
         private MetroFramework.Controls.MetroTextBox accountsSearch;
         private MetroFramework.Controls.MetroLabel metroLabel19;
         private MetroFramework.Controls.MetroToggle DiscordRPCCheckBox;
+        private MetroFramework.Controls.MetroTabControl AccountCategoryTabControl;
+        private TabPage unfilteredTab;
+        private DataGridViewTextBoxColumn AccName;
+        private DataGridViewTextBoxColumn AccDescription;
+        private DataGridViewTextBoxColumn AccCategory;
+        private DataGridViewTextBoxColumn AccIsFav;
+        private DataGridViewTextBoxColumn AccCode;
+        private DataGridViewTextBoxColumn AccSignature;
+        private MetroFramework.Controls.MetroButton OpenSortAccountWindow;
+        private ToolStripMenuItem bulkSetCategoryToolStripMenuItem;
     }
 }
 

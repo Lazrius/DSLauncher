@@ -34,9 +34,6 @@ namespace DSLauncherV2
         private List<string> lstAccountCategories = new List<string>();
         private byte[] downloadedData;
         private string currentAnnouncement;
-        private int dragIndex = -1;
-        private MetroLabel dragLabel = null;
-        private Timer timer;
 
         public Primary()
         {
@@ -429,6 +426,7 @@ namespace DSLauncherV2
             // We assume it's not the accounts tab by default
             this.accountsSearch.Visible = false;
             this.accountsSearchLabel.Visible = false;
+            this.OpenSortAccountWindow.Visible = false;
 
             switch (((TabControl) sender).SelectedIndex)
             { 
@@ -441,6 +439,7 @@ namespace DSLauncherV2
                 // Accounts
                 case 3:
                     this.accountsSearch.Visible = true;
+                    this.OpenSortAccountWindow.Visible = true;
                     this.accountsSearchLabel.Visible = true;
                     break;
                 // About
@@ -512,14 +511,23 @@ namespace DSLauncherV2
             }
 
             lstFavoriteAccounts = lstMetroLinks;
-            foreach (string category in lstAccountCategories)
-                SortCategory.Items.Add(category);
+            foreach (string category in lstAccountCategories.OrderBy(a => a))
+            {
+                TabPage page = new TabPage
+                {
+                    Name = category,
+                    Text = category,
+                    BackColor = Color.FromArgb(44, 44, 44)
+                };
+                if (AccountCategoryTabControl.TabPages[category] == null)
+                    AccountCategoryTabControl.TabPages.Add(page);
+            }
 
             if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.LastCategory))
             {
-                int iSort = SortCategory.Items.IndexOf(this.LauncherSettings.UserSettings.Config.LastCategory);
+                int iSort = AccountCategoryTabControl.TabPages.IndexOfKey(this.LauncherSettings.UserSettings.Config.LastCategory);
                 if (iSort > -1)
-                    SortCategory.SelectedIndex = iSort;
+                    AccountCategoryTabControl.SelectedIndex = iSort;
             }
         }
         #endregion
@@ -536,6 +544,16 @@ namespace DSLauncherV2
             this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, fav, accountCode,
                 accountSig);
             this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
+            if (AccountCategoryTabControl.TabPages[accountCategory] == null)
+            {
+                TabPage page = new TabPage
+                {
+                    Name = accountCategory,
+                    Text = accountCategory,
+                    BackColor = Color.FromArgb(44, 44, 44)
+                };
+                AccountCategoryTabControl.TabPages.Add(page);
+            }
         }
 
         private void AddAccountNode(string accountName, string accountDescription, string accountCategory, bool isFav,
@@ -581,120 +599,6 @@ namespace DSLauncherV2
         {
             this.DeleteAccountNode(accountCode);
             this.AddAccountNode(accountName, accountDescription, accountCategory, isFav, accountCode, accountSig);
-        }
-
-        private void AccountsGrid_MouseDown(object sender, MouseEventArgs e)
-        {
-            // Taken from:
-            // https://stackoverflow.com/questions/43890477/drag-and-drop-rows-of-datagrid-view-winform-c-sharp
-            // Modified to work with the application
-
-            // Only do this when we are working without a category
-            if (AccountsGrid.Rows.Count != UnfilterdRows.Count) return;
-            if (dragIndex != -1) return; // We dont want to stack drag ops (causing it to move on every click)
-            int i = this.AccountsGrid.HitTest(e.X, e.Y).RowIndex;
-            if (i < 0) return; // If we haven't clicked on a row
-
-            timer = new Timer();
-            timer.Tick += delegate { MouseHeld_Timer(i); };
-            timer.Interval = 1000;
-            timer.Start();
-        }
-
-        private void MouseHeld_Timer(int row1)
-        {
-            timer.Stop();
-            if (MouseButtons != MouseButtons.Left) return; // If we are not holding down the left mouse button.
-            Point i = this.AccountsGrid.PointToClient(Cursor.Position);
-            int row2 = this.AccountsGrid.HitTest(i.X, i.Y).RowIndex;
-            if (row2 < 0) return; // If we are not selected on a row
-            if (row1 != row2) return; // If we are selected on a different row
-
-            dragIndex = row1; // Grab our row index to use later
-            this.AccountsGrid.ClearSelection(); // Otherwise we end up selecting all accounts
-            this.AccountsGrid.MultiSelect = false;
-
-            // Setup our Label
-            if (dragLabel == null)
-                dragLabel = new MetroLabel();
-
-            dragLabel.Style = (MetroColorStyle)this.LauncherSettings.UserSettings.Config.Style; // Copy our theme
-            dragLabel.Theme = MetroThemeStyle.Dark; // Dark is best
-            dragLabel.UseStyleColors = true; // Blue writing by default
-            dragLabel.Parent = this.AccountsGrid; // Don't let us drag this outside the grid
-            dragLabel.Text = this.AccountsGrid.Rows[dragIndex].Cells[0].Value.ToString(); // So they don't forget the account
-            dragLabel.Location = this.AccountsGrid.PointToClient(Cursor.Position); // Summon our label at our cursor
-        }
-
-        private void AccountsGrid_MouseMove(object sender, MouseEventArgs e)
-        {
-            // If the user is no longer holding down left click, or if the label is no longer in use
-            if (e.Button != MouseButtons.Left || dragLabel == null)
-            {
-                this.AccountsGrid.MultiSelect = true; // Re-enable multi-select
-                return;
-            }
-
-            dragLabel.Location = e.Location; // Keep it glued to our cursor
-            AccountsGrid.ClearSelection(); // Clear what was selected 
-        }
-
-        private void AccountsGrid_MouseUp(object sender, MouseEventArgs e)
-        {
-            // If we dont do this and drag outside of the grid, we crash.
-            if (AccountsGrid.Rows.Count != UnfilterdRows.Count) return;
-
-            var hit = this.AccountsGrid.HitTest(e.X, e.Y);
-            if (hit.Type != DataGridViewHitTestType.None)
-            {
-                var dropRow = hit.RowIndex;
-                if (dragIndex >= 0)
-                {
-                    int tgtRow = dropRow + (dragIndex > dropRow ? 1 : 0);
-                    if (tgtRow != dragIndex)
-                    {
-                        DataGridViewRow row = this.AccountsGrid.Rows[dragIndex];
-                        this.AccountsGrid.Rows.Remove(row);
-                        this.AccountsGrid.Rows.Insert(tgtRow, row);
-                        this.UnfilterdRows.Clear();
-                        foreach (var i in this.AccountsGrid.Rows)
-                            this.UnfilterdRows.Add((DataGridViewRow)i);
-
-                        this.LauncherSettings.UserSettings.AccountList.Accounts.Clear();
-                        foreach (var i in this.UnfilterdRows)
-                        {
-                            Account account = new Account()
-                            {
-                                Name = i.Cells[0].Value.ToString(),
-                                Description = i.Cells[1].Value.ToString(),
-                                Category = i.Cells[2].Value.ToString(),
-                                IsFavorite = i.Cells[3].Value.ToString().ToLower() == "yes",
-                                Code = i.Cells[4].Value.ToString(),
-                                Signature = i.Cells[5].Value.ToString(),
-                            };
-
-                            this.LauncherSettings.UserSettings.AccountList.Accounts.Add(account);
-                        }
-
-                        this.LauncherSettings.SaveAccounts(this);
-
-                        this.AccountsGrid.ClearSelection();
-                        row.Selected = true;
-                    }
-                }
-            }
-
-            else if (dragIndex > 0)
-            {
-                this.AccountsGrid.Rows[dragIndex].Selected = true;
-            }
-
-            if (dragLabel != null)
-            {
-                dragLabel.Dispose();
-                dragLabel = null;
-                dragIndex = -1;
-            }
         }
 
         #endregion
@@ -1221,6 +1125,54 @@ namespace DSLauncherV2
                 UserSettings.Code, UserSettings.Signature);
         }
 
+        private void SetSelectedAccountsCategory(object sender, EventArgs e)
+        {
+            List<DataGridViewRow> rows = new List<DataGridViewRow>();
+            int iNum = 0;
+            foreach (DataGridViewRow r in AccountsGrid.Rows)
+            {
+                if (r.Selected)
+                {
+                    iNum++;
+                    rows.Add(r);
+                }
+            }
+
+            if (iNum < 2)
+            {
+                MetroMessageBox.Show(this, "This is for bulk editing the categories of selected accounts.", "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+
+            string category = Prompt.ShowDialog("Name a Category:").Trim();
+            if (AccountCategoryTabControl.TabPages.IndexOfKey(category) == -1)
+            {
+                TabPage page = new TabPage
+                {
+                    Name = category,
+                    Text = category,
+                    BackColor = Color.FromArgb(44, 44, 44)
+                };
+                AccountCategoryTabControl.TabPages.Add(page);
+            }
+
+            if (string.IsNullOrWhiteSpace(category) || category == "None")
+            {
+                MessageBox.Show("That wasn't a valid category.", "You dun'goofed");
+                return;
+            }
+
+            foreach (var r in rows)
+            {
+                int index = UnfilterdRows.FindIndex(x => x == r);
+                if (index == -1)
+                    continue;
+
+                UnfilterdRows[index].Cells[2].Value = category;
+            }
+        }
+
         #endregion
 
         #region Accounts Grid
@@ -1276,7 +1228,7 @@ namespace DSLauncherV2
         {
             int index = -1;
 
-            if (SortCategory.SelectedIndex <= 0)
+            if (AccountCategoryTabControl.SelectedIndex <= 0)
             {
                 foreach (DataGridViewRow r in AccountsGrid.Rows)
                 {
@@ -1332,33 +1284,6 @@ namespace DSLauncherV2
 
             DataGridViewRow row = this.AccountsGrid.Rows[this.AccountsGrid.SelectedCells[0].RowIndex];
             SelectNewAccount(row);
-        }
-
-        private void SortCategory_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (SortCategory.SelectedIndex <= 0)
-            {
-                this.AccountsGrid.Rows.Clear();
-                foreach (DataGridViewRow row in UnfilterdRows)
-                {
-                    this.AccountsGrid.Rows.Add(row);
-                }
-
-                this.LauncherSettings.UserSettings.Config.LastCategory = null;
-                this.SaveConfig();
-                return;
-            }
-
-            this.AccountsGrid.Rows.Clear();
-            foreach (var row in UnfilterdRows)
-            {
-                if (row.Cells[2].Value.ToString().Equals(SortCategory.Items[SortCategory.SelectedIndex]))
-                {
-                    this.AccountsGrid.Rows.Add(row);
-                }
-            }
-            this.LauncherSettings.UserSettings.Config.LastCategory = SortCategory.Items[SortCategory.SelectedIndex].ToString();
-            this.SaveConfig();
         }
 
         private void importLauncherAccountsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1438,7 +1363,7 @@ namespace DSLauncherV2
         {
             if (string.IsNullOrEmpty(this.accountsSearch.Text))
             {
-                if (this.SortCategory.SelectedIndex <= 0)
+                if (this.AccountCategoryTabControl.SelectedIndex <= 0)
                 {
                     this.AccountsGrid.Rows.Clear();
                     foreach (DataGridViewRow row in this.UnfilterdRows)
@@ -1448,11 +1373,8 @@ namespace DSLauncherV2
                 }
 
                 else
-                {
-                    // A bit unorthadox, but since we never use sender or event args in that function, should be fine.
-                    SortCategory_SelectedIndexChanged(sender, e);
-                    
-                }
+                    AccountCategoryTabControl_SelectedIndexChanged(AccountCategoryTabControl, e);
+
                 return;
             }
 
@@ -1465,6 +1387,67 @@ namespace DSLauncherV2
                 {
                     this.AccountsGrid.Rows.Add(row);
                 }
+            }
+        }
+
+        private void AccountCategoryTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MetroTabControl control = (MetroTabControl)sender;
+            TabPage currentCategory = control.SelectedTab;
+            if (currentCategory.TabIndex <= 0)
+            {
+                this.AccountsGrid.Rows.Clear();
+                foreach (DataGridViewRow row in UnfilterdRows)
+                {
+                    this.AccountsGrid.Rows.Add(row);
+                }
+
+                this.LauncherSettings.UserSettings.Config.LastCategory = null;
+                this.SaveConfig();
+                return;
+            }
+
+            this.AccountsGrid.Rows.Clear();
+            foreach (var row in UnfilterdRows)
+            {
+                if (row.Cells[2].Value.ToString().Equals(currentCategory.Text))
+                    this.AccountsGrid.Rows.Add(row);
+            }
+            this.LauncherSettings.UserSettings.Config.LastCategory = currentCategory.Text;
+            this.SaveConfig();
+        }
+
+        private void OpenSortAccountWindow_Click(object sender, EventArgs e)
+        {
+            using (SortAccounts sa = new SortAccounts())
+            {
+                List<DataGridViewRow> rows;
+                foreach (var row in UnfilterdRows)
+                    sa.metroGrid1.Rows.Add(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(),
+                        row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[5].Value.ToString(), 0);
+
+                DialogResult res = sa.ShowDialog();
+                if (res != DialogResult.OK)
+                    return;
+
+                rows = sa.rows;
+                UnfilterdRows.Clear();
+                foreach (var row in rows.OrderBy(x => int.Parse(x.Cells[6].Value.ToString())))
+                {
+                    var r = (DataGridViewRow)this.AccountsGrid.Rows[0].Clone();
+                    r.Cells[0].Value = row.Cells[0].Value;
+                    r.Cells[1].Value = row.Cells[1].Value;
+                    r.Cells[2].Value = row.Cells[2].Value;
+                    r.Cells[3].Value = row.Cells[3].Value;
+                    r.Cells[4].Value = row.Cells[4].Value;
+                    r.Cells[4].Value = row.Cells[5].Value;
+                    UnfilterdRows.Add(r);
+                }
+                // refresh our grid
+                int i = AccountCategoryTabControl.SelectedIndex;
+                AccountCategoryTabControl.SelectedIndex = 0;
+                AccountCategoryTabControl.SelectedIndex = i;
+                sa.Dispose();
             }
         }
 
