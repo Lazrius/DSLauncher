@@ -1536,10 +1536,11 @@ namespace DSLauncherV2
             string DSAce = this.LauncherSettings.UserSettings.Config.InstallPath + @"/EXE/DSAce.dll";
             foreach (Process p in Process.GetProcessesByName("Freelancer"))
             {
-                if (MessageBox.Show(
+                DialogResult =
+                    MessageBox.Show(
                         @"A freelancer process was found running in background. Do you want to terminate it?",
-                        @"WARNING",
-                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        @"WARNING", MessageBoxButtons.YesNoCancel);
+                if (DialogResult == DialogResult.Yes)
                 {
                     try
                     {
@@ -1551,6 +1552,9 @@ namespace DSLauncherV2
                         ExceptionHandler.Throw(ExceptionCode.L04, ex.Message, this);
                     }
                 }
+
+                else if (DialogResult == DialogResult.Cancel)
+                    return;
             }
 
             if (!File.Exists(FLExe)) // We cannot find Freelancer.exe

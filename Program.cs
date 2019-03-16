@@ -11,8 +11,8 @@ namespace DSLauncherV2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.ThreadException += new ThreadExceptionEventHandler(Program.Handle);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(Program.Handle);
+            Application.ThreadException += Handle;
+            AppDomain.CurrentDomain.UnhandledException += Handle;
             Application.Run(new Primary());
         }
 
