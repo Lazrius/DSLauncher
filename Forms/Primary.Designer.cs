@@ -98,6 +98,7 @@ namespace DSLauncherV2
             this.AccCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AccSignature = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AccountContextMenu = new MetroFramework.Controls.MetroContextMenu(this.components);
+            this.bulkSetCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateNewAccount = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteSelectedAccounts = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportAccounts = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,7 +136,8 @@ namespace DSLauncherV2
             this.accountsSearch = new MetroFramework.Controls.MetroTextBox();
             this.accountsSearchLabel = new MetroFramework.Controls.MetroLabel();
             this.OpenSortAccountWindow = new MetroFramework.Controls.MetroButton();
-            this.bulkSetCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.accountsBackup = new MetroFramework.Controls.MetroButton();
+            this.accountsRestore = new MetroFramework.Controls.MetroButton();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -237,7 +239,7 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 3;
+            this.MTC.SelectedIndex = 1;
             this.MTC.Size = new System.Drawing.Size(526, 367);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -312,6 +314,8 @@ namespace DSLauncherV2
             // ExternalSettings
             // 
             this.ExternalSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.ExternalSettings.Controls.Add(this.accountsRestore);
+            this.ExternalSettings.Controls.Add(this.accountsBackup);
             this.ExternalSettings.Controls.Add(this.metroLabel20);
             this.ExternalSettings.Controls.Add(this.metroLabel23);
             this.ExternalSettings.Controls.Add(this.ThemeSelector);
@@ -1107,18 +1111,24 @@ namespace DSLauncherV2
             this.AccountContextMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.AccountContextMenu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this.AccountContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                this.bulkSetCategoryToolStripMenuItem,
-                this.CreateNewAccount,
-                this.DeleteSelectedAccounts,
-                this.ExportAccounts,
-                this.EditAccount,
-                this.MarkFavorite,
-                this.importLauncherAccountsToolStripMenuItem
-            });
+            this.bulkSetCategoryToolStripMenuItem,
+            this.CreateNewAccount,
+            this.DeleteSelectedAccounts,
+            this.ExportAccounts,
+            this.EditAccount,
+            this.MarkFavorite,
+            this.importLauncherAccountsToolStripMenuItem});
             this.AccountContextMenu.Name = "metroContextMenu1";
-            this.AccountContextMenu.Size = new System.Drawing.Size(216, 180);
+            this.AccountContextMenu.Size = new System.Drawing.Size(216, 158);
             this.AccountContextMenu.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.AccountContextMenu.UseStyleColors = true;
+            // 
+            // bulkSetCategoryToolStripMenuItem
+            // 
+            this.bulkSetCategoryToolStripMenuItem.Name = "bulkSetCategoryToolStripMenuItem";
+            this.bulkSetCategoryToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.bulkSetCategoryToolStripMenuItem.Text = "Bulk Set Category";
+            this.bulkSetCategoryToolStripMenuItem.Click += new System.EventHandler(this.SetSelectedAccountsCategory);
             // 
             // CreateNewAccount
             // 
@@ -1621,12 +1631,29 @@ namespace DSLauncherV2
             this.OpenSortAccountWindow.Visible = false;
             this.OpenSortAccountWindow.Click += new System.EventHandler(this.OpenSortAccountWindow_Click);
             // 
-            // bulkSetCategoryToolStripMenuItem
+            // accountsBackup
             // 
-            this.bulkSetCategoryToolStripMenuItem.Name = "bulkSetCategoryToolStripMenuItem";
-            this.bulkSetCategoryToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.bulkSetCategoryToolStripMenuItem.Text = "Bulk Set Category";
-            this.bulkSetCategoryToolStripMenuItem.Click += new System.EventHandler(this.SetSelectedAccountsCategory);
+            this.accountsBackup.Location = new System.Drawing.Point(320, 77);
+            this.accountsBackup.Name = "accountsBackup";
+            this.accountsBackup.Size = new System.Drawing.Size(143, 23);
+            this.accountsBackup.TabIndex = 48;
+            this.accountsBackup.Text = "Backup My Accounts";
+            this.accountsBackup.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.accountsBackup.UseSelectable = true;
+            this.accountsBackup.UseStyleColors = true;
+            this.accountsBackup.Click += new System.EventHandler(this.accountsBackup_Click);
+            // 
+            // accountsRestore
+            // 
+            this.accountsRestore.Location = new System.Drawing.Point(320, 115);
+            this.accountsRestore.Name = "accountsRestore";
+            this.accountsRestore.Size = new System.Drawing.Size(143, 23);
+            this.accountsRestore.TabIndex = 49;
+            this.accountsRestore.Text = "Restore My Backup";
+            this.accountsRestore.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.accountsRestore.UseSelectable = true;
+            this.accountsRestore.UseStyleColors = true;
+            this.accountsRestore.Click += new System.EventHandler(this.accountsRestore_Click);
             // 
             // Primary
             // 
@@ -1792,6 +1819,8 @@ namespace DSLauncherV2
         private DataGridViewTextBoxColumn AccSignature;
         private MetroFramework.Controls.MetroButton OpenSortAccountWindow;
         private ToolStripMenuItem bulkSetCategoryToolStripMenuItem;
+        private MetroFramework.Controls.MetroButton accountsRestore;
+        private MetroFramework.Controls.MetroButton accountsBackup;
     }
 }
 

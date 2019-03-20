@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -113,6 +114,14 @@ namespace DSLauncherV2
             {
                 MetroMessageBox.Show(this,
                     "Signature and Code fields have not been generated. Hit the generate button.", "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+
+            if (this.CategoryTextbox.Text == "Unfiltered")
+            {
+                MetroMessageBox.Show(this,
+                    "You cannot use that category name.", "",
                     MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }

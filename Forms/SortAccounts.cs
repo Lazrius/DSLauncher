@@ -17,7 +17,7 @@ namespace DSLauncherV2
 {
     public partial class SortAccounts : MetroFramework.Forms.MetroForm
     {
-        private Regex ValueRegex = new Regex(@"[0-9]+");
+        private Regex ValueRegex = new Regex(@"^(?:[0-9]+)$");
         public List<DataGridViewRow> rows = new List<DataGridViewRow>();
         private string start = "";
 
@@ -80,7 +80,8 @@ namespace DSLauncherV2
                 }
 
                 metroGrid1.Rows.Clear();
-                rows = rows.OrderBy(x => int.Parse(x.Cells[6].Value.ToString())).ToList();
+                int max = int.MaxValue;
+                rows = rows.OrderBy(x => int.TryParse(x.Cells[6].Value.ToString(), out max) ? max : int.MaxValue).ToList();
                 foreach (var i in rows)
                     metroGrid1.Rows.Add(i);
                 metroGrid1.Visible = false;
@@ -90,6 +91,22 @@ namespace DSLauncherV2
 
         private void OkButton_Click(object sender, EventArgs e)
         {
+            BeginInvoke(new MethodInvoker(() =>
+            {
+                rows.Clear();
+                int index = 0;
+                foreach (DataGridViewRow i in metroGrid1.Rows)
+                    rows.Add(i);
+
+                metroGrid1.Rows.Clear();
+                int max = int.MaxValue;
+                rows = rows.OrderBy(x => int.TryParse(x.Cells[6].Value.ToString(), out max) ? max : int.MaxValue).ToList();
+                foreach (var i in rows)
+                    metroGrid1.Rows.Add(i);
+                metroGrid1.Visible = false;
+                metroGrid1.Visible = true;
+            }));
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -117,7 +134,8 @@ namespace DSLauncherV2
                 }
 
                 metroGrid1.Rows.Clear();
-                rows = rows.OrderBy(x => int.Parse(x.Cells[6].Value.ToString())).ToList();
+                int max = int.MaxValue;
+                rows = rows.OrderBy(x => int.TryParse(x.Cells[6].Value.ToString(), out max) ? max : int.MaxValue).ToList();
                 foreach (var i in rows)
                     metroGrid1.Rows.Add(i);
                 metroGrid1.Visible = false;

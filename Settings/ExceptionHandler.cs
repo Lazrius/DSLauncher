@@ -6,7 +6,7 @@ namespace DSLauncherV2
 {
     internal static class ExceptionHandler
     {
-        internal static void Throw(ExceptionCode code, string exmessage, Primary activeForm)
+        internal static void Throw(ExceptionCode code, string exmessage, Form activeForm)
         {
             switch (code)
             {
@@ -36,6 +36,10 @@ namespace DSLauncherV2
                 case ExceptionCode.C07:
                     MetroMessageBox.Show(activeForm, "Unable to save launcher accounts. Any accounts changed will be lost when the launcher is restarted." +
                                                      "\n\nAdditional Informations: " + exmessage, "Error Code: C07", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    break;
+                case ExceptionCode.C08:
+                    MetroMessageBox.Show(activeForm, "Unable to create account file backup." +
+                                                     "\n\nAdditional Informations: " + exmessage, "Error Code: C08", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     break;
                 case ExceptionCode.F01:
                     MetroMessageBox.Show(activeForm, "DSLauncher could not contact the patch server.\n\nAdditional Informations: " + exmessage, "Error Code: F01", MessageBoxButtons.OK, MessageBoxIcon.Hand);
@@ -97,6 +101,8 @@ namespace DSLauncherV2
         C06,
         /// <summary>Unable to save accounts file</summary>
         C07,
+        /// <summary>Unable to create backup of accounts file</summary>
+        C08,
         /// <summary>Can't download patch</summary>
         P01,
         /// <summary>Can't install patch</summary>

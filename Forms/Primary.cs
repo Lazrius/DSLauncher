@@ -30,7 +30,7 @@ namespace DSLauncherV2
         public BackgroundWorker LoadingBackgroundWorker;
         private LauncherSettings LauncherSettings = DSLauncherV2.LauncherSettings.Instance;
         private List<MetroLink> lstFavoriteAccounts;
-        private List<DataGridViewRow> UnfilterdRows = new List<DataGridViewRow>();
+        private List<DataGridViewRow> UnfilteredRows = new List<DataGridViewRow>();
         private List<string> lstAccountCategories = new List<string>();
         private byte[] downloadedData;
         private string currentAnnouncement;
@@ -330,6 +330,7 @@ namespace DSLauncherV2
                     this.CheckAccountRegistry();
                     break;
                 case 4:
+                    AccountsGrid.ClearSelection();
                     CNSImport.Capture = false;
                     CNSImport.DocumentText = currentAnnouncement;
                     if (!string.IsNullOrEmpty(CNSImport.DocumentText))
@@ -478,9 +479,6 @@ namespace DSLauncherV2
             {
                 this.LoadInAccounts(account.Name, account.Description, account.Category, account.IsFavorite, account.Code, account.Signature);
 
-                if (lstAccountCategories.All(category => category != account.Category) && account.Category != "None")
-                    lstAccountCategories.Add(account.Category);
-
                 if (iNum < 4 && account.IsFavorite)
                 {
                     iNum++;
@@ -510,19 +508,18 @@ namespace DSLauncherV2
                 }
             }
 
-            lstFavoriteAccounts = lstMetroLinks;
-            foreach (string category in lstAccountCategories.OrderBy(a => a))
-            {
-                TabPage page = new TabPage
-                {
-                    Name = category,
-                    Text = category,
-                    BackColor = Color.FromArgb(44, 44, 44)
-                };
-                if (AccountCategoryTabControl.TabPages[category] == null)
-                    AccountCategoryTabControl.TabPages.Add(page);
-            }
+            List<TabPage> pages = new List<TabPage>();
+            foreach (TabPage i in AccountCategoryTabControl.TabPages)
+                if (i.Text != "Unfiltered") pages.Add(i);
 
+            pages = pages.OrderBy(x => x.Name).ToList();
+            while (AccountCategoryTabControl.TabPages.Count != 1)
+                AccountCategoryTabControl.TabPages.RemoveAt(AccountCategoryTabControl.TabPages.Count - 1);
+
+            foreach (var i in pages)
+                AccountCategoryTabControl.TabPages.Add(i);
+
+            lstFavoriteAccounts = lstMetroLinks;
             if (!string.IsNullOrEmpty(this.LauncherSettings.UserSettings.Config.LastCategory))
             {
                 int iSort = AccountCategoryTabControl.TabPages.IndexOfKey(this.LauncherSettings.UserSettings.Config.LastCategory);
@@ -543,7 +540,7 @@ namespace DSLauncherV2
             string fav = isFav ? "Yes" : "No";
             this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, fav, accountCode,
                 accountSig);
-            this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
+            this.UnfilteredRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
             if (AccountCategoryTabControl.TabPages[accountCategory] == null)
             {
                 TabPage page = new TabPage
@@ -570,7 +567,7 @@ namespace DSLauncherV2
             };
             this.AccountsGrid.Rows.Add(accountName, accountDescription, accountCategory, isFav ? "Yes" : "No" , accountCode,
                 accountSig);
-            this.UnfilterdRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
+            this.UnfilteredRows.Add(AccountsGrid.Rows[AccountsGrid.Rows.Count - 1]);
             this.AccountsGrid.Visible = false;
             this.AccountsGrid.Visible = true;
             this.LauncherSettings.UserSettings.AccountList.Accounts.Add(account);
@@ -579,13 +576,13 @@ namespace DSLauncherV2
 
         private void DeleteAccountNode(string accountCode)
         {
-            for (int i = 0; i < UnfilterdRows.Count; i++)
+            for (int i = 0; i < UnfilteredRows.Count; i++)
             {
-                DataGridViewRow row = this.UnfilterdRows[i];
+                DataGridViewRow row = this.UnfilteredRows[i];
                 if (row.Cells[4].Value.ToString().Equals(accountCode))
                 {
                     this.AccountsGrid.Rows.Remove(row);
-                    this.UnfilterdRows.Remove(row);
+                    this.UnfilteredRows.Remove(row);
                 }
             }
 
@@ -597,8 +594,45 @@ namespace DSLauncherV2
         private void EditAccountNode(string accountName, string accountDescription, string accountCategory,
             bool isFav, string accountCode, string accountSig)
         {
-            this.DeleteAccountNode(accountCode);
-            this.AddAccountNode(accountName, accountDescription, accountCategory, isFav, accountCode, accountSig);
+            for (int i = 0; i < UnfilteredRows.Count; i++)
+            {
+                DataGridViewRow row = this.UnfilteredRows[i];
+                if (row.Cells[4].Value.ToString().Equals(accountCode))
+                {
+                    int unfilteredIndex = this.UnfilteredRows.IndexOf(row);
+                    int filteredIndex = this.AccountsGrid.Rows.IndexOf(row);
+                    row.Cells[0].Value = accountName;
+                    row.Cells[1].Value = accountDescription;
+                    row.Cells[2].Value = accountCategory;
+                    row.Cells[3].Value = isFav ? "Yes" : "No";
+                    row.Cells[4].Value = accountCode;
+                    row.Cells[5].Value = accountSig;
+
+                    this.UnfilteredRows[unfilteredIndex] = row;
+
+                    // Only do this if the current grid is the one of the edited category
+                    if (AccountCategoryTabControl.SelectedTab.Text == accountCategory)
+                    {
+                        this.AccountsGrid.Rows.RemoveAt(filteredIndex);
+                        this.AccountsGrid.Rows.Insert(filteredIndex, row);
+                    }
+                    int accountIndex = this.LauncherSettings.UserSettings.AccountList.Accounts.FindIndex(x => x.Code == accountCode);
+                    Account account = new Account()
+                    {
+                        Name = accountName,
+                        Description = accountDescription,
+                        Category = accountCategory,
+                        Code = accountCode,
+                        Signature = accountSig,
+                        IsFavorite = isFav
+                    };
+                    this.AccountsGrid.Visible = false;
+                    this.AccountsGrid.Visible = true;
+                    this.LauncherSettings.UserSettings.AccountList.Accounts[accountIndex] = account;
+                    this.LauncherSettings.SaveAccounts(this);
+                    return;
+                }
+            }
         }
 
         #endregion
@@ -935,7 +969,7 @@ namespace DSLauncherV2
             {
                 case DialogResult.OK:
                     bool flag = false;
-                    foreach (DataGridViewRow row in this.UnfilterdRows)
+                    foreach (DataGridViewRow row in this.UnfilteredRows)
                     {
                         if (row.Cells[5].Value.ToString().Equals(UserSettings.Signature))
                         {
@@ -1123,6 +1157,49 @@ namespace DSLauncherV2
             this.EditAccountNode(UserSettings.Name, UserSettings.Description,
                 UserSettings.AccountCategory, UserSettings.Favorite,
                 UserSettings.Code, UserSettings.Signature);
+            UpdateFavLinks();
+        }
+
+        private void UpdateFavLinks()
+        {
+            int counter = 0;
+            foreach (DataGridViewRow row in UnfilteredRows)
+            {
+                if (counter >= 4)
+                    return;
+                if (ConvertYesNoBool(row.Cells[3].Value.ToString()))
+                {
+                    counter++;
+                    switch (counter)
+                    {
+                        case 1:
+                            FavAccount1.Text = row.Cells[0].Value.ToString();
+                            FavAccount1.Visible = true;
+                            break;
+                        case 2:
+                            FavAccount2.Text = row.Cells[0].Value.ToString();
+                            FavAccount2.Visible = true;
+                            break;
+                        case 3:
+                            FavAccount3.Text = row.Cells[0].Value.ToString();
+                            FavAccount3.Visible = true;
+                            break;
+                        case 4:
+                            FavAccount4.Text = row.Cells[0].Value.ToString();
+                            FavAccount4.Visible = true;
+                            break;
+                    }
+                }
+            }
+
+            if (counter >= 4) return;
+            FavAccount4.Visible = false;
+            if (counter >= 3) return;
+            FavAccount3.Visible = false;
+            if (counter >= 2) return;
+            FavAccount2.Visible = false;
+            if (counter >= 1) return;
+            FavAccount1.Visible = false;
         }
 
         private void SetSelectedAccountsCategory(object sender, EventArgs e)
@@ -1165,11 +1242,11 @@ namespace DSLauncherV2
 
             foreach (var r in rows)
             {
-                int index = UnfilterdRows.FindIndex(x => x == r);
+                int index = UnfilteredRows.FindIndex(x => x == r);
                 if (index == -1)
                     continue;
 
-                UnfilterdRows[index].Cells[2].Value = category;
+                UnfilteredRows[index].Cells[2].Value = category;
             }
         }
 
@@ -1241,6 +1318,16 @@ namespace DSLauncherV2
                 {
                     ExceptionHandler.Throw(ExceptionCode.C05, "", this);
                     ((MetroLink) sender).Visible = false;
+                    foreach (PropertyInfo prop in typeof(RecentAccounts).GetProperties())
+                    {
+                        if ((string)prop.GetValue(this.LauncherSettings.UserSettings.Config.RecentAccounts, null) ==
+                            ((MetroLink)sender).Text)
+                        {
+                            prop.SetValue(this.LauncherSettings.UserSettings.Config.RecentAccounts, null, null);
+                            SaveConfig();
+                            return;
+                        }
+                    }
                     return;
                 }
 
@@ -1249,9 +1336,9 @@ namespace DSLauncherV2
 
             else
             {
-                for (var i = 0; i < UnfilterdRows.Count; i++)
+                for (var i = 0; i < UnfilteredRows.Count; i++)
                 {
-                    DataGridViewRow r = UnfilterdRows[i];
+                    DataGridViewRow r = UnfilteredRows[i];
                     if (r.Cells[0].Value.ToString() != ((MetroLink) sender).Text) continue;
                     index = i;
                     break;
@@ -1261,10 +1348,20 @@ namespace DSLauncherV2
                 {
                     ExceptionHandler.Throw(ExceptionCode.C05, "", this);
                     ((MetroLink)sender).Visible = false;
+                    foreach (PropertyInfo prop in typeof(RecentAccounts).GetProperties())
+                    {
+                        if ((string) prop.GetValue(this.LauncherSettings.UserSettings.Config.RecentAccounts, null) ==
+                            ((MetroLink) sender).Text)
+                        {
+                            prop.SetValue(this.LauncherSettings.UserSettings.Config.RecentAccounts, null, null);
+                            SaveConfig();
+                            return;
+                        }
+                    }
                     return;
                 }
 
-                SelectNewAccount(UnfilterdRows[index]);
+                SelectNewAccount(UnfilteredRows[index]);
             }
         }
 
@@ -1333,7 +1430,7 @@ namespace DSLauncherV2
                         string accountCode = xmlNode2.Attributes.GetNamedItem("code").Value;
                         string accouneSignature = xmlNode2.Attributes.GetNamedItem("signature").Value;
                         int num4 = 0;
-                        foreach (DataGridViewRow row in this.UnfilterdRows)
+                        foreach (DataGridViewRow row in this.UnfilteredRows)
                         {
                             if (row.Cells[4].Value.ToString() == accountCode)
                             {
@@ -1366,7 +1463,7 @@ namespace DSLauncherV2
                 if (this.AccountCategoryTabControl.SelectedIndex <= 0)
                 {
                     this.AccountsGrid.Rows.Clear();
-                    foreach (DataGridViewRow row in this.UnfilterdRows)
+                    foreach (DataGridViewRow row in this.UnfilteredRows)
                     {
                         this.AccountsGrid.Rows.Add(row);
                     }
@@ -1379,7 +1476,7 @@ namespace DSLauncherV2
             }
 
             this.AccountsGrid.Rows.Clear();
-            foreach (var row in this.UnfilterdRows)
+            foreach (var row in this.UnfilteredRows)
             {
                 // If we get a partial match to the name or description
                 if (row.Cells[0].Value.ToString().ToLowerInvariant().Contains(this.accountsSearch.Text.ToLowerInvariant()) || 
@@ -1397,7 +1494,7 @@ namespace DSLauncherV2
             if (currentCategory.TabIndex <= 0)
             {
                 this.AccountsGrid.Rows.Clear();
-                foreach (DataGridViewRow row in UnfilterdRows)
+                foreach (DataGridViewRow row in UnfilteredRows)
                 {
                     this.AccountsGrid.Rows.Add(row);
                 }
@@ -1408,7 +1505,7 @@ namespace DSLauncherV2
             }
 
             this.AccountsGrid.Rows.Clear();
-            foreach (var row in UnfilterdRows)
+            foreach (var row in UnfilteredRows)
             {
                 if (row.Cells[2].Value.ToString().Equals(currentCategory.Text))
                     this.AccountsGrid.Rows.Add(row);
@@ -1422,32 +1519,58 @@ namespace DSLauncherV2
             using (SortAccounts sa = new SortAccounts())
             {
                 List<DataGridViewRow> rows;
-                foreach (var row in UnfilterdRows)
+                foreach (var row in UnfilteredRows)
                     sa.metroGrid1.Rows.Add(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(),
                         row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[5].Value.ToString(), 0);
 
-                DialogResult res = sa.ShowDialog();
+                DialogResult res = sa.ShowDialog(); // Let them fill in the form
                 if (res != DialogResult.OK)
                     return;
 
-                rows = sa.rows;
-                UnfilterdRows.Clear();
-                foreach (var row in rows.OrderBy(x => int.Parse(x.Cells[6].Value.ToString())))
+                rows = sa.rows; // Grab the resultant stuff
+
+                UnfilteredRows.Clear(); // Clear our old accounts
+                List<Account> accounts = new List<Account>(); // Create a new account list (this is the thing that actually get's saved)
+                foreach (var row in rows.OrderBy(x => int.Parse(x.Cells[6].Value.ToString()))) // Get the rows in order of the int value we specified
                 {
-                    var r = (DataGridViewRow)this.AccountsGrid.Rows[0].Clone();
-                    r.Cells[0].Value = row.Cells[0].Value;
+                    var r = (DataGridViewRow)this.AccountsGrid.Rows[0].Clone(); // Copy the row.
+                    r.Cells[0].Value = row.Cells[0].Value; // Overwrite all the values of it
                     r.Cells[1].Value = row.Cells[1].Value;
                     r.Cells[2].Value = row.Cells[2].Value;
                     r.Cells[3].Value = row.Cells[3].Value;
                     r.Cells[4].Value = row.Cells[4].Value;
-                    r.Cells[4].Value = row.Cells[5].Value;
-                    UnfilterdRows.Add(r);
+                    r.Cells[5].Value = row.Cells[5].Value;
+                    UnfilteredRows.Add(r); // Add it to the unfiltered rows
+                    accounts.Add(new Account // add a matching account
+                    {
+                        Name = r.Cells[0].Value.ToString(),
+                        Description = r.Cells[1].Value.ToString(),
+                        Category = r.Cells[2].Value.ToString(),
+                        IsFavorite = r.Cells[3].Value.ToString().ToLower() == "yes",
+                        Code = r.Cells[4].Value.ToString(),
+                        Signature = r.Cells[5].Value.ToString(),
+                    });
                 }
+
+                if (accounts.Count == 0 || AccountsGrid.RowCount == 0)
+                    throw new Exception("Something went badly wrong! Report what ever just happened in the bug thread and close the launcher right now! " +
+                                        "Not doing so could cause you to lose your accounts!");
+
                 // refresh our grid
-                int i = AccountCategoryTabControl.SelectedIndex;
-                AccountCategoryTabControl.SelectedIndex = 0;
-                AccountCategoryTabControl.SelectedIndex = i;
-                sa.Dispose();
+                AccountCategoryTabControl_SelectedIndexChanged(AccountCategoryTabControl, e);
+                // ReSharper disable once ForCanBeConvertedToForeach
+                for (var index = 0; index < UnfilteredRows.Count; index++) // Edit our grids
+                {
+                    var row = UnfilteredRows[index];
+                    EditAccountNode(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(),
+                        row.Cells[2].Value.ToString(),
+                        row.Cells[3].Value.ToString().ToLower() == "yes", row.Cells[4].Value.ToString(),
+                        row.Cells[5].Value.ToString());
+                }
+
+                    sa.Dispose(); // Get rid of our SA object
+                this.LauncherSettings.UserSettings.AccountList.Accounts = accounts; // Overwrite the stored versions
+                this.LauncherSettings.SaveAccounts(this); // Save the order
             }
         }
 
@@ -1465,7 +1588,7 @@ namespace DSLauncherV2
                 this.LauncherSettings.UserSettings.ActiveCode = obj1.ToString();
                 this.LauncherSettings.UserSettings.ActiveSignature = obj2.ToString();
                 bool flag = false;
-                foreach (DataGridViewRow row in this.UnfilterdRows)
+                foreach (DataGridViewRow row in this.UnfilteredRows)
                 {
                     if (row.Cells[4].Value.ToString().Equals(this.LauncherSettings.UserSettings.ActiveCode))
                     {
@@ -1712,5 +1835,47 @@ namespace DSLauncherV2
             }
         }
         #endregion
+
+        private void accountsBackup_Click(object sender, EventArgs e)
+        {
+            if (MetroMessageBox.Show(this, "Would you like to create a backup file of your accounts? This will overwrite any previous backups made.",
+                    "Backup?", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.Cancel)
+                return;
+
+            try
+            {
+                File.Copy(this.LauncherSettings.UserSettings.AccountsFile,
+                    this.LauncherSettings.UserSettings.AccountsFile + ".bak", true);
+                MetroMessageBox.Show(this, "Account file backup successful.\n\nAdditional Information: Your backup is located at - " +
+                                           this.LauncherSettings.UserSettings.AccountsFile + ".bak", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            catch (Exception ex)
+            {
+                ExceptionHandler.Throw(ExceptionCode.C08, ex.Message, this);
+            }
+        }
+
+        private void accountsRestore_Click(object sender, EventArgs e)
+        {
+            if (MetroMessageBox.Show(this, "Would you like to restore the backup file of your accounts? This will overwrite your current accounts list.",
+                    "Restore?", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.Cancel)
+                return;
+
+            try
+            {
+                File.Copy(this.LauncherSettings.UserSettings.AccountsFile + ".bak", this.LauncherSettings.UserSettings.AccountsFile, true);
+                MetroMessageBox.Show(this, "Accounts successfully overwritten. The program will now attempt to restart. If it doesn't after a few seconds, restart it manually.",
+                    "Overwrite Succesful.", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Process.Start(Application.ExecutablePath);
+                this.Close();
+            }
+
+            catch (Exception ex)
+            {
+                // They probably didn't have backup or invalid permissions
+                ExceptionHandler.Throw(ExceptionCode.C07, ex.Message, this);
+            }
+        }
     }
 }

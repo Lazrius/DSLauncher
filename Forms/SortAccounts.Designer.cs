@@ -83,6 +83,7 @@
             // 
             this.metroGrid1.AllowUserToAddRows = false;
             this.metroGrid1.AllowUserToDeleteRows = false;
+            this.metroGrid1.AllowUserToResizeColumns = false;
             this.metroGrid1.AllowUserToResizeRows = false;
             this.metroGrid1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.metroGrid1.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -154,6 +155,7 @@
             this.Account.HeaderText = "Account";
             this.Account.Name = "Account";
             this.Account.ReadOnly = true;
+            this.Account.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Account.Width = 120;
             // 
             // Description
@@ -161,6 +163,7 @@
             this.Description.HeaderText = "Description";
             this.Description.Name = "Description";
             this.Description.ReadOnly = true;
+            this.Description.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Description.Visible = false;
             // 
             // Category
@@ -195,6 +198,7 @@
             // 
             this.Value.HeaderText = "Value";
             this.Value.Name = "Value";
+            this.Value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // SortAccounts
             // 
