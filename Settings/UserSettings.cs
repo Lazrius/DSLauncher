@@ -120,8 +120,8 @@ namespace DSLauncherV2
         [XmlElement("RecentAccounts", IsNullable = true)]
         public RecentAccounts RecentAccounts { get; set; }
 
-        [XmlElement("DrawDistance"), DefaultValue(false)]
-        public bool DrawDistance { get; set; }
+        [XmlElement("NunericDamage"), DefaultValue(false)]
+        public bool NunericDamage { get; set; }
 
         [XmlElement("DisableChat"), DefaultValue(false)]
         public bool DisableChat { get; set; }

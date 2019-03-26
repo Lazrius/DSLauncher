@@ -79,7 +79,7 @@ namespace DSLauncherV2
             this.ToggleWindowedMode.Checked = this.LauncherSettings.UserSettings.Config.DisplayMode;
             this.HeightBox.Text = this.LauncherSettings.UserSettings.Config.DisplayHeight;
             this.WidthBox.Text = this.LauncherSettings.UserSettings.Config.DisplayWidth;
-            this.IncreaseDrawDistance.Checked = this.LauncherSettings.UserSettings.Config.DrawDistance;
+            this.NumericDamage.Checked = this.LauncherSettings.UserSettings.Config.NunericDamage;
             this.DisableChat.Checked = this.LauncherSettings.UserSettings.Config.DisableChat;
             this.ThemeSelector.SelectedIndex = this.LauncherSettings.UserSettings.Config.Style;
             this.metroTextBox1.Text = this.LauncherSettings.UserSettings.Config.ExtraArgs; // Optional Args
@@ -1243,11 +1243,15 @@ namespace DSLauncherV2
             foreach (var r in rows)
             {
                 int index = UnfilteredRows.FindIndex(x => x == r);
-                if (index == -1)
+                int index2 = this.LauncherSettings.UserSettings.AccountList.Accounts.FindIndex(x =>
+                    x.Code == r.Cells[4].Value.ToString());
+                if (index == -1 || index2 == -1)
                     continue;
 
                 UnfilteredRows[index].Cells[2].Value = category;
+                this.LauncherSettings.UserSettings.AccountList.Accounts[index2].Category = category;
             }
+            this.LauncherSettings.SaveAccounts(this);
         }
 
         #endregion
@@ -1621,9 +1625,9 @@ namespace DSLauncherV2
             }
         }
 
-        private void IncreaseDrawDistance_CheckedChanged(object sender, EventArgs e)
+        private void NumericDamage_CheckedChanged(object sender, EventArgs e)
         {
-            this.LauncherSettings.UserSettings.Config.DrawDistance = this.IncreaseDrawDistance.Checked;
+            this.LauncherSettings.UserSettings.Config.NunericDamage = this.NumericDamage.Checked;
             SaveConfig();
         }
 
@@ -1726,8 +1730,8 @@ namespace DSLauncherV2
                     if (this.LauncherSettings.UserSettings.Config.ShowLagIndicator)
                         launchSettings += " -lag";
 
-                    if (this.LauncherSettings.UserSettings.Config.DrawDistance)
-                        launchSettings += " -hdfx";
+                    if (this.LauncherSettings.UserSettings.Config.NunericDamage)
+                        launchSettings += " -numdmg";
 
                     if (this.LauncherSettings.UserSettings.Config.DisableChat)
                         launchSettings += " -nochat";

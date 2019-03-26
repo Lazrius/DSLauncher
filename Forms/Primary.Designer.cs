@@ -50,6 +50,8 @@ namespace DSLauncherV2
             this.metroLabel18 = new MetroFramework.Controls.MetroLabel();
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.ExternalSettings = new MetroFramework.Controls.MetroTabPage();
+            this.accountsRestore = new MetroFramework.Controls.MetroButton();
+            this.accountsBackup = new MetroFramework.Controls.MetroButton();
             this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel23 = new MetroFramework.Controls.MetroLabel();
             this.ThemeSelector = new MetroFramework.Controls.MetroComboBox();
@@ -64,8 +66,8 @@ namespace DSLauncherV2
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.ToggleChatLog = new MetroFramework.Controls.MetroToggle();
             this.GameSettings = new MetroFramework.Controls.MetroTabPage();
-            this.IncreaseDrawDistanceLabel = new MetroFramework.Controls.MetroLabel();
-            this.IncreaseDrawDistance = new MetroFramework.Controls.MetroToggle();
+            this.NumericDamageLabel = new MetroFramework.Controls.MetroLabel();
+            this.NumericDamage = new MetroFramework.Controls.MetroToggle();
             this.ChatWarning = new MetroFramework.Controls.MetroLabel();
             this.metroLabel15 = new MetroFramework.Controls.MetroLabel();
             this.DisableChat = new MetroFramework.Controls.MetroToggle();
@@ -136,8 +138,6 @@ namespace DSLauncherV2
             this.accountsSearch = new MetroFramework.Controls.MetroTextBox();
             this.accountsSearchLabel = new MetroFramework.Controls.MetroLabel();
             this.OpenSortAccountWindow = new MetroFramework.Controls.MetroButton();
-            this.accountsBackup = new MetroFramework.Controls.MetroButton();
-            this.accountsRestore = new MetroFramework.Controls.MetroButton();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -239,7 +239,7 @@ namespace DSLauncherV2
             this.MTC.HotTrack = true;
             this.MTC.Location = new System.Drawing.Point(7, 5);
             this.MTC.Name = "MTC";
-            this.MTC.SelectedIndex = 1;
+            this.MTC.SelectedIndex = 2;
             this.MTC.Size = new System.Drawing.Size(526, 367);
             this.MTC.TabIndex = 11;
             this.MTC.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -342,6 +342,30 @@ namespace DSLauncherV2
             this.ExternalSettings.VerticalScrollbarBarColor = true;
             this.ExternalSettings.VerticalScrollbarHighlightOnWheel = false;
             this.ExternalSettings.VerticalScrollbarSize = 10;
+            // 
+            // accountsRestore
+            // 
+            this.accountsRestore.Location = new System.Drawing.Point(320, 115);
+            this.accountsRestore.Name = "accountsRestore";
+            this.accountsRestore.Size = new System.Drawing.Size(143, 23);
+            this.accountsRestore.TabIndex = 49;
+            this.accountsRestore.Text = "Restore My Backup";
+            this.accountsRestore.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.accountsRestore.UseSelectable = true;
+            this.accountsRestore.UseStyleColors = true;
+            this.accountsRestore.Click += new System.EventHandler(this.accountsRestore_Click);
+            // 
+            // accountsBackup
+            // 
+            this.accountsBackup.Location = new System.Drawing.Point(320, 77);
+            this.accountsBackup.Name = "accountsBackup";
+            this.accountsBackup.Size = new System.Drawing.Size(143, 23);
+            this.accountsBackup.TabIndex = 48;
+            this.accountsBackup.Text = "Backup My Accounts";
+            this.accountsBackup.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.accountsBackup.UseSelectable = true;
+            this.accountsBackup.UseStyleColors = true;
+            this.accountsBackup.Click += new System.EventHandler(this.accountsBackup_Click);
             // 
             // metroLabel20
             // 
@@ -532,8 +556,8 @@ namespace DSLauncherV2
             // GameSettings
             // 
             this.GameSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
-            this.GameSettings.Controls.Add(this.IncreaseDrawDistanceLabel);
-            this.GameSettings.Controls.Add(this.IncreaseDrawDistance);
+            this.GameSettings.Controls.Add(this.NumericDamageLabel);
+            this.GameSettings.Controls.Add(this.NumericDamage);
             this.GameSettings.Controls.Add(this.ChatWarning);
             this.GameSettings.Controls.Add(this.metroLabel15);
             this.GameSettings.Controls.Add(this.DisableChat);
@@ -572,32 +596,30 @@ namespace DSLauncherV2
             this.GameSettings.VerticalScrollbarHighlightOnWheel = false;
             this.GameSettings.VerticalScrollbarSize = 10;
             // 
-            // IncreaseDrawDistanceLabel
+            // NumericDamageLabel
             // 
-            this.IncreaseDrawDistanceLabel.AutoSize = true;
-            this.IncreaseDrawDistanceLabel.Location = new System.Drawing.Point(98, 205);
-            this.IncreaseDrawDistanceLabel.Name = "IncreaseDrawDistanceLabel";
-            this.IncreaseDrawDistanceLabel.Size = new System.Drawing.Size(142, 19);
-            this.IncreaseDrawDistanceLabel.TabIndex = 56;
-            this.IncreaseDrawDistanceLabel.Text = "Increase Draw Distance";
-            this.IncreaseDrawDistanceLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.IncreaseDrawDistanceLabel.UseCustomBackColor = true;
+            this.NumericDamageLabel.AutoSize = true;
+            this.NumericDamageLabel.Location = new System.Drawing.Point(98, 205);
+            this.NumericDamageLabel.Name = "NumericDamageLabel";
+            this.NumericDamageLabel.Size = new System.Drawing.Size(156, 19);
+            this.NumericDamageLabel.TabIndex = 56;
+            this.NumericDamageLabel.Text = "Enable Numeric Damage";
+            this.NumericDamageLabel.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.NumericDamageLabel.UseCustomBackColor = true;
             // 
-            // IncreaseDrawDistance
+            // NumericDamage
             // 
-            this.IncreaseDrawDistance.AutoSize = true;
-            this.IncreaseDrawDistance.Checked = true;
-            this.IncreaseDrawDistance.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IncreaseDrawDistance.Cursor = System.Windows.Forms.Cursors.Default;
-            this.IncreaseDrawDistance.Location = new System.Drawing.Point(18, 206);
-            this.IncreaseDrawDistance.Name = "IncreaseDrawDistance";
-            this.IncreaseDrawDistance.Size = new System.Drawing.Size(80, 17);
-            this.IncreaseDrawDistance.TabIndex = 55;
-            this.IncreaseDrawDistance.Text = "On";
-            this.IncreaseDrawDistance.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.IncreaseDrawDistance.UseCustomBackColor = true;
-            this.IncreaseDrawDistance.UseSelectable = true;
-            this.IncreaseDrawDistance.CheckedChanged += new System.EventHandler(this.IncreaseDrawDistance_CheckedChanged);
+            this.NumericDamage.AutoSize = true;
+            this.NumericDamage.Cursor = System.Windows.Forms.Cursors.Default;
+            this.NumericDamage.Location = new System.Drawing.Point(18, 206);
+            this.NumericDamage.Name = "NumericDamage";
+            this.NumericDamage.Size = new System.Drawing.Size(80, 17);
+            this.NumericDamage.TabIndex = 55;
+            this.NumericDamage.Text = "Off";
+            this.NumericDamage.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.NumericDamage.UseCustomBackColor = true;
+            this.NumericDamage.UseSelectable = true;
+            this.NumericDamage.CheckedChanged += new System.EventHandler(this.NumericDamage_CheckedChanged);
             // 
             // ChatWarning
             // 
@@ -1631,30 +1653,6 @@ namespace DSLauncherV2
             this.OpenSortAccountWindow.Visible = false;
             this.OpenSortAccountWindow.Click += new System.EventHandler(this.OpenSortAccountWindow_Click);
             // 
-            // accountsBackup
-            // 
-            this.accountsBackup.Location = new System.Drawing.Point(320, 77);
-            this.accountsBackup.Name = "accountsBackup";
-            this.accountsBackup.Size = new System.Drawing.Size(143, 23);
-            this.accountsBackup.TabIndex = 48;
-            this.accountsBackup.Text = "Backup My Accounts";
-            this.accountsBackup.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.accountsBackup.UseSelectable = true;
-            this.accountsBackup.UseStyleColors = true;
-            this.accountsBackup.Click += new System.EventHandler(this.accountsBackup_Click);
-            // 
-            // accountsRestore
-            // 
-            this.accountsRestore.Location = new System.Drawing.Point(320, 115);
-            this.accountsRestore.Name = "accountsRestore";
-            this.accountsRestore.Size = new System.Drawing.Size(143, 23);
-            this.accountsRestore.TabIndex = 49;
-            this.accountsRestore.Text = "Restore My Backup";
-            this.accountsRestore.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.accountsRestore.UseSelectable = true;
-            this.accountsRestore.UseStyleColors = true;
-            this.accountsRestore.Click += new System.EventHandler(this.accountsRestore_Click);
-            // 
             // Primary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1798,8 +1796,8 @@ namespace DSLauncherV2
         private ToolStripMenuItem importLauncherAccountsToolStripMenuItem;
         private OpenFileDialog ImportLauncherFile;
         private WebBrowser CNSImport;
-        private MetroFramework.Controls.MetroLabel IncreaseDrawDistanceLabel;
-        private MetroFramework.Controls.MetroToggle IncreaseDrawDistance;
+        private MetroFramework.Controls.MetroLabel NumericDamageLabel;
+        private MetroFramework.Controls.MetroToggle NumericDamage;
         private MetroFramework.Controls.MetroLabel metroLabel20;
         private MetroFramework.Controls.MetroLabel downloadProgress;
         private MetroFramework.Controls.MetroProgressBar patchDownload;
