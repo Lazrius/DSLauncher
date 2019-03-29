@@ -71,12 +71,13 @@ namespace DSSelfPatch
             }
 
             try
-			{
-				WebClient webClient = new WebClient()
+            { 
+                WebClient webClient = new WebClient()
 				{
-					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
+					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
 				};
-				webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
+                webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
 				webClient.Dispose();
 			}
 
@@ -123,11 +124,12 @@ namespace DSSelfPatch
 		{
 			try
 			{
-				WebClient webClient = new WebClient()
+                WebClient webClient = new WebClient()
 				{
 					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
 				};
-				webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
+			    ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
+                webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
 				webClient.Dispose();
 				this.label1.Invoke(new MethodInvoker(() => {
 					this.label1.Text = "OK, Kitty is reachable.";
@@ -313,10 +315,11 @@ namespace DSSelfPatch
 		{
 			try
 			{
-				XmlDocument xmlDocument = new XmlDocument();
-				StreamReader streamReader = new StreamReader(this.settings.PatchListTempFile);
-				xmlDocument.Load(streamReader);
-				XmlNode xmlNodes = xmlDocument.SelectSingleNode("/PatcherData/Settings");
+			    XmlDocument xmlDocument = new XmlDocument();
+			    StreamReader streamReader = new StreamReader(this.settings.PatchListTempFile);
+			    xmlDocument.Load(streamReader);
+
+			    XmlNode xmlNodes = xmlDocument.SelectSingleNode("/PatcherData/Settings");
 				XmlNode xmlNodes1 = xmlDocument.SelectSingleNode("/PatcherData/PatchList");
 				int num = 0;
 				foreach (XmlNode xmlNodes2 in xmlNodes1)

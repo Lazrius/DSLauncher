@@ -50,6 +50,7 @@ namespace DSLauncherV2
             this.metroLabel18 = new MetroFramework.Controls.MetroLabel();
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.ExternalSettings = new MetroFramework.Controls.MetroTabPage();
+            this.setNewLauncherPatchServer = new MetroFramework.Controls.MetroButton();
             this.accountsRestore = new MetroFramework.Controls.MetroButton();
             this.accountsBackup = new MetroFramework.Controls.MetroButton();
             this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
@@ -138,7 +139,6 @@ namespace DSLauncherV2
             this.accountsSearch = new MetroFramework.Controls.MetroTextBox();
             this.accountsSearchLabel = new MetroFramework.Controls.MetroLabel();
             this.OpenSortAccountWindow = new MetroFramework.Controls.MetroButton();
-            this.setNewLauncherPatchServer = new MetroFramework.Controls.MetroButton();
             this.MTC.SuspendLayout();
             this.CNS.SuspendLayout();
             this.ExternalSettings.SuspendLayout();
@@ -344,6 +344,18 @@ namespace DSLauncherV2
             this.ExternalSettings.VerticalScrollbarBarColor = true;
             this.ExternalSettings.VerticalScrollbarHighlightOnWheel = false;
             this.ExternalSettings.VerticalScrollbarSize = 10;
+            // 
+            // setNewLauncherPatchServer
+            // 
+            this.setNewLauncherPatchServer.Location = new System.Drawing.Point(303, 257);
+            this.setNewLauncherPatchServer.Name = "setNewLauncherPatchServer";
+            this.setNewLauncherPatchServer.Size = new System.Drawing.Size(184, 29);
+            this.setNewLauncherPatchServer.TabIndex = 50;
+            this.setNewLauncherPatchServer.Text = "Set New Launcher Patch Server";
+            this.setNewLauncherPatchServer.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.setNewLauncherPatchServer.UseSelectable = true;
+            this.setNewLauncherPatchServer.UseStyleColors = true;
+            this.setNewLauncherPatchServer.Click += new System.EventHandler(this.setNewLauncherPatchServer_Click);
             // 
             // accountsRestore
             // 
@@ -1654,19 +1666,6 @@ namespace DSLauncherV2
             this.OpenSortAccountWindow.UseStyleColors = true;
             this.OpenSortAccountWindow.Visible = false;
             this.OpenSortAccountWindow.Click += new System.EventHandler(this.OpenSortAccountWindow_Click);
-            // 
-            // setNewLauncherPatchServer
-            // 
-            this.setNewLauncherPatchServer.Location = new System.Drawing.Point(303, 257);
-            this.setNewLauncherPatchServer.Name = "setNewLauncherPatchServer";
-            this.setNewLauncherPatchServer.Size = new System.Drawing.Size(184, 29);
-            this.setNewLauncherPatchServer.TabIndex = 50;
-            this.setNewLauncherPatchServer.Text = "Set New Launcher Patch Server";
-            this.setNewLauncherPatchServer.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.setNewLauncherPatchServer.UseSelectable = true;
-            this.setNewLauncherPatchServer.UseStyleColors = true;
-            this.setNewLauncherPatchServer.Visible = false;
-            this.setNewLauncherPatchServer.Click += new System.EventHandler(this.setNewLauncherPatchServer_Click);
             // 
             // Primary
             // 

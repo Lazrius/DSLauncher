@@ -45,6 +45,16 @@ namespace DSLauncherV2
                     this.UserSettings.AccountsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "/My Games/" +
                         this.UserSettings.Config.ModName + "/launcheraccounts.xml");
                     this.UserSettings.Config.InstallPath = Path.GetDirectoryName(Application.ExecutablePath);
+
+                    try
+                    {
+                        int[] i = this.UserSettings.Config.LocalLauncherVersion.ToString().ToCharArray().Select(Convert.ToInt32).ToArray();
+                        this.UserSettings.Config.LocalLauncherVersion = new Version(i[0], i[1], i[2]);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
                 }
             }
             catch (Exception ex)
@@ -161,10 +171,12 @@ namespace DSLauncherV2
                 streamReader.Dispose();
 
                 // Load the patchlist file if it exists
+                if (new FileInfo(this.UserSettings.LauncherPatchFile).Length == 0) return;
                 streamReader = new StreamReader(this.UserSettings.LauncherPatchFile);
                 xmlDocument = new XmlDocument();
                 xmlDocument.Load(streamReader);
-                if (!(xmlDocument.SelectSingleNode("/PatcherData/Settings/launcherversion") is XmlElement xml1)) return;
+                if (!(xmlDocument.SelectSingleNode("/PatcherData/Settings/launcherversion") is XmlElement xml1))
+                    return;
                 Version.TryParse(xml1.InnerText, out Version version);
                 if (version == null)
                     return;
