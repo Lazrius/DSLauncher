@@ -1,14 +1,14 @@
 <!-- DSPatchAdmin Patch List, do not edit unless you know what you're doing. -->
 <PatcherData>
     <PatchList>
-        <patch url="DSLauncher.exe" md5hash="D1C448D5D3483BB688FEDD1630F3CE18">DSLauncher.exe</patch>
-        <patch url="HtmlAgilityPack.dll" md5hash="3CE52BB14EB014E33CBC11080FB9C198">HtmlAgilityPack.dll</patch>
-        <patch url="MetroFramework.Design.dll" md5hash="AB4C3529694FC8D2427434825F71B2B8">MetroFramework.Design.dll</patch>
-        <patch url="MetroFramework.dll" md5hash="34EA7F7D66563F724318E322FF08F4DB">MetroFramework.dll</patch>
-        <patch url="MetroFramework.Fonts.dll" md5hash="65EF4B23060128743CEF937A43B82AA3">MetroFramework.Fonts.dll</patch>
-        <patch url="SharpCompress.dll" md5hash="4CBF07AD6F0AB4D0C05563C8019E8874">SharpCompress.dll</patch>
+        <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/DSLauncher.exe" md5hash="F117FC06E9B7E453286AB8D09A948764">DSLauncher.exe</patch>
+        <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/HtmlAgilityPack.dll" md5hash="3CE52BB14EB014E33CBC11080FB9C198">HtmlAgilityPack.dll</patch>
+        <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/MetroFramework.Design.dll" md5hash="AB4C3529694FC8D2427434825F71B2B8">MetroFramework.Design.dll</patch>
+        <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/MetroFramework.dll" md5hash="34EA7F7D66563F724318E322FF08F4DB">MetroFramework.dll</patch>
+        <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/MetroFramework.Fonts.dll" md5hash="65EF4B23060128743CEF937A43B82AA3">MetroFramework.Fonts.dll</patch>
+        <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/SharpCompress.dll" md5hash="4CBF07AD6F0AB4D0C05563C8019E8874">SharpCompress.dll</patch>
     </PatchList>
     <Settings>
-        <launcherversion>2.0.0</launcherversion>
+        <launcherversion>2.2.0</launcherversion>
     </Settings>
 </PatcherData>
