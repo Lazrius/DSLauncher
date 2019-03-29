@@ -7,7 +7,7 @@ namespace DSLauncherV2.Properties
     internal sealed class Defaults : ApplicationSettingsBase
     {
         public static Defaults Settings { get; } = (Defaults) Synchronized(new Defaults());
-        [DefaultSettingValue("http://patch.discoverygc.net/")]
+        [DefaultSettingValue("http://patch.discovery.net/patchlist.xml")]
         [ApplicationScopedSetting]
         [DebuggerNonUserCode]
         public string KittyURL => (string) this[nameof(KittyURL)];

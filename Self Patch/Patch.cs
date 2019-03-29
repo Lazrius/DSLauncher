@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Cache;
 using System.Security.Cryptography;
@@ -49,7 +50,7 @@ namespace DSSelfPatch
 
 		private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			if (this.settings.RemoteLauncherVersion > this.settings.LocalLauncherVersion)
+			if (this.settings.RemoteLauncherVersion.CompareTo(this.settings.LocalLauncherVersion) < 0)
 			{
 				this.startDownloadBackgroundWorker.RunWorkerAsync();
 				return;
@@ -75,7 +76,7 @@ namespace DSSelfPatch
 				{
 					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
 				};
-				webClient.DownloadFile(string.Concat(this.settings.RemotePatchLocation, "/launcher/patchlist.xml"), this.settings.PatchListTempFile);
+				webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
 				webClient.Dispose();
 			}
 
@@ -110,9 +111,9 @@ namespace DSSelfPatch
 					for (int i = 0; i < (int)numArray1.Length; i++)
 					{
 						byte num = numArray1[i];
-						stringBuilder.Append(string.Format("{0:X2}", num));
+						stringBuilder.Append($"{num:X2}");
 					}
-					flag = (patchhash != stringBuilder.ToString() ? false : true);
+					flag = (patchhash == stringBuilder.ToString());
 				}
 			}
 			return flag;
@@ -126,7 +127,7 @@ namespace DSSelfPatch
 				{
 					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
 				};
-				webClient.DownloadFile(string.Concat(this.settings.RemotePatchLocation, "/launcher/patchlist.xml"), this.settings.PatchListTempFile);
+				webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
 				webClient.Dispose();
 				this.label1.Invoke(new MethodInvoker(() => {
 					this.label1.Text = "OK, Kitty is reachable.";
@@ -203,7 +204,6 @@ namespace DSSelfPatch
             // 
             this.startDownloadBackgroundWorker.WorkerReportsProgress = true;
             this.startDownloadBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.startDownloadBackgroundWorker_DoWork);
-            this.startDownloadBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.startDownloadBackgroundWorker_ProgressChanged);
             this.startDownloadBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.startDownloadBackgroundWorker_RunWorkerCompleted);
             // 
             // metroProgressSpinner1
@@ -255,12 +255,20 @@ namespace DSSelfPatch
 				StreamReader streamReader = new StreamReader(this.settings.CONFIG_FILE);
 				xmlDocument.Load(streamReader);
 				XmlNode xmlNodes = xmlDocument.SelectSingleNode("/BadassRoot/Config");
-				xmlDocument.SelectSingleNode("/BadassRoot/PatchHistory");
 				XmlElement xmlElement = xmlNodes.SelectSingleNode("LauncherVersion") as XmlElement;
 				XmlElement xmlElement1 = xmlElement;
 				if (xmlElement != null)
 				{
-					this.settings.LocalLauncherVersion = Convert.ToInt32(xmlElement1.InnerText);
+				    if (Version.TryParse(xmlElement.InnerText, out Version version))
+				    {
+				        this.settings.LocalLauncherVersion = version;
+				    }
+
+				    else
+				    {
+                        int[] i = xmlElement.InnerText.ToCharArray().Select(Convert.ToInt32).ToArray();
+				        this.settings.LocalLauncherVersion = new Version(i[0], i[1], i[2]);
+				    }
 				}
 				XmlElement xmlElement2 = xmlNodes.SelectSingleNode("InstallPath") as XmlElement;
 				xmlElement1 = xmlElement2;
@@ -282,7 +290,7 @@ namespace DSSelfPatch
 						this.settings.InstallPath = Path.GetDirectoryName(Application.ExecutablePath);
 					}
 				}
-				XmlElement xmlElement3 = xmlNodes.SelectSingleNode("RemotePatchLocation") as XmlElement;
+				XmlElement xmlElement3 = xmlNodes.SelectSingleNode("LauncherPatchLocation") as XmlElement;
 				xmlElement1 = xmlElement3;
 				if (xmlElement3 != null)
 				{
@@ -330,7 +338,7 @@ namespace DSSelfPatch
 				XmlElement xmlElement1 = xmlElement;
 				if (xmlElement != null)
 				{
-					this.settings.RemoteLauncherVersion = Convert.ToInt32(xmlElement1.InnerText);
+					this.settings.RemoteLauncherVersion = Version.Parse(xmlElement1.InnerText);
 				}
 				streamReader.Close();
 				streamReader.Dispose();
@@ -348,20 +356,15 @@ namespace DSSelfPatch
 
 		private void startDownloadBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			bool flag;
-			foreach (KeyValuePair<int, UserSettings.PatchListDataStruct> patchListDatum in this.settings.PatchListData)
+		    foreach (KeyValuePair<int, UserSettings.PatchListDataStruct> patchListDatum in this.settings.PatchListData)
 			{
 				string str = string.Concat(this.settings.InstallPath, "\\", patchListDatum.Value.PatchURL);
-				flag = (File.Exists(str) ? this.CompareMD5(str, patchListDatum.Value.PatchMD5Hash) : false);
-				if (flag)
-				{
-				}
-				else
+				if (!this.CompareMD5(str, patchListDatum.Value.PatchMD5Hash))
 				{
 					try
 					{
 						this.downloadedData = new byte[0];
-						WebRequest webRequest = WebRequest.Create(string.Concat(this.settings.RemotePatchLocation, "launcher/", patchListDatum.Value.PatchURL));
+						WebRequest webRequest = WebRequest.Create(patchListDatum.Value.PatchURL);
 						WebResponse response = webRequest.GetResponse();
 						Stream responseStream = response.GetResponseStream();
 						byte[] numArray = new byte[1024];
@@ -407,10 +410,6 @@ namespace DSSelfPatch
 					}
 				}
 			}
-		}
-
-		private void startDownloadBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-		{
 		}
 
 		private void startDownloadBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

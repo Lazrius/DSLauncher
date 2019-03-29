@@ -7,7 +7,7 @@ namespace DSSelfPatch
 {
 	public sealed class UserSettings
 	{
-		private readonly static UserSettings _instance;
+		private static readonly UserSettings _instance;
 
 		public Dictionary<int, UserSettings.PatchListDataStruct> PatchListData;
 
@@ -19,9 +19,9 @@ namespace DSSelfPatch
 
 		public string CONFIG_FILE;
 
-		public int RemoteLauncherVersion;
+		public Version RemoteLauncherVersion;
 
-		public int LocalLauncherVersion;
+		public Version LocalLauncherVersion;
 
 		public int UseKitty;
 
@@ -37,8 +37,8 @@ namespace DSSelfPatch
 			this.CONFIG_FILE = "launcherconfig.xml";
 			this.InstallPath = "";
 			this.RemotePatchLocation = Defaults.Settings.KittyURL;
-			this.RemoteLauncherVersion = 0;
-			this.LocalLauncherVersion = 0;
+			this.RemoteLauncherVersion = new Version(0, 0, 0);
+			this.LocalLauncherVersion = new Version(0, 0, 0);
 			this.UseKitty = 0;
 			this.PatchListData = new Dictionary<int, PatchListDataStruct>();
 			this.PatchListTempFile = Path.GetTempFileName();

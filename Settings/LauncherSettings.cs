@@ -148,9 +148,6 @@ namespace DSLauncherV2
                         PatchMD5Hash = str2
                     });
                 }
-                XmlElement xmlElement1;
-                if ((xmlElement1 = xmlNode1.SelectSingleNode("launcherversion") as XmlElement) != null)
-                    this.UserSettings.RemoteLauncherVersion = Convert.ToInt32(xmlElement1.InnerText);
                 XmlElement xmlElement2;
                 if ((xmlElement2 = xmlNode1.SelectSingleNode("gameversion") as XmlElement) != null)
                     this.UserSettings.RemoteGameVersion = xmlElement2.InnerText;
@@ -162,6 +159,16 @@ namespace DSLauncherV2
                     this.UserSettings.RemoteExtraArgs = xmlElement4.InnerText;
                 streamReader.Close();
                 streamReader.Dispose();
+
+                // Load the patchlist file if it exists
+                streamReader = new StreamReader(this.UserSettings.LauncherPatchFile);
+                xmlDocument = new XmlDocument();
+                xmlDocument.Load(streamReader);
+                if (!(xmlDocument.SelectSingleNode("/PatcherData/Settings/launcherversion") is XmlElement xml1)) return;
+                Version.TryParse(xml1.InnerText, out Version version);
+                if (version == null)
+                    return;
+                this.UserSettings.RemoteLauncherVersion = version;
             }
             catch (Exception ex)
             {

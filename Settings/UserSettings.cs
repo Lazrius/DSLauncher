@@ -49,13 +49,15 @@ namespace DSLauncherV2
         [XmlIgnore]
         public string MainServer = "";
         [XmlIgnore]
-        public int RemoteLauncherVersion = 0;
+        public Version RemoteLauncherVersion = new Version(0, 0, 0);
         [XmlIgnore]
         public string RemoteGameVersion = "";
         [XmlIgnore]
         public string RemoteExtraArgs = "";
         [XmlIgnore]
         public string PatchListTempFile = Path.GetTempFileName();
+        [XmlIgnore]
+        public string LauncherPatchFile = Path.GetTempFileName();
     }
 
     public sealed class Config
@@ -80,6 +82,9 @@ namespace DSLauncherV2
 
         [XmlElement("DisplayHeight"), DefaultValue("600")]
         public string DisplayHeight { get; set; }
+
+        [XmlElement("LauncherPatchLocation")]
+        public string LauncherPatchLocation { get; set; }
 
         [XmlElement("LastCategory")]
         public string LastCategory { get; set; }

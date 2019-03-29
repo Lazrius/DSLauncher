@@ -131,6 +131,9 @@ namespace DSLauncherV2
                 WebClient webClient = new WebClient {CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)};
                 webClient.DownloadFile(this.LauncherSettings.UserSettings.Config.RemotePatchLocation + "patchlist.xml",
                     this.LauncherSettings.UserSettings.PatchListTempFile);
+                if (!string.IsNullOrWhiteSpace(this.LauncherSettings.UserSettings.Config.LauncherPatchLocation))
+                    webClient.DownloadFile(this.LauncherSettings.UserSettings.Config.LauncherPatchLocation,
+                        this.LauncherSettings.UserSettings.LauncherPatchFile);
                 webClient.Dispose();
             }
             catch (Exception)
@@ -153,6 +156,9 @@ namespace DSLauncherV2
                 WebClient webClient = new WebClient { CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore) };
                 webClient.DownloadFile(this.LauncherSettings.UserSettings.Config.RemotePatchLocation + "patchlist.xml",
                     this.LauncherSettings.UserSettings.PatchListTempFile);
+                if (!string.IsNullOrWhiteSpace(this.LauncherSettings.UserSettings.Config.LauncherPatchLocation))
+                    webClient.DownloadFile(this.LauncherSettings.UserSettings.Config.LauncherPatchLocation, 
+                        this.LauncherSettings.UserSettings.LauncherPatchFile);
                 webClient.Dispose();
                 this.launcherCheckerLabel.Invoke((Action) (() =>
                 {
@@ -339,8 +345,8 @@ namespace DSLauncherV2
                         CNSImport.AllowNavigation = true;
                     }
 
-                    if (this.LauncherSettings.UserSettings.RemoteLauncherVersion >
-                        this.LauncherSettings.UserSettings.Config.LocalLauncherVersion)
+                    if (this.LauncherSettings.UserSettings.RemoteLauncherVersion.CompareTo(
+                        this.LauncherSettings.UserSettings.Config.LocalLauncherVersion) > 0)
                     {
                         MetroMessageBox.Show(this, "A new patch is available. Press 'Ok' to continue.", "Patch Time!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         Process.Start(Directory.GetCurrentDirectory() + @"\DSSelfPatch.exe");
@@ -1880,6 +1886,12 @@ namespace DSLauncherV2
                 // They probably didn't have backup or invalid permissions
                 ExceptionHandler.Throw(ExceptionCode.C07, ex.Message, this);
             }
+        }
+
+        private void setNewLauncherPatchServer_Click(object sender, EventArgs e)
+        {
+            this.LauncherSettings.UserSettings.Config.LauncherPatchLocation = Prompt.ShowDialog("Patch Server URL:").Trim();
+            SaveConfig();
         }
     }
 }
