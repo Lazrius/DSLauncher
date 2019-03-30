@@ -267,7 +267,7 @@ namespace DSLauncherV2
 
         private void DisplayLauncherChangeLog(string version)
         {
-            try
+            /*try
             {
                 HtmlWeb web = new HtmlWeb();
                 HtmlDocument doc = web.Load("https://discoverygc.com/forums/showthread.php?tid=167176&action=lastpost");
@@ -293,7 +293,7 @@ namespace DSLauncherV2
             catch
             {
                 return;
-            }
+            }*/
         }
 
         #endregion
@@ -1751,12 +1751,7 @@ namespace DSLauncherV2
 
                     if (!string.IsNullOrEmpty(LauncherSettings.UserSettings.Config.ExtraArgs))
                     {
-                        try
-                        {
-                            this.LauncherSettings.UserSettings.Config.ExtraArgs = string.Join(" ", extraArgs);
-                        }
-
-                        catch { }
+                        launchSettings += LauncherSettings.UserSettings.Config.ExtraArgs;
                     }
 
                     try
