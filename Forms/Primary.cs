@@ -1753,22 +1753,6 @@ namespace DSLauncherV2
                     {
                         try
                         {
-                            WebClient client = new WebClient();
-                            string whitelist = Path.GetTempFileName();
-                            client.DownloadFile(
-                                this.LauncherSettings.UserSettings.Config.RemotePatchLocation + @"\launcher\whitelisted-servers.txt",
-                                whitelist);
-                            StreamReader sr = new StreamReader(whitelist);
-                            string[] allowedServers = sr.ReadToEnd().Split('\n');
-                            List<string> extraArgs = this.LauncherSettings.UserSettings.Config.ExtraArgs.Split(' ').ToList();
-                            for (var index = 0; index < extraArgs.Count; index++)
-                            {
-                                string arg = extraArgs[index];
-                                if (!arg.StartsWith("-s")) continue;
-                                if (!allowedServers.Any(s => s.Contains(arg)))
-                                    extraArgs.RemoveAt(index);
-                            }
-
                             this.LauncherSettings.UserSettings.Config.ExtraArgs = string.Join(" ", extraArgs);
                         }
 
