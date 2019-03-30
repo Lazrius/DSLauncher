@@ -1,7 +1,7 @@
 <!-- DSPatchAdmin Patch List, do not edit unless you know what you're doing. -->
 <PatcherData>
     <PatchList>
-        <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/DSLauncher.exe" md5hash="EA10D62F0E9FE86E992AB0FD383EA00C">DSLauncher.exe</patch>
+        <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2.1/DSLauncher.exe" md5hash="C95E36E3C53DB6B8DBCE5D5B19B51001">DSLauncher.exe</patch>
         <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/HtmlAgilityPack.dll" md5hash="3CE52BB14EB014E33CBC11080FB9C198">HtmlAgilityPack.dll</patch>
         <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/MetroFramework.Design.dll" md5hash="AB4C3529694FC8D2427434825F71B2B8">MetroFramework.Design.dll</patch>
         <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/MetroFramework.dll" md5hash="34EA7F7D66563F724318E322FF08F4DB">MetroFramework.dll</patch>
