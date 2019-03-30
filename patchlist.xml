@@ -9,6 +9,6 @@
         <patch url="https://github.com/LazDisco/DSLauncher/releases/download/2.2/SharpCompress.dll" md5hash="4CBF07AD6F0AB4D0C05563C8019E8874">SharpCompress.dll</patch>
     </PatchList>
     <Settings>
-        <launcherversion>2.2.0</launcherversion>
+        <launcherversion>2.2.1</launcherversion>
     </Settings>
 </PatcherData>
