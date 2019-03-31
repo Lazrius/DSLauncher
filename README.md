@@ -8,7 +8,9 @@ Windows 7 machine onwards should have by default. If you have that, it should be
 in Visual Studio and running 'Build Solution'.
 
 The project requires and assumes you have access to a launcherconfig.xml file that comes with any installation of the
-Discovery mod. If you don't have an installation of the mod, grab it [here](https://discoverygc.com/forums/showthread.php?tid=126999)
+Discovery mod. If you don't have an installation of the mod, grab it [here](https://discoverygc.com/forums/showthread.php?tid=126999).
+In addition, the launcher will crash if you don't have the game files within the directory. Place the executable within the root
+directory of a Discovery installation.
 
 # Contributing
 Create issues or pull requests to discuss.
