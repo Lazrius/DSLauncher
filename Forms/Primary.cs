@@ -1061,7 +1061,7 @@ namespace DSLauncherV2
                     XmlAttribute sigAttribute = xmlDocument.CreateAttribute("signature");
                     sigAttribute.Value = row.Cells[5].Value.ToString();
 
-                    element2.InnerText = row.Cells[1].Value.ToString();
+                    element2.InnerText = row.Cells[0].Value.ToString();
                     element2.Attributes.Append(descriptionAttribute);
                     element2.Attributes.Append(categoryAttribute);
                     element2.Attributes.Append(favAttribute);
