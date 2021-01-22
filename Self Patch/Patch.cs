@@ -363,7 +363,7 @@ namespace DSSelfPatch
 		{
 		    foreach (KeyValuePair<int, UserSettings.PatchListDataStruct> patchListDatum in this.settings.PatchListData)
 			{
-				string str = string.Concat(this.settings.InstallPath, "\\", patchListDatum.Value.PatchURL);
+				string str = string.Concat(this.settings.InstallPath, "\\", patchListDatum.Value.PatchName);
 				if (!this.CompareMD5(str, patchListDatum.Value.PatchMD5Hash))
 				{
 					try
