@@ -51,7 +51,7 @@ namespace DSSelfPatch
 
 		private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			if (this.settings.RemoteLauncherVersion.CompareTo(this.settings.LocalLauncherVersion) < 0)
+			if (this.settings.RemoteLauncherVersion.CompareTo(this.settings.LocalLauncherVersion) > 0)
 			{
 				this.startDownloadBackgroundWorker.RunWorkerAsync();
 				return;
