@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Cache;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -65,19 +66,19 @@ namespace DSSelfPatch
 
         private void CheckConnectivity()
 		{
-            if (this.settings.RemotePatchLocation.Contains("discoverygc.com"))
-            {
-                this.settings.RemotePatchLocation = "http://patch.discoverygc.net/";
-            }
+			if (this.settings.RemotePatchLocation.Contains("discoverygc.com"))
+			{
+				this.settings.RemotePatchLocation = "http://patch.discoverygc.net/";
+			}
 
-            try
+			try
             { 
                 WebClient webClient = new WebClient()
 				{
 					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
 				};
-                ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
-                webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
+				ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
+				webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
 				webClient.Dispose();
 			}
 
@@ -128,8 +129,8 @@ namespace DSSelfPatch
 				{
 					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
 				};
-			    ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
-                webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
+				ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
+				webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
 				webClient.Dispose();
 				this.label1.Invoke(new MethodInvoker(() => {
 					this.label1.Text = "OK, Kitty is reachable.";
@@ -261,16 +262,12 @@ namespace DSSelfPatch
 				XmlElement xmlElement1 = xmlElement;
 				if (xmlElement != null)
 				{
-				    if (Version.TryParse(xmlElement.InnerText, out Version version))
-				    {
-				        this.settings.LocalLauncherVersion = version;
-				    }
-
-				    else
-				    {
-                        int[] i = xmlElement.InnerText.ToCharArray().Select(Convert.ToInt32).ToArray();
-				        this.settings.LocalLauncherVersion = new Version(i[0], i[1], i[2]);
-				    }
+					String versionS = xmlElement.InnerText;
+					if (Regex.IsMatch(versionS, @"^[+-]?\d*$"))
+					{
+						versionS = versionS[0] + "." + versionS[1] + "." + versionS[2];
+					}
+					Version.TryParse(versionS, out this.settings.LocalLauncherVersion);
 				}
 				XmlElement xmlElement2 = xmlNodes.SelectSingleNode("InstallPath") as XmlElement;
 				xmlElement1 = xmlElement2;
@@ -341,7 +338,12 @@ namespace DSSelfPatch
 				XmlElement xmlElement1 = xmlElement;
 				if (xmlElement != null)
 				{
-					this.settings.RemoteLauncherVersion = Version.Parse(xmlElement1.InnerText);
+					String versionS = xmlElement.InnerText;
+					if (Regex.IsMatch(versionS, @"^[+-]?\d*$"))
+					{
+						versionS = versionS[0] + "." + versionS[1] + "." + versionS[2];
+					}
+					Version.TryParse(versionS, out this.settings.RemoteLauncherVersion);
 				}
 				streamReader.Close();
 				streamReader.Dispose();

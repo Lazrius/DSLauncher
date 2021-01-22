@@ -117,6 +117,9 @@ namespace DSLauncherV2
         public string ExtraArgs { get; set; }
 
         [XmlElement("LauncherVersion")]
+        public String LocalLauncherVersionS { get; set; }
+
+        [XmlIgnore]
         public Version LocalLauncherVersion { get; set; }
 
         [XmlElement("Style")]
