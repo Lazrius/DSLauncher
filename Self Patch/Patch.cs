@@ -66,19 +66,19 @@ namespace DSSelfPatch
 
         private void CheckConnectivity()
 		{
-			if (this.settings.RemotePatchLocation.Contains("discoverygc.com"))
-			{
-				this.settings.RemotePatchLocation = "http://patch.discoverygc.net/";
-			}
+            if (this.settings.RemotePatchLocation.Contains("discoverygc.com"))
+            {
+                this.settings.RemotePatchLocation = "http://patch.discoverygc.net/";
+            }
 
-			try
+            try
             { 
                 WebClient webClient = new WebClient()
 				{
 					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
 				};
-				ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
-				webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
+                webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
 				webClient.Dispose();
 			}
 
@@ -129,8 +129,8 @@ namespace DSSelfPatch
 				{
 					CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
 				};
-				ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
-				webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
+			    ServicePointManager.SecurityProtocol = (SecurityProtocolType)0xc00;
+                webClient.DownloadFile(this.settings.RemotePatchLocation, this.settings.PatchListTempFile);
 				webClient.Dispose();
 				this.label1.Invoke(new MethodInvoker(() => {
 					this.label1.Text = "OK, Kitty is reachable.";
