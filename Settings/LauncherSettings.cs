@@ -49,12 +49,12 @@ namespace DSLauncherV2
 
                     try
                     {
-                        if(Regex.IsMatch(this.UserSettings.Config.LocalLauncherVersionS, @"^[+-]?\d*$"))
+                        if(Regex.IsMatch(this.UserSettings.Config.LocalLauncherStringVersion, @"^[+-]?\d*$"))
                         {
-                            char[] i = this.UserSettings.Config.LocalLauncherVersionS.ToCharArray();
-                            this.UserSettings.Config.LocalLauncherVersionS = i[0]+"."+ i[1]+"."+ i[2];
+                            char[] i = this.UserSettings.Config.LocalLauncherStringVersion.ToCharArray();
+                            this.UserSettings.Config.LocalLauncherStringVersion = i[0]+"."+ i[1]+"."+ i[2];
                         }
-                        this.UserSettings.Config.LocalLauncherVersion = new Version(this.UserSettings.Config.LocalLauncherVersionS);
+                        this.UserSettings.Config.LocalLauncherVersion = new Version(this.UserSettings.Config.LocalLauncherStringVersion);
                     }
                     catch
                     {
