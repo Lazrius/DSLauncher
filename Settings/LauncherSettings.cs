@@ -51,7 +51,8 @@ namespace DSLauncherV2
                     {
                         if(Regex.IsMatch(this.UserSettings.Config.LocalLauncherVersionS, @"^[+-]?\d*$"))
                         {
-                            this.UserSettings.Config.LocalLauncherVersionS = this.UserSettings.Config.LocalLauncherVersionS[0]+"."+ this.UserSettings.Config.LocalLauncherVersionS[1]+"."+ this.UserSettings.Config.LocalLauncherVersionS[2];
+                            char[] i = this.UserSettings.Config.LocalLauncherVersionS.ToCharArray();
+                            this.UserSettings.Config.LocalLauncherVersionS = i[0]+"."+ i[1]+"."+ i[2];
                         }
                         this.UserSettings.Config.LocalLauncherVersion = new Version(this.UserSettings.Config.LocalLauncherVersionS);
                     }
